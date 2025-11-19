@@ -1,4 +1,5 @@
 nav:
   - Home: index.md
   - Architecture:
-      - Records: adr/
+    - Overview: architecture/overview.md
+    - Records: adr/
