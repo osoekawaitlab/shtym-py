@@ -116,6 +116,4 @@ addopts = [
 markers = [
     "unit: Unit tests (pure logic, no external dependencies)",
     "e2e: End-to-end tests with mocked SDKs",
-    "live: Tests requiring real external services",
-    "azure: Azure-specific tests",
 ]
