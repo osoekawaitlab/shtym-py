@@ -79,5 +79,28 @@ jobs:
       - name: Install Dependencies
         run: uv sync --group dev
 
-      - name: Run Quality Checks
-        run: uv run nox -s quality
+      - name: Run Type Checking
+        run: uv run nox -s mypy
+
+      - name: Run Linting
+        run: uv run nox -s lint
+
+  tests-with-coverage:
+    name: Tests with Coverage Reporting (Python 3.12)
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Setup uv
+        uses: astral-sh/setup-uv@v3
+      - name: Install Dependencies
+        run: uv sync --group dev
+
+      - name: Run Tests with Coverage
+        run: uv run nox -s tests
