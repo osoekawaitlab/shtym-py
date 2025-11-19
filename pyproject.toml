@@ -1,0 +1,121 @@
+[project]
+name = "shtym"
+dynamic = ["version"]
+description = "AI-powered summary filter that distills any command's output."
+readme = "README.md"
+license = "MIT"
+authors = [
+    { name = "osoken" }
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Operating System :: POSIX",
+    "Programming Language :: Python :: 3 :: Only",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Typing :: Typed",
+]
+requires-python = ">=3.10"
+dependencies = []
+
+[project.urls]
+Homepage = "https://github.com/osoekawaitlab/shtym-py"
+Repository = "https://github.com/osoekawaitlab/shtym-py"
+
+[project.scripts]
+shtym-py = "shtym:main"
+shtym = "shtym:main"
+stym = "shtym:main"
+
+[build-system]
+requires = ["setuptools>=70.1"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.dynamic]
+version = {attr = "shtym.__version__"}
+
+[dependency-groups]
+dev = [
+    "mypy>=1.18.2",
+    "nox>=2025.11.12",
+    "pytest>=9.0.1",
+    "pytest-cov>=7.0.0",
+    "pytest-mock>=3.15.1",
+    "pytest-randomly>=4.0.1",
+    "ruff>=0.14.5",
+]
+docs = [
+    "mkdocs>=1.6.1",
+    "mkdocs-awesome-nav>=3.2.0",
+    "mkdocs-material>=9.7.0",
+    "mkdocstrings>=0.30.1",
+    "mkdocstrings-python>=1.19.0",
+]
+
+[tool.ruff]
+indent-width = 4
+target-version = "py312"
+line-length = 88
+
+[tool.ruff.lint]
+select = ["ALL"]
+ignore = [
+    "COM812",  # trailing-comma-missing (conflicts with formatter)
+    "ISC001",  # single-line-implicit-string-concatenation (conflicts with formatter)
+    "D203",    # one-blank-line-before-class (conflicts with D211)
+    "D213",    # multi-line-summary-second-line (conflicts with D212)
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**/*.py" = [
+    "S101",    # assert-used (pytest uses asserts)
+]
+"tests/e2e/**/*.py" = [
+    "S607",  # start-process-with-partial-path
+]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+line-ending = "auto"
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
+check_untyped_defs = true
+disallow_untyped_decorators = true
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_no_return = true
+warn_unreachable = true
+strict_equality = true
+show_error_codes = true
+
+[tool.pytest.ini_options]
+testpaths = ["tests", "src"]
+python_files = ["test_*.py", "*_test.py"]
+python_functions = ["test_*"]
+addopts = [
+    "--strict-markers",
+    "--strict-config",
+    "--doctest-modules",
+]
+markers = [
+    "unit: Unit tests (pure logic, no external dependencies)",
+    "e2e: End-to-end tests with mocked SDKs",
+    "live: Tests requiring real external services",
+    "azure: Azure-specific tests",
+]
