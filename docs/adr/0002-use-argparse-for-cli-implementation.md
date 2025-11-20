@@ -78,7 +78,7 @@ This decision is expected to remain stable. Potential triggers for revisiting:
 - **Shell completion becomes essential**: If users strongly request shell completion, we could add argcomplete as an optional dependency
 - **Standard library evolution**: If argparse gains significant improvements or a better alternative enters the standard library
 
-For now, argparse provides everything needed for shtym's straightforward CLI interface.
+For now, argparse provides everything needed for shtym's straightforward CLI.
 
 ## References
 
