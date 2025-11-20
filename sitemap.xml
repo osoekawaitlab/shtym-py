@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    <url>
+         <loc>https://github.com/osoekawaitlab/shtym-py/</loc>
+         <lastmod>2025-11-20</lastmod>
+    </url>
+    <url>
+         <loc>https://github.com/osoekawaitlab/shtym-py/adr/0000-adr-template/</loc>
+         <lastmod>2025-11-20</lastmod>
+    </url>
+    <url>
+         <loc>https://github.com/osoekawaitlab/shtym-py/adr/0001-keep-stdout-clean-for-ai-and-human-consumption/</loc>
+         <lastmod>2025-11-20</lastmod>
+    </url>
+    <url>
+         <loc>https://github.com/osoekawaitlab/shtym-py/adr/0002-use-argparse-for-cli-implementation/</loc>
+         <lastmod>2025-11-20</lastmod>
+    </url>
+    <url>
+         <loc>https://github.com/osoekawaitlab/shtym-py/architecture/overview/</loc>
+         <lastmod>2025-11-20</lastmod>
+    </url>
+</urlset>
