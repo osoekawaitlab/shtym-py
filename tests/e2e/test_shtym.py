@@ -13,3 +13,29 @@ def test_shtym_prints_version() -> None:
         check=True,
     )
     assert re.match(r"^\d+\.\d+\.\d+$", result.stdout.strip())
+
+
+def test_shtym_wrapper_passes_through_simple_command() -> None:
+    """Test that shtym wraps a command and passes through its output."""
+    result = subprocess.run(
+        ["stym", "echo", "test output"],
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    assert result.stdout == "test output\n"
+    assert result.stderr == ""
+    assert result.returncode == 0
+
+
+def test_shtym_wrapper_inherits_exit_code_on_failure() -> None:
+    """Test that shtym inherits the child process exit code when it fails."""
+    result = subprocess.run(
+        ["stym", "false"],
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    assert result.stdout == ""
+    assert result.stderr == ""
+    assert result.returncode == 1
