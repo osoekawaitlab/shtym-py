@@ -88,7 +88,7 @@ This decision is foundational and unlikely to change. However, we should:
 The original ADR assumed pipe-based usage where users pipe command output into shtym:
 
 - **Original assumption**: `pytest tests/ | stym`
-- **Amended to**: `stym pytest tests/` (wrapper pattern)
+- **Amended to**: `stym run pytest tests/` (wrapper pattern with subcommand)
 
 The core principle of keeping stdout clean remains unchanged. Only the invocation pattern has changed from pipe-based to wrapper-based.
 
@@ -99,7 +99,7 @@ Exit code inheritance is a critical requirement for development workflows. When 
 Technical constraint:
 
 - **Pipe pattern** (`command | stym`): The wrapper process cannot access the exit code of the piped command. The pipeline's exit code would always be shtym's exit code, losing the original command's status.
-- **Wrapper pattern** (`stym command args`): The wrapper can execute the command as a subprocess, capture its exit code, and propagate it via `sys.exit(child_exit_code)`.
+- **Wrapper pattern** (`stym run command args`): The wrapper can execute the command as a subprocess, capture its exit code, and propagate it via `sys.exit(child_exit_code)`.
 
 Unix precedent: Standard Unix wrapper commands (sudo, timeout, time) all inherit their child process exit codes. This is the established pattern for command wrappers.
 
@@ -109,7 +109,7 @@ Unix precedent: Standard Unix wrapper commands (sudo, timeout, time) all inherit
 
 - Clean stdout principle: stdout still contains only the primary data (command output or AI summary)
 - stderr for metadata: progress indicators and errors still go to stderr
-- Composability: shtym output can still be piped to other commands (`stym pytest | grep ERROR`)
+- Composability: shtym output can still be piped to other commands (`stym run pytest | grep ERROR`)
 - Unix philosophy: still doing one thing well with clean interfaces
 
 **Changed:**
@@ -122,8 +122,8 @@ Unix precedent: Standard Unix wrapper commands (sudo, timeout, time) all inherit
 The wrapper pattern is more composable than originally described. Users can still pipe shtym's output:
 
 ```bash
-stym pytest tests/ | grep "FAILED"
-stym npm test | tee test-output.txt
+stym run pytest tests/ | grep "FAILED"
+stym run npm test | tee test-output.txt
 ```
 
 The clean stdout principle enables these compositions while also preserving exit codes.

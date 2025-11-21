@@ -18,7 +18,7 @@ Exit codes are fundamental to Unix command composition and automation:
 - Non-zero exit codes indicate failure (1-255)
 - Scripts and CI/CD systems rely on exit codes for flow control
 
-When shtym executes `stym pytest tests/`, there are several options for what exit code shtym itself should return.
+When shtym executes `stym run pytest tests/`, there are several options for what exit code shtym itself should return.
 
 ## Decision
 
@@ -75,7 +75,7 @@ This is established Unix convention for wrapper commands. Users expect wrappers 
 Developers expect:
 
 ```bash
-stym pytest tests/ && echo "Tests passed"
+stym run pytest tests/ && echo "Tests passed"
 ```
 
 To behave identically to:
@@ -106,7 +106,7 @@ Shtym has no reason to override the child's exit code:
 - Enables `stym` to be used as a drop-in wrapper:
 
   ```bash
-  alias pytest='stym pytest'  # Transparent wrapper
+  alias pytest='stym run pytest'  # Transparent wrapper
   ```
 
 ### Concerns

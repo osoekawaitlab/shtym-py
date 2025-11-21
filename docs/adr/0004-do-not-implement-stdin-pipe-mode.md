@@ -51,7 +51,7 @@ While `$PIPESTATUS` or `set -o pipefail` can provide workarounds, they:
 **Wrapper mode advantage:**
 
 ```bash
-stym pytest tests/
+stym run pytest tests/
 echo $?  # Returns pytest's exit code
 ```
 
@@ -71,8 +71,8 @@ Standard Unix wrapper commands use this pattern:
 Users can still pipe shtym's output:
 
 ```bash
-stym pytest tests/ | grep "FAILED"
-stym npm test | tee output.txt
+stym run pytest tests/ | grep "FAILED"
+stym run npm test | tee output.txt
 ```
 
 The wrapper pattern doesn't sacrifice composability; it enhances it by adding exit code reliability.
@@ -92,7 +92,7 @@ The wrapper pattern doesn't sacrifice composability; it enhances it by adding ex
 
 - Deviates from traditional "filter" mental model (mitigation: wrapper is more accurate for our use case)
 - Users familiar with `command | filter` pattern may expect pipe mode (mitigation: clear documentation and error messages)
-- Cannot process pre-existing piped input like `cat file | stym` (mitigation: not a target use case; use `stym cat file` instead)
+- Cannot process pre-existing piped input like `cat file | stym` (mitigation: not a target use case; use `stym run cat file` instead)
 
 ## Alternatives
 
@@ -106,7 +106,7 @@ Use `command | stym` pattern exclusively.
 
 ### Implement Both Modes
 
-Support both `command | stym` and `stym command` with auto-detection.
+Support both `command | stym` and `stym run command` with auto-detection.
 
 - **Pros**: Maximum flexibility, supports both use cases
 - **Cons**: Complex implementation, confusing UX (which mode is active?), pipe mode still can't solve exit code problem, doubles testing surface area

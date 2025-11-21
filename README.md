@@ -14,23 +14,23 @@ pip install shtym
 
 ## Usage
 
-Wrap any command with `stym`:
+Wrap any command with `stym run`:
 
 ```bash
 # Run tests
-stym pytest tests/
+stym run pytest tests/
 
 # Run linter
-stym ruff check .
+stym run ruff check .
 
 # Build project
-stym npm run build
+stym run npm run build
 
 # Any command with options
-stym ls -la
+stym run ls -la
 
 # Pipe output to other commands
-stym pytest tests/ | grep FAILED
+stym run pytest tests/ | grep FAILED
 ```
 
 ## Key Features
