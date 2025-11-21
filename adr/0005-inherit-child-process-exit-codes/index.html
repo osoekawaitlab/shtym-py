@@ -10,13 +10,13 @@
       
       
       
-        <link rel="canonical" href="https://github.com/osoekawaitlab/shtym-py/architecture/overview/">
+        <link rel="canonical" href="https://github.com/osoekawaitlab/shtym-py/adr/0005-inherit-child-process-exit-codes/">
       
       
-        <link rel="prev" href="../..">
+        <link rel="prev" href="../0004-do-not-implement-stdin-pipe-mode/">
       
       
-        <link rel="next" href="../../adr/0000-adr-template/">
+        <link rel="next" href="../0006-adopt-subcommand-architecture/">
       
       
         
@@ -27,7 +27,7 @@
     
     
       
-        <title>Overview - shtym</title>
+        <title>ADR 0005: Inherit Child Process Exit Codes - shtym</title>
       
     
     
@@ -80,7 +80,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#architecture-overview" class="md-skip">
+        <a href="#adr-0005-inherit-child-process-exit-codes" class="md-skip">
           Skip to content
         </a>
       
@@ -114,7 +114,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Overview
+              ADR 0005: Inherit Child Process Exit Codes
             
           </span>
         </div>
@@ -250,7 +250,7 @@
     
     
       <li class="md-tabs__item md-tabs__item--active">
-        <a href="./" class="md-tabs__link">
+        <a href="../../architecture/overview/" class="md-tabs__link">
           
   
   
@@ -395,37 +395,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Overview
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../architecture/overview/" class="md-nav__link">
         
   
   
@@ -441,120 +414,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#architecture-decision-records" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Architecture Decision Records
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Architecture Decision Records">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#adr-0001-keep-stdout-clean-for-ai-and-human-consumption" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        ADR-0001: Keep stdout Clean for AI and Human Consumption
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#adr-0002-use-argparse-for-cli-implementation" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        ADR-0002: Use argparse for CLI Implementation
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#adr-0003-adopt-layered-architecture" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        ADR-0003: Adopt Layered Architecture
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#adr-0004-do-not-implement-stdin-pipe-mode" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        ADR-0004: Do Not Implement Stdin Pipe Mode
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#adr-0005-inherit-child-process-exit-codes" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        ADR-0005: Inherit Child Process Exit Codes
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#adr-0006-adopt-subcommand-architecture" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        ADR-0006: Adopt Subcommand Architecture
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#adr-0007-introduce-filter-abstraction-for-output-processing" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        ADR-0007: Introduce Filter Abstraction for Output Processing
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -564,8 +423,10 @@
                 
   
   
+    
   
   
+  
     
     
     
@@ -579,13 +440,11 @@
       
     
     
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
-          
-        
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_2" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" checked>
         
           
           <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="">
@@ -606,7 +465,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_2_2">
             <span class="md-nav__icon md-icon"></span>
             
@@ -624,7 +483,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../adr/0000-adr-template/" class="md-nav__link">
+      <a href="../0000-adr-template/" class="md-nav__link">
         
   
   
@@ -652,7 +511,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../adr/0001-keep-stdout-clean-for-ai-and-human-consumption/" class="md-nav__link">
+      <a href="../0001-keep-stdout-clean-for-ai-and-human-consumption/" class="md-nav__link">
         
   
   
@@ -680,7 +539,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../adr/0002-use-argparse-for-cli-implementation/" class="md-nav__link">
+      <a href="../0002-use-argparse-for-cli-implementation/" class="md-nav__link">
         
   
   
@@ -708,7 +567,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../adr/0003-adopt-layered-architecture/" class="md-nav__link">
+      <a href="../0003-adopt-layered-architecture/" class="md-nav__link">
         
   
   
@@ -736,7 +595,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../adr/0004-do-not-implement-stdin-pipe-mode/" class="md-nav__link">
+      <a href="../0004-do-not-implement-stdin-pipe-mode/" class="md-nav__link">
         
   
   
@@ -761,10 +620,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../../adr/0005-inherit-child-process-exit-codes/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR 0005: Inherit Child Process Exit Codes
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -780,6 +666,192 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#status" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Status
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#date" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Date
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#context" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Context
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#decision" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Decision
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rationale" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Rationale
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#implications" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Implications
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Implications">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#positive-implications" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Positive Implications
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#concerns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Concerns
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#alternatives" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Alternatives
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Alternatives">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#return-shtyms-own-exit-code" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Return Shtym's Own Exit Code
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#return-combined-exit-code" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Return Combined Exit Code
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exit-code-passthrough-flag" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exit Code Passthrough Flag
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#future-direction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Future Direction
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        References
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -792,7 +864,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../adr/0006-adopt-subcommand-architecture/" class="md-nav__link">
+      <a href="../0006-adopt-subcommand-architecture/" class="md-nav__link">
         
   
   
@@ -820,7 +892,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../adr/0007-introduce-filter-abstraction-for-output-processing/" class="md-nav__link">
+      <a href="../0007-introduce-filter-abstraction-for-output-processing/" class="md-nav__link">
         
   
   
@@ -883,22 +955,77 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#architecture-decision-records" class="md-nav__link">
+  <a href="#status" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Architecture Decision Records
+        Status
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Architecture Decision Records">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#date" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Date
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#context" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Context
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#decision" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Decision
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rationale" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Rationale
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#implications" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Implications
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Implications">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#adr-0001-keep-stdout-clean-for-ai-and-human-consumption" class="md-nav__link">
+  <a href="#positive-implications" class="md-nav__link">
     <span class="md-ellipsis">
       
-        ADR-0001: Keep stdout Clean for AI and Human Consumption
+        Positive Implications
       
     </span>
   </a>
@@ -906,65 +1033,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#adr-0002-use-argparse-for-cli-implementation" class="md-nav__link">
+  <a href="#concerns" class="md-nav__link">
     <span class="md-ellipsis">
       
-        ADR-0002: Use argparse for CLI Implementation
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#adr-0003-adopt-layered-architecture" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        ADR-0003: Adopt Layered Architecture
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#adr-0004-do-not-implement-stdin-pipe-mode" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        ADR-0004: Do Not Implement Stdin Pipe Mode
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#adr-0005-inherit-child-process-exit-codes" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        ADR-0005: Inherit Child Process Exit Codes
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#adr-0006-adopt-subcommand-architecture" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        ADR-0006: Adopt Subcommand Architecture
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#adr-0007-introduce-filter-abstraction-for-output-processing" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        ADR-0007: Introduce Filter Abstraction for Output Processing
+        Concerns
       
     </span>
   </a>
@@ -973,6 +1045,78 @@
         
       </ul>
     </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#alternatives" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Alternatives
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Alternatives">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#return-shtyms-own-exit-code" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Return Shtym's Own Exit Code
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#return-combined-exit-code" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Return Combined Exit Code
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#exit-code-passthrough-flag" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Exit Code Passthrough Flag
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#future-direction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Future Direction
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        References
+      
+    </span>
+  </a>
   
 </li>
       
@@ -996,37 +1140,125 @@
   
 
 
-<h1 id="architecture-overview">Architecture Overview<a class="headerlink" href="#architecture-overview" title="Permanent link">&para;</a></h1>
-<p>This document provides a high-level overview of architectural decisions made for the shtym project.</p>
-<h2 id="architecture-decision-records">Architecture Decision Records<a class="headerlink" href="#architecture-decision-records" title="Permanent link">&para;</a></h2>
-<h3 id="adr-0001-keep-stdout-clean-for-ai-and-human-consumption"><a href="../../adr/0001-keep-stdout-clean-for-ai-and-human-consumption/">ADR-0001: Keep stdout Clean for AI and Human Consumption</a><a class="headerlink" href="#adr-0001-keep-stdout-clean-for-ai-and-human-consumption" title="Permanent link">&para;</a></h3>
-<p><strong>Status</strong>: Accepted | <strong>Date</strong>: 2025-11-20</p>
-<p>Keep stdout exclusively for AI-generated summaries, directing all other output to stderr for clean consumption by humans and AI agents.</p>
-<hr />
-<h3 id="adr-0002-use-argparse-for-cli-implementation"><a href="../../adr/0002-use-argparse-for-cli-implementation/">ADR-0002: Use argparse for CLI Implementation</a><a class="headerlink" href="#adr-0002-use-argparse-for-cli-implementation" title="Permanent link">&para;</a></h3>
-<p><strong>Status</strong>: Accepted | <strong>Date</strong>: 2025-11-20</p>
-<p>Use Python's standard library argparse for CLI parsing to maintain zero external dependencies and align with the clean output philosophy.</p>
-<hr />
-<h3 id="adr-0003-adopt-layered-architecture"><a href="../../adr/0003-adopt-layered-architecture/">ADR-0003: Adopt Layered Architecture</a><a class="headerlink" href="#adr-0003-adopt-layered-architecture" title="Permanent link">&para;</a></h3>
-<p><strong>Status</strong>: Accepted | <strong>Date</strong>: 2025-11-21</p>
-<p>Adopt a four-layer architecture (Presentation, Application, Domain, Infrastructure) to separate concerns, enable testing, and prepare for future LLM integration.</p>
-<hr />
-<h3 id="adr-0004-do-not-implement-stdin-pipe-mode"><a href="../../adr/0004-do-not-implement-stdin-pipe-mode/">ADR-0004: Do Not Implement Stdin Pipe Mode</a><a class="headerlink" href="#adr-0004-do-not-implement-stdin-pipe-mode" title="Permanent link">&para;</a></h3>
-<p><strong>Status</strong>: Accepted | <strong>Date</strong>: 2025-11-21</p>
-<p>Use wrapper mode (<code>stym run command</code>) instead of pipe mode (<code>command | stym</code>) to enable exit code inheritance, which is critical for CI/CD integration.</p>
-<hr />
-<h3 id="adr-0005-inherit-child-process-exit-codes"><a href="../../adr/0005-inherit-child-process-exit-codes/">ADR-0005: Inherit Child Process Exit Codes</a><a class="headerlink" href="#adr-0005-inherit-child-process-exit-codes" title="Permanent link">&para;</a></h3>
-<p><strong>Status</strong>: Accepted | <strong>Date</strong>: 2025-11-21</p>
-<p>Shtym must inherit and propagate the child process exit code exactly as-is, following Unix wrapper command conventions (sudo, timeout, time) for seamless CI/CD integration.</p>
-<hr />
-<h3 id="adr-0006-adopt-subcommand-architecture"><a href="../../adr/0006-adopt-subcommand-architecture/">ADR-0006: Adopt Subcommand Architecture</a><a class="headerlink" href="#adr-0006-adopt-subcommand-architecture" title="Permanent link">&para;</a></h3>
-<p><strong>Status</strong>: Accepted | <strong>Date</strong>: 2025-11-21</p>
-<p>Adopt subcommand architecture (<code>stym run</code>, <code>stym status</code>, <code>stym config</code>) to enable future features without breaking changes or command ambiguity.</p>
-<hr />
-<h3 id="adr-0007-introduce-filter-abstraction-for-output-processing"><a href="../../adr/0007-introduce-filter-abstraction-for-output-processing/">ADR-0007: Introduce Filter Abstraction for Output Processing</a><a class="headerlink" href="#adr-0007-introduce-filter-abstraction-for-output-processing" title="Permanent link">&para;</a></h3>
-<p><strong>Status</strong>: Accepted | <strong>Date</strong>: 2025-11-21</p>
-<p>Introduce Filter protocol with PassThroughFilter implementation now to minimize code changes when adding LLM integration, following Dependency Injection and SOLID principles.</p>
-<hr />
+<h1 id="adr-0005-inherit-child-process-exit-codes">ADR 0005: Inherit Child Process Exit Codes<a class="headerlink" href="#adr-0005-inherit-child-process-exit-codes" title="Permanent link">&para;</a></h1>
+<h2 id="status">Status<a class="headerlink" href="#status" title="Permanent link">&para;</a></h2>
+<p>Accepted</p>
+<h2 id="date">Date<a class="headerlink" href="#date" title="Permanent link">&para;</a></h2>
+<p>2025-11-21</p>
+<h2 id="context">Context<a class="headerlink" href="#context" title="Permanent link">&para;</a></h2>
+<p>Shtym wraps command execution to filter or summarize output. As a command wrapper, it must decide how to handle the exit code (return code) of the child process it executes.</p>
+<p>Exit codes are fundamental to Unix command composition and automation:</p>
+<ul>
+<li>Exit code 0 indicates success</li>
+<li>Non-zero exit codes indicate failure (1-255)</li>
+<li>Scripts and CI/CD systems rely on exit codes for flow control</li>
+</ul>
+<p>When shtym executes <code>stym run pytest tests/</code>, there are several options for what exit code shtym itself should return.</p>
+<h2 id="decision">Decision<a class="headerlink" href="#decision" title="Permanent link">&para;</a></h2>
+<p>Shtym MUST inherit and propagate the child process exit code exactly as-is. If the child process exits with code N, shtym exits with code N.</p>
+<p>Implementation:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">result</span> <span class="o">=</span> <span class="n">subprocess</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">command</span><span class="p">,</span> <span class="o">...</span><span class="p">)</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">returncode</span><span class="p">)</span>  <span class="c1"># Inherit exactly</span>
+</code></pre></div>
+<h2 id="rationale">Rationale<a class="headerlink" href="#rationale" title="Permanent link">&para;</a></h2>
+<p><strong>Critical for development workflows:</strong></p>
+<p>Development commands have meaningful exit codes:</p>
+<ul>
+<li><code>pytest tests/</code> → 0 if all tests pass, 1 if any test fails</li>
+<li><code>mypy src/</code> → 0 if types are correct, 1 if type errors exist</li>
+<li><code>npm test</code> → 0 if tests pass, non-zero if tests fail</li>
+<li><code>make build</code> → 0 if build succeeds, non-zero if build fails</li>
+</ul>
+<p>If shtym returned its own exit code (e.g., always 0), it would break:</p>
+<ul>
+<li>CI/CD pipelines that fail builds on test failures</li>
+<li>Pre-commit hooks that block commits on linter errors</li>
+<li>Makefiles with conditional targets</li>
+<li>Shell scripts using <code>set -e</code> to fail fast</li>
+<li>Developer muscle memory (<code>command &amp;&amp; next-step</code>)</li>
+</ul>
+<p><strong>Unix wrapper command convention:</strong></p>
+<p>Standard Unix wrapper commands inherit child exit codes:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>$<span class="w"> </span>sudo<span class="w"> </span>false<span class="p">;</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="nv">$?</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="m">1</span><span class="w">  </span><span class="c1"># Inherits false&#39;s exit code</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
+<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>$<span class="w"> </span>timeout<span class="w"> </span><span class="m">5</span><span class="w"> </span>false<span class="p">;</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="nv">$?</span>
+<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a><span class="m">1</span><span class="w">  </span><span class="c1"># Inherits false&#39;s exit code</span>
+<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>
+<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>$<span class="w"> </span><span class="nb">time</span><span class="w"> </span>false<span class="p">;</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="nv">$?</span>
+<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a><span class="m">1</span><span class="w">  </span><span class="c1"># Inherits false&#39;s exit code</span>
+<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>
+<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a>$<span class="w"> </span>nice<span class="w"> </span>false<span class="p">;</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="nv">$?</span>
+<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a><span class="m">1</span><span class="w">  </span><span class="c1"># Inherits false&#39;s exit code</span>
+</code></pre></div>
+<p>This is established Unix convention for wrapper commands. Users expect wrappers to be transparent with respect to exit codes.</p>
+<p><strong>Principle of least surprise:</strong></p>
+<p>Developers expect:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>stym<span class="w"> </span>run<span class="w"> </span>pytest<span class="w"> </span>tests/<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Tests passed&quot;</span>
+</code></pre></div>
+<p>To behave identically to:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>pytest<span class="w"> </span>tests/<span class="w"> </span><span class="o">&amp;&amp;</span><span class="w"> </span><span class="nb">echo</span><span class="w"> </span><span class="s2">&quot;Tests passed&quot;</span>
+</code></pre></div>
+<p>If shtym returned a different exit code, it would violate the principle of least surprise and be unusable in automated workflows.</p>
+<p><strong>No loss of information:</strong></p>
+<p>Shtym has no reason to override the child's exit code:</p>
+<ul>
+<li>Shtym's own errors (invalid arguments, etc.) prevent child execution, so there's no conflict</li>
+<li>Child execution errors are reflected in the child's exit code</li>
+<li>Shtym's purpose (filtering output) doesn't change the success/failure of the underlying command</li>
+</ul>
+<h2 id="implications">Implications<a class="headerlink" href="#implications" title="Permanent link">&para;</a></h2>
+<h3 id="positive-implications">Positive Implications<a class="headerlink" href="#positive-implications" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Works seamlessly in CI/CD pipelines</li>
+<li>Integrates with shell scripting patterns (<code>&amp;&amp;</code>, <code>||</code>, <code>set -e</code>)</li>
+<li>Matches Unix wrapper command conventions</li>
+<li>Preserves all semantic information from child process</li>
+<li>No special documentation needed (behavior is intuitive)</li>
+<li>Enables <code>stym</code> to be used as a drop-in wrapper:</li>
+</ul>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="nb">alias</span><span class="w"> </span><span class="nv">pytest</span><span class="o">=</span><span class="s1">&#39;stym run pytest&#39;</span><span class="w">  </span><span class="c1"># Transparent wrapper</span>
+</code></pre></div>
+<h3 id="concerns">Concerns<a class="headerlink" href="#concerns" title="Permanent link">&para;</a></h3>
+<ul>
+<li>If shtym itself encounters an error while the child succeeds, it cannot signal its own error via exit code (mitigation: errors that prevent output filtering prevent child execution, so no conflict exists; errors during filtering can be logged to stderr without affecting exit code)</li>
+<li>Edge case: if child exits with code 127 (command not found) vs shtym exits with 127, these are indistinguishable (mitigation: acceptable, as both indicate the same problem from the user's perspective)</li>
+</ul>
+<h2 id="alternatives">Alternatives<a class="headerlink" href="#alternatives" title="Permanent link">&para;</a></h2>
+<h3 id="return-shtyms-own-exit-code">Return Shtym's Own Exit Code<a class="headerlink" href="#return-shtyms-own-exit-code" title="Permanent link">&para;</a></h3>
+<p>Shtym returns 0 on successful execution (child ran successfully), regardless of child exit code.</p>
+<ul>
+<li><strong>Pros</strong>: Distinguishes "shtym worked" from "child worked"</li>
+<li><strong>Cons</strong>: Breaks all CI/CD integration, violates Unix conventions, unusable in automated workflows</li>
+<li><strong>Reason for rejection</strong>: Makes shtym unsuitable for its primary use case (development command wrapping)</li>
+</ul>
+<h3 id="return-combined-exit-code">Return Combined Exit Code<a class="headerlink" href="#return-combined-exit-code" title="Permanent link">&para;</a></h3>
+<p>Use bitwise OR or custom encoding to combine shtym's status and child's exit code.</p>
+<ul>
+<li><strong>Pros</strong>: Theoretically provides both pieces of information</li>
+<li><strong>Cons</strong>: No Unix precedent, requires custom parsing, breaks standard exit code semantics (0 = success), confusing UX</li>
+<li><strong>Reason for rejection</strong>: Violates Unix exit code conventions; no tool expects this pattern</li>
+</ul>
+<h3 id="exit-code-passthrough-flag">Exit Code Passthrough Flag<a class="headerlink" href="#exit-code-passthrough-flag" title="Permanent link">&para;</a></h3>
+<p>Default to inheriting child exit code, but provide <code>--own-exit-code</code> flag to return shtym's status instead.</p>
+<ul>
+<li><strong>Pros</strong>: Flexibility for edge cases</li>
+<li><strong>Cons</strong>: Complicates UX, almost never useful, adds testing burden, invites misuse</li>
+<li><strong>Reason for rejection</strong>: No identified use case for the flag; YAGNI (You Aren't Gonna Need It)</li>
+</ul>
+<h2 id="future-direction">Future Direction<a class="headerlink" href="#future-direction" title="Permanent link">&para;</a></h2>
+<p>This decision is foundational and unlikely to change. Potential triggers for revisiting:</p>
+<ul>
+<li><strong>Shtym processing errors</strong>: If shtym frequently encounters errors during output processing (e.g., LLM API failures) that need to be signaled separately from child failures (mitigation: log to stderr, use non-zero exit code only if child execution is prevented)</li>
+<li><strong>Request for signal differentiation</strong>: If users need to distinguish "child failed" from "shtym processing failed" programmatically (mitigation: stderr logging, exit codes in different ranges, or status files if truly needed)</li>
+</ul>
+<p>For now, exact exit code inheritance provides the right semantics for a command wrapper and aligns with 50 years of Unix convention.</p>
+<h2 id="references">References<a class="headerlink" href="#references" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="../0004-do-not-implement-stdin-pipe-mode/">ADR-0004: Do Not Implement Stdin Pipe Mode</a></li>
+<li><a href="https://pubs.opengroup.org/onlinepubs/9699919799/utilities/V3_chap02.html#tag_18_08">Exit Status (POSIX)</a></li>
+<li><a href="https://tldp.org/LDP/abs/html/exitcodes.html">Advanced Bash-Scripting Guide: Exit Codes With Special Meanings</a></li>
+</ul>
 
 
 

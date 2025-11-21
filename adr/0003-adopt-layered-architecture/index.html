@@ -10,13 +10,13 @@
       
       
       
-        <link rel="canonical" href="https://github.com/osoekawaitlab/shtym-py/architecture/overview/">
+        <link rel="canonical" href="https://github.com/osoekawaitlab/shtym-py/adr/0003-adopt-layered-architecture/">
       
       
-        <link rel="prev" href="../..">
+        <link rel="prev" href="../0002-use-argparse-for-cli-implementation/">
       
       
-        <link rel="next" href="../../adr/0000-adr-template/">
+        <link rel="next" href="../0004-do-not-implement-stdin-pipe-mode/">
       
       
         
@@ -27,7 +27,7 @@
     
     
       
-        <title>Overview - shtym</title>
+        <title>ADR 0003: Adopt Layered Architecture - shtym</title>
       
     
     
@@ -80,7 +80,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#architecture-overview" class="md-skip">
+        <a href="#adr-0003-adopt-layered-architecture" class="md-skip">
           Skip to content
         </a>
       
@@ -114,7 +114,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Overview
+              ADR 0003: Adopt Layered Architecture
             
           </span>
         </div>
@@ -250,7 +250,7 @@
     
     
       <li class="md-tabs__item md-tabs__item--active">
-        <a href="./" class="md-tabs__link">
+        <a href="../../architecture/overview/" class="md-tabs__link">
           
   
   
@@ -395,37 +395,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Overview
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../../architecture/overview/" class="md-nav__link">
         
   
   
@@ -441,120 +414,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#architecture-decision-records" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Architecture Decision Records
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Architecture Decision Records">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#adr-0001-keep-stdout-clean-for-ai-and-human-consumption" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        ADR-0001: Keep stdout Clean for AI and Human Consumption
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#adr-0002-use-argparse-for-cli-implementation" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        ADR-0002: Use argparse for CLI Implementation
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#adr-0003-adopt-layered-architecture" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        ADR-0003: Adopt Layered Architecture
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#adr-0004-do-not-implement-stdin-pipe-mode" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        ADR-0004: Do Not Implement Stdin Pipe Mode
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#adr-0005-inherit-child-process-exit-codes" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        ADR-0005: Inherit Child Process Exit Codes
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#adr-0006-adopt-subcommand-architecture" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        ADR-0006: Adopt Subcommand Architecture
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#adr-0007-introduce-filter-abstraction-for-output-processing" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        ADR-0007: Introduce Filter Abstraction for Output Processing
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -564,8 +423,10 @@
                 
   
   
+    
   
   
+  
     
     
     
@@ -579,13 +440,11 @@
       
     
     
-    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
         
-          
-        
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_2" >
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" checked>
         
           
           <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="">
@@ -606,7 +465,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_2_2">
             <span class="md-nav__icon md-icon"></span>
             
@@ -624,7 +483,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../adr/0000-adr-template/" class="md-nav__link">
+      <a href="../0000-adr-template/" class="md-nav__link">
         
   
   
@@ -652,7 +511,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../adr/0001-keep-stdout-clean-for-ai-and-human-consumption/" class="md-nav__link">
+      <a href="../0001-keep-stdout-clean-for-ai-and-human-consumption/" class="md-nav__link">
         
   
   
@@ -680,7 +539,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../adr/0002-use-argparse-for-cli-implementation/" class="md-nav__link">
+      <a href="../0002-use-argparse-for-cli-implementation/" class="md-nav__link">
         
   
   
@@ -705,10 +564,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../../adr/0003-adopt-layered-architecture/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR 0003: Adopt Layered Architecture
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -724,6 +610,192 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#status" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Status
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#date" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Date
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#context" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Context
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#decision" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Decision
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rationale" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Rationale
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#implications" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Implications
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Implications">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#positive-implications" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Positive Implications
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#concerns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Concerns
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#alternatives" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Alternatives
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Alternatives">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#flat-module-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Flat Module Structure
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hexagonal-architecture-ports-and-adapters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Hexagonal Architecture (Ports and Adapters)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mvc-pattern" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        MVC Pattern
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#future-direction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Future Direction
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        References
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -736,7 +808,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../adr/0004-do-not-implement-stdin-pipe-mode/" class="md-nav__link">
+      <a href="../0004-do-not-implement-stdin-pipe-mode/" class="md-nav__link">
         
   
   
@@ -764,7 +836,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../adr/0005-inherit-child-process-exit-codes/" class="md-nav__link">
+      <a href="../0005-inherit-child-process-exit-codes/" class="md-nav__link">
         
   
   
@@ -792,7 +864,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../adr/0006-adopt-subcommand-architecture/" class="md-nav__link">
+      <a href="../0006-adopt-subcommand-architecture/" class="md-nav__link">
         
   
   
@@ -820,7 +892,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../adr/0007-introduce-filter-abstraction-for-output-processing/" class="md-nav__link">
+      <a href="../0007-introduce-filter-abstraction-for-output-processing/" class="md-nav__link">
         
   
   
@@ -883,22 +955,77 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#architecture-decision-records" class="md-nav__link">
+  <a href="#status" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Architecture Decision Records
+        Status
       
     </span>
   </a>
   
-    <nav class="md-nav" aria-label="Architecture Decision Records">
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#date" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Date
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#context" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Context
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#decision" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Decision
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rationale" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Rationale
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#implications" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Implications
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Implications">
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#adr-0001-keep-stdout-clean-for-ai-and-human-consumption" class="md-nav__link">
+  <a href="#positive-implications" class="md-nav__link">
     <span class="md-ellipsis">
       
-        ADR-0001: Keep stdout Clean for AI and Human Consumption
+        Positive Implications
       
     </span>
   </a>
@@ -906,65 +1033,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#adr-0002-use-argparse-for-cli-implementation" class="md-nav__link">
+  <a href="#concerns" class="md-nav__link">
     <span class="md-ellipsis">
       
-        ADR-0002: Use argparse for CLI Implementation
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#adr-0003-adopt-layered-architecture" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        ADR-0003: Adopt Layered Architecture
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#adr-0004-do-not-implement-stdin-pipe-mode" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        ADR-0004: Do Not Implement Stdin Pipe Mode
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#adr-0005-inherit-child-process-exit-codes" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        ADR-0005: Inherit Child Process Exit Codes
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#adr-0006-adopt-subcommand-architecture" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        ADR-0006: Adopt Subcommand Architecture
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#adr-0007-introduce-filter-abstraction-for-output-processing" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        ADR-0007: Introduce Filter Abstraction for Output Processing
+        Concerns
       
     </span>
   </a>
@@ -973,6 +1045,78 @@
         
       </ul>
     </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#alternatives" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Alternatives
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Alternatives">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#flat-module-structure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Flat Module Structure
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#hexagonal-architecture-ports-and-adapters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Hexagonal Architecture (Ports and Adapters)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mvc-pattern" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        MVC Pattern
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#future-direction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Future Direction
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        References
+      
+    </span>
+  </a>
   
 </li>
       
@@ -996,37 +1140,99 @@
   
 
 
-<h1 id="architecture-overview">Architecture Overview<a class="headerlink" href="#architecture-overview" title="Permanent link">&para;</a></h1>
-<p>This document provides a high-level overview of architectural decisions made for the shtym project.</p>
-<h2 id="architecture-decision-records">Architecture Decision Records<a class="headerlink" href="#architecture-decision-records" title="Permanent link">&para;</a></h2>
-<h3 id="adr-0001-keep-stdout-clean-for-ai-and-human-consumption"><a href="../../adr/0001-keep-stdout-clean-for-ai-and-human-consumption/">ADR-0001: Keep stdout Clean for AI and Human Consumption</a><a class="headerlink" href="#adr-0001-keep-stdout-clean-for-ai-and-human-consumption" title="Permanent link">&para;</a></h3>
-<p><strong>Status</strong>: Accepted | <strong>Date</strong>: 2025-11-20</p>
-<p>Keep stdout exclusively for AI-generated summaries, directing all other output to stderr for clean consumption by humans and AI agents.</p>
-<hr />
-<h3 id="adr-0002-use-argparse-for-cli-implementation"><a href="../../adr/0002-use-argparse-for-cli-implementation/">ADR-0002: Use argparse for CLI Implementation</a><a class="headerlink" href="#adr-0002-use-argparse-for-cli-implementation" title="Permanent link">&para;</a></h3>
-<p><strong>Status</strong>: Accepted | <strong>Date</strong>: 2025-11-20</p>
-<p>Use Python's standard library argparse for CLI parsing to maintain zero external dependencies and align with the clean output philosophy.</p>
-<hr />
-<h3 id="adr-0003-adopt-layered-architecture"><a href="../../adr/0003-adopt-layered-architecture/">ADR-0003: Adopt Layered Architecture</a><a class="headerlink" href="#adr-0003-adopt-layered-architecture" title="Permanent link">&para;</a></h3>
-<p><strong>Status</strong>: Accepted | <strong>Date</strong>: 2025-11-21</p>
-<p>Adopt a four-layer architecture (Presentation, Application, Domain, Infrastructure) to separate concerns, enable testing, and prepare for future LLM integration.</p>
-<hr />
-<h3 id="adr-0004-do-not-implement-stdin-pipe-mode"><a href="../../adr/0004-do-not-implement-stdin-pipe-mode/">ADR-0004: Do Not Implement Stdin Pipe Mode</a><a class="headerlink" href="#adr-0004-do-not-implement-stdin-pipe-mode" title="Permanent link">&para;</a></h3>
-<p><strong>Status</strong>: Accepted | <strong>Date</strong>: 2025-11-21</p>
-<p>Use wrapper mode (<code>stym run command</code>) instead of pipe mode (<code>command | stym</code>) to enable exit code inheritance, which is critical for CI/CD integration.</p>
-<hr />
-<h3 id="adr-0005-inherit-child-process-exit-codes"><a href="../../adr/0005-inherit-child-process-exit-codes/">ADR-0005: Inherit Child Process Exit Codes</a><a class="headerlink" href="#adr-0005-inherit-child-process-exit-codes" title="Permanent link">&para;</a></h3>
-<p><strong>Status</strong>: Accepted | <strong>Date</strong>: 2025-11-21</p>
-<p>Shtym must inherit and propagate the child process exit code exactly as-is, following Unix wrapper command conventions (sudo, timeout, time) for seamless CI/CD integration.</p>
-<hr />
-<h3 id="adr-0006-adopt-subcommand-architecture"><a href="../../adr/0006-adopt-subcommand-architecture/">ADR-0006: Adopt Subcommand Architecture</a><a class="headerlink" href="#adr-0006-adopt-subcommand-architecture" title="Permanent link">&para;</a></h3>
-<p><strong>Status</strong>: Accepted | <strong>Date</strong>: 2025-11-21</p>
-<p>Adopt subcommand architecture (<code>stym run</code>, <code>stym status</code>, <code>stym config</code>) to enable future features without breaking changes or command ambiguity.</p>
-<hr />
-<h3 id="adr-0007-introduce-filter-abstraction-for-output-processing"><a href="../../adr/0007-introduce-filter-abstraction-for-output-processing/">ADR-0007: Introduce Filter Abstraction for Output Processing</a><a class="headerlink" href="#adr-0007-introduce-filter-abstraction-for-output-processing" title="Permanent link">&para;</a></h3>
-<p><strong>Status</strong>: Accepted | <strong>Date</strong>: 2025-11-21</p>
-<p>Introduce Filter protocol with PassThroughFilter implementation now to minimize code changes when adding LLM integration, following Dependency Injection and SOLID principles.</p>
-<hr />
+<h1 id="adr-0003-adopt-layered-architecture">ADR 0003: Adopt Layered Architecture<a class="headerlink" href="#adr-0003-adopt-layered-architecture" title="Permanent link">&para;</a></h1>
+<h2 id="status">Status<a class="headerlink" href="#status" title="Permanent link">&para;</a></h2>
+<p>Accepted</p>
+<h2 id="date">Date<a class="headerlink" href="#date" title="Permanent link">&para;</a></h2>
+<p>2025-11-21</p>
+<h2 id="context">Context<a class="headerlink" href="#context" title="Permanent link">&para;</a></h2>
+<p>Shtym needs to implement subprocess execution and output handling for pass-through mode (Issue #3), with future expansion to LLM integration. The current flat module structure (cli.py, core.py) lacks clear separation of concerns, which will make future LLM integration and testing more difficult.</p>
+<p>A clear architectural pattern is needed to:</p>
+<ul>
+<li>Separate I/O concerns from business logic</li>
+<li>Enable easy testing without actual I/O operations</li>
+<li>Provide clear boundaries for future LLM integration</li>
+<li>Maintain code organization as functionality grows</li>
+</ul>
+<h2 id="decision">Decision<a class="headerlink" href="#decision" title="Permanent link">&para;</a></h2>
+<p>Adopt a layered architecture with four distinct layers:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>src/shtym/
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>├── _version.py           # Version constant
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>├── __init__.py           # Package exports
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>├── cli.py                # Presentation Layer
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>├── application.py        # Application Layer
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>├── domain.py             # Domain Layer
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>└── infrastructure/       # Infrastructure Layer
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>    ├── __init__.py
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>    └── stdio.py          # stdout writing
+</code></pre></div>
+<p><strong>Layer responsibilities:</strong></p>
+<ul>
+<li><strong>Presentation Layer</strong> (cli.py): CLI argument parsing, error handling, user-facing messages</li>
+<li><strong>Application Layer</strong> (application.py): Orchestration of domain and infrastructure components</li>
+<li><strong>Domain Layer</strong> (domain.py): Core text processing logic (pass-through, future LLM summarization)</li>
+<li><strong>Infrastructure Layer</strong> (infrastructure/): External I/O operations (stdio, future LLM API clients)</li>
+</ul>
+<h2 id="rationale">Rationale<a class="headerlink" href="#rationale" title="Permanent link">&para;</a></h2>
+<ul>
+<li><strong>Testability</strong>: Each layer can be tested independently. Infrastructure I/O can be mocked in unit tests</li>
+<li><strong>Separation of concerns</strong>: Clear boundaries between user interface, orchestration, business logic, and external dependencies</li>
+<li><strong>Future LLM integration</strong>: LLM clients will naturally fit in infrastructure layer alongside stdio</li>
+<li><strong>Maintainability</strong>: Changes to I/O mechanisms or CLI don't affect business logic</li>
+<li><strong>Standard pattern</strong>: Layered architecture is well-understood and documented</li>
+<li><strong>Lightweight</strong>: Only four layers, avoiding over-engineering for small project</li>
+</ul>
+<h2 id="implications">Implications<a class="headerlink" href="#implications" title="Permanent link">&para;</a></h2>
+<h3 id="positive-implications">Positive Implications<a class="headerlink" href="#positive-implications" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Unit tests can focus on pure logic without I/O</li>
+<li>Infrastructure components are swappable (e.g., different LLM providers)</li>
+<li>Clear mental model for future contributors</li>
+<li>Dependency flow is explicit (presentation → application → domain ← infrastructure)</li>
+<li>Easy to add new infrastructure adapters (file I/O, network, etc.)</li>
+</ul>
+<h3 id="concerns">Concerns<a class="headerlink" href="#concerns" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Slightly more files than flat structure (mitigation: only 3-4 additional modules, manageable)</li>
+<li>Requires discipline to maintain layer boundaries (mitigation: documented in ADR, enforced in code review)</li>
+<li>Possible over-engineering for simple pass-through (mitigation: pattern pays off immediately when LLM integration begins)</li>
+</ul>
+<h2 id="alternatives">Alternatives<a class="headerlink" href="#alternatives" title="Permanent link">&para;</a></h2>
+<h3 id="flat-module-structure">Flat Module Structure<a class="headerlink" href="#flat-module-structure" title="Permanent link">&para;</a></h3>
+<p>Keep current flat structure with cli.py and core.py.</p>
+<ul>
+<li><strong>Pros</strong>: Fewer files, simpler initial setup</li>
+<li><strong>Cons</strong>: Tight coupling between I/O and logic, hard to test, unclear where to add LLM clients</li>
+<li><strong>Reason for rejection</strong>: Technical debt accumulates quickly; refactoring later is harder than starting with clear structure</li>
+</ul>
+<h3 id="hexagonal-architecture-ports-and-adapters">Hexagonal Architecture (Ports and Adapters)<a class="headerlink" href="#hexagonal-architecture-ports-and-adapters" title="Permanent link">&para;</a></h3>
+<p>Use ports (interfaces) and adapters pattern.</p>
+<ul>
+<li><strong>Pros</strong>: Maximum flexibility, very testable, clear boundaries</li>
+<li><strong>Cons</strong>: More abstract, requires interfaces/protocols for every boundary, overhead for small project</li>
+<li><strong>Reason for rejection</strong>: Too much ceremony for current needs; layered architecture provides similar benefits with less complexity</li>
+</ul>
+<h3 id="mvc-pattern">MVC Pattern<a class="headerlink" href="#mvc-pattern" title="Permanent link">&para;</a></h3>
+<p>Adopt Model-View-Controller pattern.</p>
+<ul>
+<li><strong>Pros</strong>: Well-known web pattern</li>
+<li><strong>Cons</strong>: Designed for UI interactions, not for CLI command wrapper tools; controller/view distinction unclear for CLI</li>
+<li><strong>Reason for rejection</strong>: Not a natural fit for CLI command wrapper tools</li>
+</ul>
+<h2 id="future-direction">Future Direction<a class="headerlink" href="#future-direction" title="Permanent link">&para;</a></h2>
+<p>The layered architecture should remain stable through LLM integration. Potential triggers for revisiting:</p>
+<ul>
+<li><strong>Infrastructure layer grows too large</strong>: If we add many infrastructure adapters (multiple LLM providers, various I/O sources), consider splitting into subdirectories (infrastructure/llm/, infrastructure/io/)</li>
+<li><strong>Cross-cutting concerns emerge</strong>: If we need logging, metrics, or tracing across all layers, consider aspect-oriented patterns or middleware</li>
+<li><strong>Domain logic becomes complex</strong>: If text processing logic grows significantly, consider splitting domain.py into multiple modules or introducing domain-driven design patterns</li>
+</ul>
+<p>For now, this lightweight four-layer structure provides the right balance of organization and simplicity.</p>
+<h2 id="references">References<a class="headerlink" href="#references" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="https://github.com/osoekawaitlab/shtym-py/issues/3">Issue #3: Implement basic pass-through mode</a></li>
+<li><a href="../0001-keep-stdout-clean-for-ai-and-human-consumption/">ADR-0001: Keep stdout Clean for AI and Human Consumption</a></li>
+<li><a href="https://www.oreilly.com/library/view/software-architecture-patterns/9781491971437/ch01.html">Layered Architecture Pattern</a></li>
+</ul>
 
 
 
