@@ -2,7 +2,7 @@
 
 ## Status
 
-Accepted
+Accepted (Amended 2025-11-21)
 
 ## Date
 
@@ -80,3 +80,50 @@ This decision is foundational and unlikely to change. However, we should:
 ## References
 
 - [Unix Philosophy: "Write programs that do one thing and do it well"](https://en.wikipedia.org/wiki/Unix_philosophy)
+
+## Amendment (2025-11-21)
+
+### What Changed
+
+The original ADR assumed pipe-based usage where users pipe command output into shtym:
+
+- **Original assumption**: `pytest tests/ | stym`
+- **Amended to**: `stym pytest tests/` (wrapper pattern)
+
+The core principle of keeping stdout clean remains unchanged. Only the invocation pattern has changed from pipe-based to wrapper-based.
+
+### Reason for Amendment
+
+Exit code inheritance is a critical requirement for development workflows. When tests fail, build commands error, or linters find issues, the command must exit with a non-zero status to integrate properly with CI/CD pipelines and developer scripts.
+
+Technical constraint:
+
+- **Pipe pattern** (`command | stym`): The wrapper process cannot access the exit code of the piped command. The pipeline's exit code would always be shtym's exit code, losing the original command's status.
+- **Wrapper pattern** (`stym command args`): The wrapper can execute the command as a subprocess, capture its exit code, and propagate it via `sys.exit(child_exit_code)`.
+
+Unix precedent: Standard Unix wrapper commands (sudo, timeout, time) all inherit their child process exit codes. This is the established pattern for command wrappers.
+
+### Impact on Original ADR
+
+**Unchanged:**
+
+- Clean stdout principle: stdout still contains only the primary data (command output or AI summary)
+- stderr for metadata: progress indicators and errors still go to stderr
+- Composability: shtym output can still be piped to other commands (`stym pytest | grep ERROR`)
+- Unix philosophy: still doing one thing well with clean interfaces
+
+**Changed:**
+
+- Invocation pattern: wrapper style instead of pipe style
+- Data flow: shtym executes the command rather than reading from stdin
+- Exit code: properly inherited from child process
+
+**Compatibility note:**
+The wrapper pattern is more composable than originally described. Users can still pipe shtym's output:
+
+```bash
+stym pytest tests/ | grep "FAILED"
+stym npm test | tee test-output.txt
+```
+
+The clean stdout principle enables these compositions while also preserving exit codes.
