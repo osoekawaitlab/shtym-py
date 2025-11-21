@@ -42,6 +42,7 @@ stym run pytest tests/ | grep FAILED
 ## Design Philosophy
 
 Shtym follows Unix conventions for command wrappers (like `sudo`, `timeout`, `time`):
+
 - Executes commands as subprocesses
 - Inherits and propagates exit codes exactly
 - Maintains clean stdout for composability
@@ -50,8 +51,8 @@ Shtym follows Unix conventions for command wrappers (like `sudo`, `timeout`, `ti
 ## Development
 
 For development documentation, see:
-- [Architecture Overview](docs/architecture/index.md)
-- [Architecture Decision Records](docs/adr/)
+
+- [Architecture Overview](https://osoekawaitlab.github.io/shtym-py/architecture/overview/)
 
 ## License
 
