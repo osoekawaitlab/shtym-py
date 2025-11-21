@@ -11,6 +11,7 @@ class ProcessedCommandResult:
     """Result of processing a command with a filter."""
 
     filtered_output: str
+    stderr: str
     returncode: int
 
 
@@ -36,11 +37,12 @@ def process_command(command: list[str], text_filter: Filter) -> ProcessedCommand
         text_filter: The filter to apply to the command output.
 
     Returns:
-        The processed command result with filtered output and return code.
+        The processed command result with filtered output, stderr, and return code.
     """
     result = run_command(command)
     filtered_output = text_filter.filter(result.stdout)
     return ProcessedCommandResult(
         filtered_output=filtered_output,
+        stderr=result.stderr,
         returncode=result.returncode,
     )

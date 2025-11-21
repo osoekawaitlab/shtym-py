@@ -6,7 +6,7 @@ import sys
 from shtym._version import __version__
 from shtym.application import process_command
 from shtym.domain.filter import PassThroughFilter
-from shtym.infrastructure.stdio import write_stdout
+from shtym.infrastructure.stdio import write_stderr, write_stdout
 
 
 def generate_cli_parser() -> argparse.ArgumentParser:
@@ -41,5 +41,11 @@ def main() -> None:
     if args.subcommand == "run" and args.command:
         text_filter = PassThroughFilter()
         result = process_command(args.command, text_filter)
+        if result.stderr:
+            write_stderr(result.stderr)
         write_stdout(result.filtered_output)
         sys.exit(result.returncode)
+    else:
+        # Show help if no subcommand or no command provided
+        parser.print_help()
+        sys.exit(1)

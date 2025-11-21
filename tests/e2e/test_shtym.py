@@ -66,3 +66,15 @@ def test_shtym_wrapper_passes_help_flag_to_command() -> None:
     # echo treats --help as a regular argument and prints it
     assert "--help" in result.stdout
     assert result.returncode == 0
+
+
+def test_shtym_wrapper_propagates_stderr() -> None:
+    """Test that shtym propagates stderr from the child process."""
+    result = subprocess.run(
+        ["stym", "run", "python3", "-c", "import sys; sys.stderr.write('error\\n')"],
+        capture_output=True,
+        text=True,
+        check=False,
+    )
+    assert result.stderr == "error\n"
+    assert result.returncode == 0
