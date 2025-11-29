@@ -31,6 +31,11 @@ shtym-py = "shtym:main"
 shtym = "shtym:main"
 stym = "shtym:main"
 
+[project.optional-dependencies]
+ollama = [
+    "ollama>=0.6.1",
+]
+
 [build-system]
 requires = ["setuptools>=70.1"]
 build-backend = "setuptools.build_meta"
@@ -114,6 +119,5 @@ addopts = [
     "--doctest-modules",
 ]
 markers = [
-    "unit: Unit tests (pure logic, no external dependencies)",
-    "e2e: End-to-end tests with mocked SDKs",
+    "ollama: tests that require Ollama"
 ]
