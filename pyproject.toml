@@ -108,6 +108,7 @@ warn_no_return = true
 warn_unreachable = true
 strict_equality = true
 show_error_codes = true
+mypy_path = ["stubs"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests", "src"]
