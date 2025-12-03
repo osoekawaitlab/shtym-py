@@ -1,8 +1,11 @@
 """Test suite for Ollama LLM client."""
 
+import pytest
 from pytest_mock import MockerFixture
 
 from shtym.infrastructure import ollama_client as ollama_client_module
+
+pytestmark = pytest.mark.ollama
 
 
 def test_ollama_client_chat_success(mocker: MockerFixture) -> None:

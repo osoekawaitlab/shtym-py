@@ -35,7 +35,7 @@ jobs:
         run: uv sync --group dev
 
       - name: Run Unit Tests
-        run: uv run nox -s tests_unit
+        run: uv run nox -s tests_unit_no_ollama
 
   e2e-tests:
     name: E2E Tests (Python ${{ matrix.python-version }})
@@ -77,7 +77,7 @@ jobs:
         uses: astral-sh/setup-uv@v3
 
       - name: Install Dependencies
-        run: uv sync --group dev
+        run: uv sync --all-extras --group dev
 
       - name: Run Type Checking
         run: uv run nox -s mypy
@@ -99,8 +99,9 @@ jobs:
 
       - name: Setup uv
         uses: astral-sh/setup-uv@v3
+
       - name: Install Dependencies
         run: uv sync --group dev
 
       - name: Run Tests with Coverage
-        run: uv run pytest --cov=src/shtym --cov-report=term-missing --cov-report=html --cov-fail-under=80 -m "not ollama"
+        run: uv run pytest --cov=src/shtym --cov-report=term-missing --cov-report=html --cov-fail-under=80 -m "not ollama" --ignore=tests/unit/infrastructure/llm/

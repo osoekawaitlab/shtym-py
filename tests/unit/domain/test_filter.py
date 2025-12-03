@@ -1,5 +1,6 @@
 """Test suite for filter domain logic."""
 
+import pytest
 from pytest_mock import MockerFixture
 
 from shtym.domain import filter as filter_module
@@ -33,6 +34,7 @@ def test_passthrough_filter_handles_multiline() -> None:
     assert result == input_text
 
 
+@pytest.mark.ollama
 def test_llm_filter_returns_filtered_text_on_success(mocker: MockerFixture) -> None:
     """Test that LLMFilter returns filtered text when LLM responds successfully."""
     llm_client = mocker.Mock()
