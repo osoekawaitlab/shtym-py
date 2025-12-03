@@ -1,10 +1,10 @@
 """Application layer for shtym."""
 
+import importlib
 import subprocess
 from dataclasses import dataclass
 
-from shtym.domain.filter import Filter, LLMFilter, PassThroughFilter
-from shtym.infrastructure.ollama_client import OllamaLLMClient
+from shtym.domain.filter import Filter, PassThroughFilter
 
 
 @dataclass
@@ -66,9 +66,18 @@ class ShtymApplication:
         Returns:
             An instance of ShtymApplication.
         """
-        llm_client = OllamaLLMClient.create()
-        if llm_client.is_available():
-            text_filter: Filter = LLMFilter(llm_client=llm_client)
-        else:
+        try:
+            filter_module = importlib.import_module("shtym.domain.filter")
+            ollama_module = importlib.import_module(
+                "shtym.infrastructure.ollama_client"
+            )
+
+            llm_client = ollama_module.OllamaLLMClient.create()
+            if llm_client.is_available():
+                text_filter: Filter = filter_module.LLMFilter(llm_client=llm_client)
+            else:
+                text_filter = PassThroughFilter()
+        except ModuleNotFoundError:
+            # Ollama not installed, fall back to PassThroughFilter
             text_filter = PassThroughFilter()
         return cls(text_filter=text_filter)
