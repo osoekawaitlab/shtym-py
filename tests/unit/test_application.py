@@ -17,8 +17,9 @@ def test_run_command_executes_subprocess(mocker: MockerFixture) -> None:
         stdout="test\n",
         stderr="",
     )
+    app = application.ShtymApplication(text_filter=PassThroughFilter())
 
-    result = application.run_command(["echo", "test"])
+    result = app.run_command(["echo", "test"])
 
     mock_run.assert_called_once_with(
         ["echo", "test"],
@@ -33,20 +34,24 @@ def test_run_command_executes_subprocess(mocker: MockerFixture) -> None:
 
 def test_process_command_applies_filter(mocker: MockerFixture) -> None:
     """Test that process_command applies filter to command output."""
-    mock_run_command = mocker.patch("shtym.application.run_command")
+    mock_filter = mocker.Mock(spec=PassThroughFilter)
+    mock_filter.filter.return_value = "filtered output\n"
+    app = application.ShtymApplication(text_filter=mock_filter)
+
+    mock_run_command = mocker.patch.object(app, "run_command")
     mock_run_command.return_value = subprocess.CompletedProcess(
         args=["echo", "test"],
         returncode=0,
         stdout="test output\n",
         stderr="",
     )
-    mock_filter = mocker.Mock(spec=PassThroughFilter)
-    mock_filter.filter.return_value = "filtered output\n"
 
-    result = application.process_command(["echo", "test"], mock_filter)
+    result = app.process_command(["echo", "test"])
 
     mock_run_command.assert_called_once_with(["echo", "test"])
-    mock_filter.filter.assert_called_once_with("test output\n")
+    mock_filter.filter.assert_called_once_with(
+        command=["echo", "test"], stdout="test output\n", stderr=""
+    )
     assert result.filtered_output == "filtered output\n"
     assert result.stderr == ""
     assert result.returncode == 0
@@ -54,7 +59,9 @@ def test_process_command_applies_filter(mocker: MockerFixture) -> None:
 
 def test_process_command_with_passthrough_filter() -> None:
     """Test that process_command with PassThroughFilter returns original output."""
-    result = application.process_command(["echo", "test"], PassThroughFilter())
+    app = application.ShtymApplication(text_filter=PassThroughFilter())
+
+    result = app.process_command(["echo", "test"])
 
     assert result.filtered_output == "test\n"
     assert result.returncode == 0
@@ -62,18 +69,20 @@ def test_process_command_with_passthrough_filter() -> None:
 
 def test_process_command_includes_stderr(mocker: MockerFixture) -> None:
     """Test that process_command includes stderr in result."""
-    mock_run_command = mocker.patch("shtym.application.run_command")
+    mock_filter = mocker.Mock(spec=PassThroughFilter)
+    mock_filter.filter.return_value = "filtered output\n"
+    app = application.ShtymApplication(text_filter=mock_filter)
+
+    mock_run_command = mocker.patch.object(app, "run_command")
     mock_run_command.return_value = subprocess.CompletedProcess(
         args=["python", "-c", "import sys; sys.stderr.write('error')"],
         returncode=0,
         stdout="output\n",
         stderr="error message\n",
     )
-    mock_filter = mocker.Mock(spec=PassThroughFilter)
-    mock_filter.filter.return_value = "filtered output\n"
 
-    result = application.process_command(
-        ["python", "-c", "import sys; sys.stderr.write('error')"], mock_filter
+    result = app.process_command(
+        ["python", "-c", "import sys; sys.stderr.write('error')"]
     )
 
     assert result.stderr == "error message\n"
