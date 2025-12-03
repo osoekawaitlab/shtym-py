@@ -10,29 +10,29 @@
       
       
       
-        <link rel="canonical" href="https://github.com/osoekawaitlab/shtym-py/">
+        <link rel="canonical" href="https://github.com/osoekawaitlab/shtym-py/adr/0008-introduce-llm-client-abstraction/">
       
       
+        <link rel="prev" href="../0007-introduce-filter-abstraction-for-output-processing/">
       
-        <link rel="next" href="architecture/overview/">
       
       
         
       
       
-      <link rel="icon" href="assets/images/favicon.png">
+      <link rel="icon" href="../../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
     
     
       
-        <title>shtym</title>
+        <title>ADR 0008: Introduce LLM Client Abstraction - shtym</title>
       
     
     
-      <link rel="stylesheet" href="assets/stylesheets/main.618322db.min.css">
+      <link rel="stylesheet" href="../../assets/stylesheets/main.618322db.min.css">
       
         
-        <link rel="stylesheet" href="assets/stylesheets/palette.ab4e12ef.min.css">
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
       
       
 
@@ -51,9 +51,9 @@
       
     
     
-      <link rel="stylesheet" href="assets/_mkdocstrings.css">
+      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
     
-    <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -78,7 +78,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#shtym" class="md-skip">
+        <a href="#adr-0008-introduce-llm-client-abstraction" class="md-skip">
           Skip to content
         </a>
       
@@ -92,7 +92,7 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="." title="shtym" class="md-header__button md-logo" aria-label="shtym" data-md-component="logo">
+    <a href="../.." title="shtym" class="md-header__button md-logo" aria-label="shtym" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -112,7 +112,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Home
+              ADR 0008: Introduce LLM Client Abstraction
             
           </span>
         </div>
@@ -223,11 +223,9 @@
   
   
   
-    
   
-  
-    <li class="md-tabs__item md-tabs__item--active">
-      <a href="." class="md-tabs__link">
+    <li class="md-tabs__item">
+      <a href="../.." class="md-tabs__link">
         
   
   
@@ -244,11 +242,13 @@
   
   
   
+    
+  
   
     
     
-      <li class="md-tabs__item">
-        <a href="architecture/overview/" class="md-tabs__link">
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../architecture/overview/" class="md-tabs__link">
           
   
   
@@ -282,7 +282,7 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="." title="shtym" class="md-nav__button md-logo" aria-label="shtym" data-md-component="logo">
+    <a href="../.." title="shtym" class="md-nav__button md-logo" aria-label="shtym" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -309,37 +309,10 @@
       
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Home
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="." class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
         
   
   
@@ -355,103 +328,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#overview" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Overview
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#installation" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Installation
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#usage" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Usage
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#key-features" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Key Features
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#design-philosophy" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Design Philosophy
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#development" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Development
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#license" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        License
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -460,28 +336,31 @@
       
   
   
+    
   
   
+  
     
     
     
     
+      
+        
+        
       
       
         
       
     
     
-    <li class="md-nav__item md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
       
         
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
         
           
-        
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
-        
-          
-          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
             
   
   
@@ -499,7 +378,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_2">
             <span class="md-nav__icon md-icon"></span>
             
@@ -517,7 +396,7 @@
   
   
     <li class="md-nav__item">
-      <a href="architecture/overview/" class="md-nav__link">
+      <a href="../../architecture/overview/" class="md-nav__link">
         
   
   
@@ -542,28 +421,31 @@
                 
   
   
+    
   
   
+  
     
     
     
     
       
       
-        
-      
-    
-    
-    <li class="md-nav__item md-nav__item--nested">
-      
-        
         
           
+          
         
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_2" >
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_2" checked>
         
           
-          <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
+          <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="">
             
   
   
@@ -581,7 +463,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="true">
           <label class="md-nav__title" for="__nav_2_2">
             <span class="md-nav__icon md-icon"></span>
             
@@ -599,7 +481,7 @@
   
   
     <li class="md-nav__item">
-      <a href="adr/0000-adr-template/" class="md-nav__link">
+      <a href="../0000-adr-template/" class="md-nav__link">
         
   
   
@@ -627,7 +509,7 @@
   
   
     <li class="md-nav__item">
-      <a href="adr/0001-keep-stdout-clean-for-ai-and-human-consumption/" class="md-nav__link">
+      <a href="../0001-keep-stdout-clean-for-ai-and-human-consumption/" class="md-nav__link">
         
   
   
@@ -655,7 +537,7 @@
   
   
     <li class="md-nav__item">
-      <a href="adr/0002-use-argparse-for-cli-implementation/" class="md-nav__link">
+      <a href="../0002-use-argparse-for-cli-implementation/" class="md-nav__link">
         
   
   
@@ -683,7 +565,7 @@
   
   
     <li class="md-nav__item">
-      <a href="adr/0003-adopt-layered-architecture/" class="md-nav__link">
+      <a href="../0003-adopt-layered-architecture/" class="md-nav__link">
         
   
   
@@ -711,7 +593,7 @@
   
   
     <li class="md-nav__item">
-      <a href="adr/0004-do-not-implement-stdin-pipe-mode/" class="md-nav__link">
+      <a href="../0004-do-not-implement-stdin-pipe-mode/" class="md-nav__link">
         
   
   
@@ -739,7 +621,7 @@
   
   
     <li class="md-nav__item">
-      <a href="adr/0005-inherit-child-process-exit-codes/" class="md-nav__link">
+      <a href="../0005-inherit-child-process-exit-codes/" class="md-nav__link">
         
   
   
@@ -767,7 +649,7 @@
   
   
     <li class="md-nav__item">
-      <a href="adr/0006-adopt-subcommand-architecture/" class="md-nav__link">
+      <a href="../0006-adopt-subcommand-architecture/" class="md-nav__link">
         
   
   
@@ -795,7 +677,7 @@
   
   
     <li class="md-nav__item">
-      <a href="adr/0007-introduce-filter-abstraction-for-output-processing/" class="md-nav__link">
+      <a href="../0007-introduce-filter-abstraction-for-output-processing/" class="md-nav__link">
         
   
   
@@ -820,10 +702,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="adr/0008-introduce-llm-client-abstraction/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR 0008: Introduce LLM Client Abstraction
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -839,6 +748,181 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#status" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Status
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#date" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Date
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#context" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Context
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#decision" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Decision
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rationale" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Rationale
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#implications" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Implications
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Implications">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#positive-implications" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Positive Implications
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#concerns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Concerns
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#alternatives" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Alternatives
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Alternatives">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ollama-direct-in-domain-layer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ollama Direct in Domain Layer
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#strategy-pattern-with-provider-enum" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Strategy Pattern with Provider Enum
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#abstract-base-class" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Abstract Base Class
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        References
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -886,10 +970,10 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#overview" class="md-nav__link">
+  <a href="#status" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Overview
+        Status
       
     </span>
   </a>
@@ -897,10 +981,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#installation" class="md-nav__link">
+  <a href="#date" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Installation
+        Date
       
     </span>
   </a>
@@ -908,10 +992,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#usage" class="md-nav__link">
+  <a href="#context" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Usage
+        Context
       
     </span>
   </a>
@@ -919,10 +1003,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#key-features" class="md-nav__link">
+  <a href="#decision" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Key Features
+        Decision
       
     </span>
   </a>
@@ -930,10 +1014,10 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#design-philosophy" class="md-nav__link">
+  <a href="#rationale" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Design Philosophy
+        Rationale
       
     </span>
   </a>
@@ -941,21 +1025,99 @@
 </li>
       
         <li class="md-nav__item">
-  <a href="#development" class="md-nav__link">
+  <a href="#implications" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Development
+        Implications
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Implications">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#positive-implications" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Positive Implications
       
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#license" class="md-nav__link">
+        
+          <li class="md-nav__item">
+  <a href="#concerns" class="md-nav__link">
     <span class="md-ellipsis">
       
-        License
+        Concerns
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#alternatives" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Alternatives
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Alternatives">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ollama-direct-in-domain-layer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Ollama Direct in Domain Layer
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#strategy-pattern-with-provider-enum" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Strategy Pattern with Provider Enum
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#abstract-base-class" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Abstract Base Class
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        References
       
     </span>
   </a>
@@ -982,56 +1144,66 @@
   
 
 
-<h1 id="shtym">shtym<a class="headerlink" href="#shtym" title="Permanent link">&para;</a></h1>
-<p>AI-powered summary filter that distills any command's output.</p>
-<h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
-<p>Shtym is a command wrapper designed to reduce context size for both human users and AI coding agents. It wraps command execution and, when an LLM is available, summarizes the output; otherwise it passes output through unchanged.</p>
-<h2 id="installation">Installation<a class="headerlink" href="#installation" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>pip<span class="w"> </span>install<span class="w"> </span>shtym
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="c1"># with Ollama support (requires a running Ollama instance)</span>
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>pip<span class="w"> </span>install<span class="w"> </span><span class="s2">&quot;shtym[ollama]&quot;</span>
+<h1 id="adr-0008-introduce-llm-client-abstraction">ADR 0008: Introduce LLM Client Abstraction<a class="headerlink" href="#adr-0008-introduce-llm-client-abstraction" title="Permanent link">&para;</a></h1>
+<h2 id="status">Status<a class="headerlink" href="#status" title="Permanent link">&para;</a></h2>
+<p>Accepted</p>
+<h2 id="date">Date<a class="headerlink" href="#date" title="Permanent link">&para;</a></h2>
+<p>2025-12-02</p>
+<h2 id="context">Context<a class="headerlink" href="#context" title="Permanent link">&para;</a></h2>
+<p>Issue #5 introduces LLM-based filtering using Ollama. Future requirements include support for multiple LLM providers (OpenAI, Claude, etc.).</p>
+<p>Without abstraction, domain layer would directly depend on Ollama-specific APIs (<code>ollama.Client</code>, <code>Message</code>, <code>ResponseError</code>), making provider switching difficult and leaking infrastructure details into domain logic.</p>
+<h2 id="decision">Decision<a class="headerlink" href="#decision" title="Permanent link">&para;</a></h2>
+<p>Introduce <code>LLMClient</code> protocol in domain layer and <code>OllamaLLMClient</code> in infrastructure layer.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>domain/
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>  llm_client.py     # LLMClient protocol
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>  filter.py         # LLMFilter depends on LLMClient
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>infrastructure/
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>  ollama_client.py  # OllamaLLMClient implements LLMClient
 </code></pre></div>
-<p>If you enable Ollama, ensure a model such as <code>gpt-oss:20b</code> is available and set <code>SHTYM_LLM_SETTINGS__BASE_URL</code> (defaults to <code>http://localhost:11434</code> when unset).</p>
-<h2 id="usage">Usage<a class="headerlink" href="#usage" title="Permanent link">&para;</a></h2>
-<p>Wrap any command with <code>stym run</code>:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="c1"># Run tests</span>
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>stym<span class="w"> </span>run<span class="w"> </span>pytest<span class="w"> </span>tests/
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a><span class="c1"># Run linter</span>
-<a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>stym<span class="w"> </span>run<span class="w"> </span>ruff<span class="w"> </span>check<span class="w"> </span>.
-<a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>
-<a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a><span class="c1"># Build project</span>
-<a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>stym<span class="w"> </span>run<span class="w"> </span>npm<span class="w"> </span>run<span class="w"> </span>build
-<a id="__codelineno-1-9" name="__codelineno-1-9" href="#__codelineno-1-9"></a>
-<a id="__codelineno-1-10" name="__codelineno-1-10" href="#__codelineno-1-10"></a><span class="c1"># Any command with options</span>
-<a id="__codelineno-1-11" name="__codelineno-1-11" href="#__codelineno-1-11"></a>stym<span class="w"> </span>run<span class="w"> </span>ls<span class="w"> </span>-la
-<a id="__codelineno-1-12" name="__codelineno-1-12" href="#__codelineno-1-12"></a>
-<a id="__codelineno-1-13" name="__codelineno-1-13" href="#__codelineno-1-13"></a><span class="c1"># Pipe output to other commands</span>
-<a id="__codelineno-1-14" name="__codelineno-1-14" href="#__codelineno-1-14"></a>stym<span class="w"> </span>run<span class="w"> </span>pytest<span class="w"> </span>tests/<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>FAILED
-</code></pre></div>
-<h2 id="key-features">Key Features<a class="headerlink" href="#key-features" title="Permanent link">&para;</a></h2>
+<p>LLMFilter (domain) depends on LLMClient protocol (domain). OllamaLLMClient (infrastructure) implements the protocol. Application layer injects client into filter.</p>
+<h2 id="rationale">Rationale<a class="headerlink" href="#rationale" title="Permanent link">&para;</a></h2>
 <ul>
-<li><strong>Exit code inheritance</strong>: Shtym preserves the wrapped command's exit code, making it CI/CD friendly</li>
-<li><strong>Clean stdout</strong>: Output contains only command results, no progress indicators or metadata</li>
-<li><strong>Transparent wrapper</strong>: Works seamlessly with existing workflows and scripts</li>
-<li><strong>Optional LLM summaries</strong>: If Ollama is available, output is summarized by the configured model; otherwise passthrough is used automatically</li>
+<li><strong>Dependency Inversion</strong>: Domain depends on abstraction, not concrete infrastructure</li>
+<li><strong>Extensibility</strong>: Adding providers requires only new infrastructure implementation, zero domain changes</li>
+<li><strong>Testing</strong>: Domain tests mock simple protocol; infrastructure tests verify real integrations</li>
+<li><strong>Encapsulation</strong>: Provider-specific details (auth, message formats, errors) isolated in infrastructure</li>
 </ul>
-<h2 id="design-philosophy">Design Philosophy<a class="headerlink" href="#design-philosophy" title="Permanent link">&para;</a></h2>
-<p>Shtym follows Unix conventions for command wrappers (like <code>sudo</code>, <code>timeout</code>, <code>time</code>):</p>
+<h2 id="implications">Implications<a class="headerlink" href="#implications" title="Permanent link">&para;</a></h2>
+<h3 id="positive-implications">Positive Implications<a class="headerlink" href="#positive-implications" title="Permanent link">&para;</a></h3>
 <ul>
-<li>Executes commands as subprocesses</li>
-<li>Inherits and propagates exit codes exactly</li>
-<li>Maintains clean stdout for composability</li>
-<li>Enables reliable integration with automated workflows</li>
+<li>Adding new providers requires no domain changes</li>
+<li>Domain tests use simple mocks</li>
+<li>Provider complexity isolated in infrastructure</li>
 </ul>
-<h2 id="development">Development<a class="headerlink" href="#development" title="Permanent link">&para;</a></h2>
-<p>For development documentation, see:</p>
+<h3 id="concerns">Concerns<a class="headerlink" href="#concerns" title="Permanent link">&para;</a></h3>
 <ul>
-<li><a href="https://osoekawaitlab.github.io/shtym-py/architecture/overview/">Architecture Overview</a></li>
+<li>Adds one layer of indirection (mitigation: negligible performance impact)</li>
+<li>Simple interface may not expose advanced features (mitigation: extend protocol when needed)</li>
 </ul>
-<h2 id="license">License<a class="headerlink" href="#license" title="Permanent link">&para;</a></h2>
-<p>MIT</p>
+<h2 id="alternatives">Alternatives<a class="headerlink" href="#alternatives" title="Permanent link">&para;</a></h2>
+<h3 id="ollama-direct-in-domain-layer">Ollama Direct in Domain Layer<a class="headerlink" href="#ollama-direct-in-domain-layer" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Cons</strong>: Domain depends on infrastructure; adding providers requires domain changes</li>
+<li><strong>Reason for rejection</strong>: Multiple provider support is planned</li>
+</ul>
+<h3 id="strategy-pattern-with-provider-enum">Strategy Pattern with Provider Enum<a class="headerlink" href="#strategy-pattern-with-provider-enum" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Cons</strong>: Violates Open/Closed; provider logic mixed in domain</li>
+<li><strong>Reason for rejection</strong>: Doesn't scale</li>
+</ul>
+<h3 id="abstract-base-class">Abstract Base Class<a class="headerlink" href="#abstract-base-class" title="Permanent link">&para;</a></h3>
+<ul>
+<li><strong>Cons</strong>: Requires inheritance; less flexible than Protocol</li>
+<li><strong>Reason for rejection</strong>: Protocol is more Pythonic</li>
+</ul>
+<h2 id="references">References<a class="headerlink" href="#references" title="Permanent link">&para;</a></h2>
+<ul>
+<li><a href="https://github.com/osoekawaitlab/shtym-py/issues/5">Issue #5: Add LLM-based filtering with Ollama</a></li>
+<li><a href="../0003-adopt-layered-architecture/">ADR-0003: Adopt Layered Architecture</a></li>
+<li><a href="../0007-introduce-filter-abstraction-for-output-processing/">ADR-0007: Introduce Filter Abstraction for Output Processing</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Dependency_inversion_principle">Dependency Inversion Principle</a></li>
+</ul>
 
 
 
@@ -1087,10 +1259,10 @@
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": ".", "features": ["navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight", "content.code.copy", "content.code.annotate"], "search": "assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight", "content.code.copy", "content.code.annotate"], "search": "../../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="assets/javascripts/bundle.e71a0d61.min.js"></script>
+      <script src="../../assets/javascripts/bundle.e71a0d61.min.js"></script>
       
     
   </body>

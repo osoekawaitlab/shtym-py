@@ -546,6 +546,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#adr-0008-introduce-llm-client-abstraction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ADR-0008: Introduce LLM Client Abstraction
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -841,6 +852,34 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../adr/0008-introduce-llm-client-abstraction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR 0008: Introduce LLM Client Abstraction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -971,6 +1010,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#adr-0008-introduce-llm-client-abstraction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ADR-0008: Introduce LLM Client Abstraction
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1026,6 +1076,10 @@
 <h3 id="adr-0007-introduce-filter-abstraction-for-output-processing"><a href="../../adr/0007-introduce-filter-abstraction-for-output-processing/">ADR-0007: Introduce Filter Abstraction for Output Processing</a><a class="headerlink" href="#adr-0007-introduce-filter-abstraction-for-output-processing" title="Permanent link">&para;</a></h3>
 <p><strong>Status</strong>: Accepted | <strong>Date</strong>: 2025-11-21</p>
 <p>Introduce Filter protocol with PassThroughFilter implementation now to minimize code changes when adding LLM integration, following Dependency Injection and SOLID principles.</p>
+<hr />
+<h3 id="adr-0008-introduce-llm-client-abstraction"><a href="../../adr/0008-introduce-llm-client-abstraction/">ADR-0008: Introduce LLM Client Abstraction</a><a class="headerlink" href="#adr-0008-introduce-llm-client-abstraction" title="Permanent link">&para;</a></h3>
+<p><strong>Status</strong>: Accepted | <strong>Date</strong>: 2025-12-02</p>
+<p>Introduce LLMClient protocol in domain layer and OllamaLLMClient in infrastructure layer to decouple domain logic from specific LLM providers, enabling future support for OpenAI, Claude, and other providers.</p>
 <hr />
 
 
