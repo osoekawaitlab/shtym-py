@@ -16,7 +16,6 @@ classifiers = [
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Programming Language :: Python :: 3.13",
-    "Programming Language :: Python :: 3.14",
     "Typing :: Typed",
 ]
 requires-python = ">=3.10"
@@ -30,6 +29,11 @@ Repository = "https://github.com/osoekawaitlab/shtym-py"
 shtym-py = "shtym:main"
 shtym = "shtym:main"
 stym = "shtym:main"
+
+[project.optional-dependencies]
+ollama = [
+    "ollama>=0.6.1",
+]
 
 [build-system]
 requires = ["setuptools>=70.1"]
@@ -103,6 +107,7 @@ warn_no_return = true
 warn_unreachable = true
 strict_equality = true
 show_error_codes = true
+mypy_path = ["stubs"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests", "src"]
@@ -112,8 +117,4 @@ addopts = [
     "--strict-markers",
     "--strict-config",
     "--doctest-modules",
-]
-markers = [
-    "unit: Unit tests (pure logic, no external dependencies)",
-    "e2e: End-to-end tests with mocked SDKs",
 ]

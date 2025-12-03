@@ -30,11 +30,14 @@ def test_parser_version(mocker: MockerFixture) -> None:
 
 def test_main_executes_command_and_outputs_result(mocker: MockerFixture) -> None:
     """Test that main executes a command with 'run' subcommand."""
-    mock_process_command = mocker.patch("shtym.cli.process_command")
-    mock_process_command.return_value = ProcessedCommandResult(
+    mock_app = mocker.Mock()
+    mock_app.process_command.return_value = ProcessedCommandResult(
         filtered_output="test output\n",
         stderr="",
         returncode=0,
+    )
+    mock_app_create = mocker.patch(
+        "shtym.cli.ShtymApplication.create", return_value=mock_app
     )
     mock_write_stdout = mocker.patch("shtym.cli.write_stdout")
     mock_sys_exit = mocker.patch("sys.exit")
@@ -42,22 +45,21 @@ def test_main_executes_command_and_outputs_result(mocker: MockerFixture) -> None
 
     cli.main()
 
-    # Check that process_command was called with command and a filter
-    assert mock_process_command.call_count == 1
-    call_args = mock_process_command.call_args
-    assert call_args[0][0] == ["echo", "test"]
+    mock_app_create.assert_called_once()
+    mock_app.process_command.assert_called_once_with(["echo", "test"])
     mock_write_stdout.assert_called_once_with("test output\n")
     mock_sys_exit.assert_called_once_with(0)
 
 
 def test_main_propagates_stderr(mocker: MockerFixture) -> None:
     """Test that main propagates stderr from child process."""
-    mock_process_command = mocker.patch("shtym.cli.process_command")
-    mock_process_command.return_value = ProcessedCommandResult(
+    mock_app = mocker.Mock()
+    mock_app.process_command.return_value = ProcessedCommandResult(
         filtered_output="test output\n",
         stderr="error message\n",
         returncode=0,
     )
+    mocker.patch("shtym.cli.ShtymApplication.create", return_value=mock_app)
     mock_write_stdout = mocker.patch("shtym.cli.write_stdout")
     mock_write_stderr = mocker.patch("shtym.cli.write_stderr")
     mock_sys_exit = mocker.patch("sys.exit")
@@ -68,3 +70,24 @@ def test_main_propagates_stderr(mocker: MockerFixture) -> None:
     mock_write_stderr.assert_called_once_with("error message\n")
     mock_write_stdout.assert_called_once_with("test output\n")
     mock_sys_exit.assert_called_once_with(0)
+
+
+def test_main_uses_llm_filter_by_default(mocker: MockerFixture) -> None:
+    """Test that main uses ShtymApplication.create by default."""
+    mock_app = mocker.Mock()
+    mock_app.process_command.return_value = ProcessedCommandResult(
+        filtered_output="filtered\n",
+        stderr="",
+        returncode=0,
+    )
+    mock_app_create = mocker.patch(
+        "shtym.cli.ShtymApplication.create", return_value=mock_app
+    )
+    mocker.patch("shtym.cli.write_stdout")
+    mocker.patch("sys.exit")
+    mocker.patch("sys.argv", ["stym", "run", "echo", "test"])
+
+    cli.main()
+
+    mock_app_create.assert_called_once()
+    mock_app.process_command.assert_called_once_with(["echo", "test"])
