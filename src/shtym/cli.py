@@ -4,8 +4,7 @@ import argparse
 import sys
 
 from shtym._version import __version__
-from shtym.application import process_command
-from shtym.domain.filter import PassThroughFilter
+from shtym.application import ShtymApplication
 from shtym.infrastructure.stdio import write_stderr, write_stdout
 
 
@@ -39,8 +38,9 @@ def main() -> None:
     args = parser.parse_args()
 
     if args.subcommand == "run" and args.command:
-        text_filter = PassThroughFilter()
-        result = process_command(args.command, text_filter)
+        app = ShtymApplication.create()
+
+        result = app.process_command(args.command)
         if result.stderr:
             write_stderr(result.stderr)
         write_stdout(result.filtered_output)

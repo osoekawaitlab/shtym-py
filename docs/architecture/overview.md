@@ -59,3 +59,11 @@ Adopt subcommand architecture (`stym run`, `stym status`, `stym config`) to enab
 Introduce Filter protocol with PassThroughFilter implementation now to minimize code changes when adding LLM integration, following Dependency Injection and SOLID principles.
 
 ---
+
+### [ADR-0008: Introduce LLM Client Abstraction](../adr/0008-introduce-llm-client-abstraction.md)
+
+**Status**: Accepted | **Date**: 2025-12-02
+
+Introduce LLMClient protocol in domain layer and OllamaLLMClient in infrastructure layer to decouple domain logic from specific LLM providers, enabling future support for OpenAI, Claude, and other providers.
+
+---
