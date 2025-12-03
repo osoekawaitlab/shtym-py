@@ -6,6 +6,15 @@ import subprocess
 from dataclasses import dataclass
 
 import pytest
+
+pytest.importorskip(
+    "ollama",
+    reason=(
+        "ollama package not installed; run 'pip install \"shtym[ollama]\"' "
+        "to enable Ollama E2E tests."
+    ),
+)
+
 from ollama import Client, Message
 
 from tests.fixtures import nox_pytest_failure_message
