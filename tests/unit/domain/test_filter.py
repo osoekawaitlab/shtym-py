@@ -49,3 +49,29 @@ def test_llm_filter_returns_filtered_text_on_success(mocker: MockerFixture) -> N
     assert call_args.kwargs["user_prompt"] == "test output"
     assert call_args.kwargs["error_message"] == ""
     assert result == "summary"
+
+
+@pytest.mark.ollama
+def test_llm_filter_falls_back_on_connection_error(mocker: MockerFixture) -> None:
+    """Test that LLMFilter falls back to raw output when LLM connection fails."""
+    llm_client = mocker.Mock()
+    llm_client.chat.side_effect = ConnectionError("Ollama not reachable")
+    sut = filter_module.LLMFilter(llm_client=llm_client)
+
+    result = sut.filter(command=["echo", "test"], stdout="test output", stderr="")
+
+    assert result == "test output"
+    llm_client.chat.assert_called_once()
+
+
+@pytest.mark.ollama
+def test_llm_filter_falls_back_on_any_error(mocker: MockerFixture) -> None:
+    """Test that LLMFilter falls back to raw output on any exception."""
+    llm_client = mocker.Mock()
+    llm_client.chat.side_effect = RuntimeError("Unexpected error")
+    sut = filter_module.LLMFilter(llm_client=llm_client)
+
+    result = sut.filter(command=["echo", "test"], stdout="test output", stderr="")
+
+    assert result == "test output"
+    llm_client.chat.assert_called_once()

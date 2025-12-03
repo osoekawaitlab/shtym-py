@@ -31,6 +31,10 @@ class OllamaLLMClient:
 
         Returns:
             The LLM's response as a string.
+
+        Raises:
+            OllamaResponseError: If Ollama returns an error response.
+            ConnectionError: If Ollama cannot be reached.
         """
         messages = [
             Message(role="system", content=system_prompt),

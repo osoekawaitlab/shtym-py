@@ -88,3 +88,60 @@ def test_process_command_includes_stderr(mocker: MockerFixture) -> None:
     assert result.stderr == "error message\n"
     assert result.filtered_output == "filtered output\n"
     assert result.returncode == 0
+
+
+def test_create_falls_back_when_ollama_not_installed(mocker: MockerFixture) -> None:
+    """Test that create falls back to PassThroughFilter when ollama is not installed."""
+    mock_import = mocker.patch("importlib.import_module")
+    mock_import.side_effect = ModuleNotFoundError("No module named 'ollama'")
+
+    app = application.ShtymApplication.create()
+
+    # Should have PassThroughFilter
+    result = app.process_command(["echo", "test"])
+    assert result.filtered_output == "test\n"
+
+
+def test_create_falls_back_when_ollama_unavailable(mocker: MockerFixture) -> None:
+    """Test that create falls back to PassThroughFilter when Ollama is unavailable."""
+    filter_module = mocker.Mock()
+    ollama_module = mocker.Mock()
+    mock_client = mocker.Mock()
+    mock_client.is_available.return_value = False
+    ollama_module.OllamaLLMClient.create.return_value = mock_client
+
+    mock_import = mocker.patch("importlib.import_module")
+    mock_import.side_effect = lambda name: (
+        filter_module if "filter" in name else ollama_module
+    )
+
+    app = application.ShtymApplication.create()
+
+    # Should have PassThroughFilter
+    result = app.process_command(["echo", "test"])
+    assert result.filtered_output == "test\n"
+
+
+def test_create_uses_llm_filter_when_available(mocker: MockerFixture) -> None:
+    """Test that create uses LLMFilter when Ollama is available."""
+    filter_module = mocker.Mock()
+    ollama_module = mocker.Mock()
+    mock_client = mocker.Mock()
+    mock_client.is_available.return_value = True
+    ollama_module.OllamaLLMClient.create.return_value = mock_client
+
+    mock_filter = mocker.Mock()
+    mock_filter.filter.return_value = "filtered by LLM"
+    filter_module.LLMFilter.return_value = mock_filter
+
+    mock_import = mocker.patch("importlib.import_module")
+    mock_import.side_effect = lambda name: (
+        filter_module if "filter" in name else ollama_module
+    )
+
+    app = application.ShtymApplication.create()
+
+    # Should have LLMFilter
+    result = app.process_command(["echo", "test"])
+    assert result.filtered_output == "filtered by LLM"
+    mock_filter.filter.assert_called_once()

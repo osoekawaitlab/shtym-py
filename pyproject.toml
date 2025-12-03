@@ -117,6 +117,9 @@ addopts = [
     "--strict-markers",
     "--strict-config",
     "--doctest-modules",
+    "-m",
+    "not ollama",
+    "--ignore=tests/unit/infrastructure/llm/",
 ]
 markers = [
     "ollama: tests that require Ollama"
