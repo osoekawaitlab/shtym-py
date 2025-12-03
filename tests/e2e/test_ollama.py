@@ -8,8 +8,13 @@ import pytest
 from tests.e2e.helpers import OllamaJudge
 from tests.fixtures import nox_pytest_failure_message
 
+if os.getenv("SHTYM_LLM_SETTINGS__BASE_URL") is None:
+    pytest.skip(
+        "SHTYM_LLM_SETTINGS__BASE_URL not set; skipping Ollama E2E",
+        allow_module_level=True,
+    )
 
-@pytest.mark.ollama
+
 def test_ollama_integration_when_enabled() -> None:
     """Run CLI against a real Ollama instance when explicitly enabled."""
     env = os.environ.copy()
