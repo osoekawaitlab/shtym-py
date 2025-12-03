@@ -11,21 +11,14 @@ PYTHON_VERSIONS = ["3.10", "3.11", "3.12", "3.13"]
 def tests_unit(session: nox.Session) -> None:
     """Run unit tests only (with ollama)."""
     session.install("-e", ".[ollama]", "--group=dev")
-    session.run("pytest", "tests/unit/", "-v", "--override-ini=addopts=")
+    session.run("pytest", "tests/unit/", "-v")
 
 
 @nox.session(python="3.12")
 def tests_unit_no_ollama(session: nox.Session) -> None:
     """Run unit tests without ollama dependency."""
     session.install("-e", ".", "--group=dev")
-    session.run(
-        "pytest",
-        "tests/unit/",
-        "-v",
-        "-m",
-        "not ollama",
-        "--ignore=tests/unit/infrastructure/llm/",
-    )
+    session.run("pytest", "tests/unit/", "-v")
 
 
 @nox.session(python="3.12")

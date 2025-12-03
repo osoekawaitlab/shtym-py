@@ -59,7 +59,7 @@ jobs:
         run: uv sync --group dev
 
       - name: Run E2E Tests
-        run: uv run pytest tests/e2e/ -v -m "not ollama"
+        run: uv run pytest tests/e2e/ -v
 
   quality:
     name: Quality Checks
@@ -104,4 +104,4 @@ jobs:
         run: uv sync --group dev
 
       - name: Run Tests with Coverage
-        run: uv run pytest --cov=src/shtym --cov-report=term-missing --cov-report=html --cov-fail-under=80 -m "not ollama" --ignore=tests/unit/infrastructure/llm/
+        run: uv run pytest --cov=src/shtym --cov-report=term-missing --cov-report=html --cov-fail-under=80

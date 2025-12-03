@@ -3,9 +3,15 @@
 import pytest
 from pytest_mock import MockerFixture
 
-from shtym.infrastructure import ollama_client as ollama_client_module
+try:
+    from shtym.infrastructure import ollama_client as ollama_client_module
 
-pytestmark = pytest.mark.ollama
+    OLLAMA_AVAILABLE = True
+except ImportError:
+    OLLAMA_AVAILABLE = False
+    ollama_client_module = None  # type: ignore[assignment]
+
+pytestmark = pytest.mark.skipif(not OLLAMA_AVAILABLE, reason="ollama not installed")
 
 
 def test_ollama_client_chat_success(mocker: MockerFixture) -> None:
