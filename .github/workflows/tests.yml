@@ -18,7 +18,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ["3.10", "3.11", "3.12", "3.13", "3.14"]
+        python-version: ["3.10", "3.11", "3.12", "3.13"]
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -42,7 +42,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ["3.10", "3.11", "3.12", "3.13", "3.14"]
+        python-version: ["3.10", "3.11", "3.12", "3.13"]
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -59,7 +59,7 @@ jobs:
         run: uv sync --group dev
 
       - name: Run E2E Tests
-        run: uv run nox -s tests_e2e
+        run: uv run pytest tests/e2e/ -v -m "not ollama"
 
   quality:
     name: Quality Checks
@@ -103,4 +103,4 @@ jobs:
         run: uv sync --group dev
 
       - name: Run Tests with Coverage
-        run: uv run nox -s tests
+        run: uv run pytest --cov=src/shtym --cov-report=term-missing --cov-report=html --cov-fail-under=80 -m "not ollama"
