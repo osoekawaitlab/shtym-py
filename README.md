@@ -15,7 +15,19 @@ pip install shtym
 pip install "shtym[ollama]"
 ```
 
-If you enable Ollama, ensure a model such as `gpt-oss:20b` is available and set `SHTYM_LLM_SETTINGS__BASE_URL` (defaults to `http://localhost:11434` when unset).
+## Configuration
+
+When using Ollama, you can configure the behavior using environment variables:
+
+- `SHTYM_LLM_SETTINGS__BASE_URL`: Ollama server URL (defaults to `http://localhost:11434`)
+- `SHTYM_LLM_SETTINGS__MODEL`: Model to use (defaults to `gpt-oss:20b`)
+
+Example:
+```bash
+export SHTYM_LLM_SETTINGS__BASE_URL=http://localhost:11434
+export SHTYM_LLM_SETTINGS__MODEL=llama2
+stym run pytest tests/
+```
 
 ## Usage
 

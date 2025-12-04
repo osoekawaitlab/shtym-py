@@ -11,13 +11,15 @@ class OllamaLLMClient:
 
     DEFAULT_MODEL = "gpt-oss:20b"
 
-    def __init__(self, client: Client) -> None:
+    def __init__(self, client: Client, model: str) -> None:
         """Initialize the Ollama LLM client.
 
         Args:
             client: An instance of the Ollama Client.
+            model: The name of the Ollama model to use.
         """
         self.client = client
+        self.model = model
 
     def chat(
         self, system_prompt: str, user_prompt: str, error_message: str = ""
@@ -43,7 +45,7 @@ class OllamaLLMClient:
         if error_message.strip():
             messages.append(Message(role="user", content=error_message))
 
-        response = self.client.chat(model=self.DEFAULT_MODEL, messages=messages)
+        response = self.client.chat(model=self.model, messages=messages)
         result = response.message.content
         if result is None:
             return ""
@@ -60,15 +62,22 @@ class OllamaLLMClient:
         except (OllamaResponseError, ConnectionError):
             return False
         else:
-            return self.DEFAULT_MODEL in model_names
+            return self.model in model_names
 
     @classmethod
     def create(cls) -> "OllamaLLMClient":
         """Factory method to create an OllamaLLMClient with default settings.
 
+        Reads configuration from environment variables:
+        - SHTYM_LLM_SETTINGS__BASE_URL: Ollama server URL (default: http://localhost:11434)
+        - SHTYM_LLM_SETTINGS__MODEL: Model to use (default: gpt-oss:20b)
+
         Returns:
             An instance of OllamaLLMClient.
         """
         host = os.getenv("SHTYM_LLM_SETTINGS__BASE_URL", "http://localhost:11434")
+        model = os.getenv("SHTYM_LLM_SETTINGS__MODEL", cls.DEFAULT_MODEL).strip()
+        if not model:
+            model = cls.DEFAULT_MODEL
         client = Client(host=host)
-        return cls(client=client)
+        return cls(client=client, model=model)

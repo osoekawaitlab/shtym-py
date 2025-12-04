@@ -67,3 +67,11 @@ Introduce Filter protocol with PassThroughFilter implementation now to minimize 
 Introduce LLMClient protocol in domain layer and OllamaLLMClient in infrastructure layer to decouple domain logic from specific LLM providers, enabling future support for OpenAI, Claude, and other providers.
 
 ---
+
+### [ADR-0009: Silent Fallback to PassThrough Filter on Model Unavailability](../adr/0009-silent-fallback-to-passthrough-filter.md)
+
+**Status**: Accepted | **Date**: 2025-12-04
+
+When configured LLM model is unavailable, silently fall back to PassThroughFilter without warnings or errors, prioritizing graceful degradation and zero-configuration experience over strict validation.
+
+---
