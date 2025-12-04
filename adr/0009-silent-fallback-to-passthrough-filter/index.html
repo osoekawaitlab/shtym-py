@@ -10,13 +10,11 @@
       
       
       
-        <link rel="canonical" href="https://github.com/osoekawaitlab/shtym-py/adr/0007-introduce-filter-abstraction-for-output-processing/">
+        <link rel="canonical" href="https://github.com/osoekawaitlab/shtym-py/adr/0009-silent-fallback-to-passthrough-filter/">
       
       
-        <link rel="prev" href="../0006-adopt-subcommand-architecture/">
+        <link rel="prev" href="../0008-introduce-llm-client-abstraction/">
       
-      
-        <link rel="next" href="../0008-introduce-llm-client-abstraction/">
       
       
         
@@ -27,7 +25,7 @@
     
     
       
-        <title>ADR 0007: Introduce Filter Abstraction for Output Processing - shtym</title>
+        <title>ADR 0009: Silent Fallback to PassThrough Filter on Model Unavailability - shtym</title>
       
     
     
@@ -80,7 +78,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#adr-0007-introduce-filter-abstraction-for-output-processing" class="md-skip">
+        <a href="#adr-0009-silent-fallback-to-passthrough-filter-on-model-unavailability" class="md-skip">
           Skip to content
         </a>
       
@@ -114,7 +112,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              ADR 0007: Introduce Filter Abstraction for Output Processing
+              ADR 0009: Silent Fallback to PassThrough Filter on Model Unavailability
             
           </span>
         </div>
@@ -722,6 +720,62 @@
                 
   
   
+  
+  
+    <li class="md-nav__item">
+      <a href="../0007-introduce-filter-abstraction-for-output-processing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR 0007: Introduce Filter Abstraction for Output Processing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../0008-introduce-llm-client-abstraction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR 0008: Introduce LLM Client Abstraction
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
     
   
   
@@ -741,7 +795,7 @@
   <span class="md-ellipsis">
     
   
-    ADR 0007: Introduce Filter Abstraction for Output Processing
+    ADR 0009: Silent Fallback to PassThrough Filter on Model Unavailability
   
 
     
@@ -759,7 +813,7 @@
   <span class="md-ellipsis">
     
   
-    ADR 0007: Introduce Filter Abstraction for Output Processing
+    ADR 0009: Silent Fallback to PassThrough Filter on Model Unavailability
   
 
     
@@ -891,10 +945,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#direct-stdout-pass-through" class="md-nav__link">
+  <a href="#fail-with-error-on-model-unavailability" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Direct stdout Pass-Through
+        Fail with Error on Model Unavailability
       
     </span>
   </a>
@@ -902,21 +956,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#conditional-filter-application" class="md-nav__link">
+  <a href="#warn-but-continue" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Conditional Filter Application
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#strategy-pattern-with-base-class" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Strategy Pattern with Base Class
+        Warn but Continue
       
     </span>
   </a>
@@ -937,6 +980,34 @@
     </span>
   </a>
   
+    <nav class="md-nav" aria-label="Future Direction">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#follow-up-actions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Follow-up Actions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#triggers-for-revisiting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Triggers for Revisiting
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
 </li>
       
         <li class="md-nav__item">
@@ -954,62 +1025,6 @@
   
 </nav>
       
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../0008-introduce-llm-client-abstraction/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    ADR 0008: Introduce LLM Client Abstraction
-  
-
-    
-  </span>
-  
-  
-
-      </a>
-    </li>
-  
-
-              
-            
-              
-                
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../0009-silent-fallback-to-passthrough-filter/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    ADR 0009: Silent Fallback to PassThrough Filter on Model Unavailability
-  
-
-    
-  </span>
-  
-  
-
-      </a>
     </li>
   
 
@@ -1163,10 +1178,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#direct-stdout-pass-through" class="md-nav__link">
+  <a href="#fail-with-error-on-model-unavailability" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Direct stdout Pass-Through
+        Fail with Error on Model Unavailability
       
     </span>
   </a>
@@ -1174,21 +1189,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#conditional-filter-application" class="md-nav__link">
+  <a href="#warn-but-continue" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Conditional Filter Application
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#strategy-pattern-with-base-class" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Strategy Pattern with Base Class
+        Warn but Continue
       
     </span>
   </a>
@@ -1208,6 +1212,34 @@
       
     </span>
   </a>
+  
+    <nav class="md-nav" aria-label="Future Direction">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#follow-up-actions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Follow-up Actions
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#triggers-for-revisiting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Triggers for Revisiting
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -1242,144 +1274,91 @@
   
 
 
-<h1 id="adr-0007-introduce-filter-abstraction-for-output-processing">ADR 0007: Introduce Filter Abstraction for Output Processing<a class="headerlink" href="#adr-0007-introduce-filter-abstraction-for-output-processing" title="Permanent link">&para;</a></h1>
+<h1 id="adr-0009-silent-fallback-to-passthrough-filter-on-model-unavailability">ADR 0009: Silent Fallback to PassThrough Filter on Model Unavailability<a class="headerlink" href="#adr-0009-silent-fallback-to-passthrough-filter-on-model-unavailability" title="Permanent link">&para;</a></h1>
 <h2 id="status">Status<a class="headerlink" href="#status" title="Permanent link">&para;</a></h2>
 <p>Accepted</p>
 <h2 id="date">Date<a class="headerlink" href="#date" title="Permanent link">&para;</a></h2>
-<p>2025-11-21</p>
+<p>2025-12-04</p>
 <h2 id="context">Context<a class="headerlink" href="#context" title="Permanent link">&para;</a></h2>
-<p>Shtym is implementing basic pass-through mode (Issue #3) with the understanding that LLM-based output filtering will be added in the near future. The initial implementation could directly pass subprocess output to stdout, but this approach would require significant refactoring when adding LLM integration.</p>
-<p>Key considerations:</p>
-<ul>
-<li>Current requirement: Pass subprocess output through unchanged</li>
-<li>Future requirement: Filter output through LLM for summarization</li>
-<li>Goal: Minimize code changes when adding LLM integration</li>
-<li>Constraint: Avoid over-engineering for hypothetical requirements</li>
-</ul>
-<p>The question is whether to introduce an abstraction layer now or refactor later when LLM integration is implemented.</p>
+<p>Issue #7 adds environment variable support for LLM model configuration (<code>SHTYM_LLM_SETTINGS__MODEL</code>).</p>
+<p>When the specified model is unavailable (not installed in Ollama, typo in model name, etc.), the application must decide whether to fail with an error or continue execution.</p>
+<p>Current implementation: <code>Application.create()</code> checks <code>OllamaLLMClient.is_available()</code>. If <code>False</code>, it silently falls back to <code>PassThroughFilter</code>.</p>
 <h2 id="decision">Decision<a class="headerlink" href="#decision" title="Permanent link">&para;</a></h2>
-<p>Introduce a <code>Filter</code> protocol and implement <code>PassThroughFilter</code> immediately, even though current behavior requires no transformation.</p>
-<p><strong>Architecture:</strong></p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># Domain layer - Filter protocol</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="k">class</span><span class="w"> </span><span class="nc">Filter</span><span class="p">(</span><span class="n">Protocol</span><span class="p">):</span>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">filter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span> <span class="o">...</span>
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>
-<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="c1"># Domain layer - PassThroughFilter implementation</span>
-<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="k">class</span><span class="w"> </span><span class="nc">PassThroughFilter</span><span class="p">:</span>
-<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">filter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>        <span class="k">return</span> <span class="n">text</span>
-<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>
-<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a><span class="c1"># Application layer - process_command uses Filter</span>
-<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a><span class="k">def</span><span class="w"> </span><span class="nf">process_command</span><span class="p">(</span>
-<a id="__codelineno-0-12" name="__codelineno-0-12" href="#__codelineno-0-12"></a>    <span class="n">command</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">text_filter</span><span class="p">:</span> <span class="n">Filter</span>
-<a id="__codelineno-0-13" name="__codelineno-0-13" href="#__codelineno-0-13"></a><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ProcessedCommandResult</span><span class="p">:</span>
-<a id="__codelineno-0-14" name="__codelineno-0-14" href="#__codelineno-0-14"></a>    <span class="n">result</span> <span class="o">=</span> <span class="n">run_command</span><span class="p">(</span><span class="n">command</span><span class="p">)</span>
-<a id="__codelineno-0-15" name="__codelineno-0-15" href="#__codelineno-0-15"></a>    <span class="n">filtered_output</span> <span class="o">=</span> <span class="n">text_filter</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">stdout</span><span class="p">)</span>
-<a id="__codelineno-0-16" name="__codelineno-0-16" href="#__codelineno-0-16"></a>    <span class="k">return</span> <span class="n">ProcessedCommandResult</span><span class="p">(</span><span class="n">filtered_output</span><span class="p">,</span> <span class="n">result</span><span class="o">.</span><span class="n">returncode</span><span class="p">)</span>
-<a id="__codelineno-0-17" name="__codelineno-0-17" href="#__codelineno-0-17"></a>
-<a id="__codelineno-0-18" name="__codelineno-0-18" href="#__codelineno-0-18"></a><span class="c1"># Presentation layer - CLI instantiates filter</span>
-<a id="__codelineno-0-19" name="__codelineno-0-19" href="#__codelineno-0-19"></a><span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<a id="__codelineno-0-20" name="__codelineno-0-20" href="#__codelineno-0-20"></a>    <span class="c1"># ...</span>
-<a id="__codelineno-0-21" name="__codelineno-0-21" href="#__codelineno-0-21"></a>    <span class="n">text_filter</span> <span class="o">=</span> <span class="n">PassThroughFilter</span><span class="p">()</span>
-<a id="__codelineno-0-22" name="__codelineno-0-22" href="#__codelineno-0-22"></a>    <span class="n">result</span> <span class="o">=</span> <span class="n">process_command</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">command</span><span class="p">,</span> <span class="n">text_filter</span><span class="p">)</span>
-<a id="__codelineno-0-23" name="__codelineno-0-23" href="#__codelineno-0-23"></a>    <span class="n">write_stdout</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">filtered_output</span><span class="p">)</span>
+<p>When configured LLM model is unavailable, silently fall back to <code>PassThroughFilter</code> without warnings or errors.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nd">@classmethod</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="k">def</span><span class="w"> </span><span class="nf">create</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">command</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="s2">&quot;Application&quot;</span><span class="p">:</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="k">try</span><span class="p">:</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>        <span class="n">llm_client</span> <span class="o">=</span> <span class="n">OllamaLLMClient</span><span class="o">.</span><span class="n">create</span><span class="p">()</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>        <span class="k">if</span> <span class="n">llm_client</span><span class="o">.</span><span class="n">is_available</span><span class="p">():</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>            <span class="nb">filter</span> <span class="o">=</span> <span class="n">LLMFilter</span><span class="p">(</span><span class="n">llm_client</span><span class="o">=</span><span class="n">llm_client</span><span class="p">)</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>        <span class="k">else</span><span class="p">:</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>            <span class="nb">filter</span> <span class="o">=</span> <span class="n">PassThroughFilter</span><span class="p">()</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>    <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>        <span class="nb">filter</span> <span class="o">=</span> <span class="n">PassThroughFilter</span><span class="p">()</span>
+<a id="__codelineno-0-11" name="__codelineno-0-11" href="#__codelineno-0-11"></a>    <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">command</span><span class="o">=</span><span class="n">command</span><span class="p">,</span> <span class="nb">filter</span><span class="o">=</span><span class="nb">filter</span><span class="p">)</span>
 </code></pre></div>
 <h2 id="rationale">Rationale<a class="headerlink" href="#rationale" title="Permanent link">&para;</a></h2>
-<p><strong>Minimizes future LLM integration changes:</strong></p>
-<p>Adding LLM filtering will only require:</p>
-<ol>
-<li>Implementing <code>LLMFilter</code> class with <code>filter(text: str) -&gt; str</code> method</li>
-<li>Changing CLI to instantiate <code>LLMFilter</code> instead of <code>PassThroughFilter</code></li>
-<li>Adding LLM configuration (API keys, model selection, etc.)</li>
-</ol>
-<p>No changes needed to:</p>
 <ul>
-<li><code>process_command</code> function</li>
-<li>Test infrastructure</li>
-<li>Exit code handling</li>
-<li>Core command execution logic</li>
+<li><strong>Graceful degradation</strong>: User can continue work even when LLM unavailable</li>
+<li><strong>Zero-configuration default</strong>: Works without Ollama installation</li>
+<li><strong>No interruption</strong>: No manual intervention required when model missing</li>
+<li><strong>Consistent behavior</strong>: Same fallback mechanism for all unavailability scenarios</li>
 </ul>
-<p><strong>Follows Dependency Injection pattern:</strong></p>
-<ul>
-<li><code>process_command</code> depends on abstraction (<code>Filter</code> protocol), not concrete implementation</li>
-<li>Makes testing trivial - can inject mock filters with predictable behavior</li>
-<li>Presentation layer controls which filter to use based on configuration</li>
-</ul>
-<p><strong>Adheres to SOLID principles:</strong></p>
-<ul>
-<li><strong>Open/Closed</strong>: Can add new filter types without modifying <code>process_command</code></li>
-<li><strong>Liskov Substitution</strong>: Any <code>Filter</code> implementation works identically from caller's perspective</li>
-<li><strong>Dependency Inversion</strong>: Application layer depends on domain abstraction, not infrastructure implementation</li>
-</ul>
-<p><strong>Minimal current overhead:</strong></p>
-<p><code>PassThroughFilter</code> is trivial (~3 lines) and has zero performance impact. The abstraction adds clarity even for pass-through behavior: the code explicitly shows "we're applying a filter, which happens to pass through unchanged" rather than implicitly passing stdout.</p>
-<p><strong>Clear extension point:</strong></p>
-<p>The <code>Filter</code> protocol serves as documentation: "This is where output transformation happens." Future developers immediately understand where LLM integration belongs.</p>
 <h2 id="implications">Implications<a class="headerlink" href="#implications" title="Permanent link">&para;</a></h2>
 <h3 id="positive-implications">Positive Implications<a class="headerlink" href="#positive-implications" title="Permanent link">&para;</a></h3>
 <ul>
-<li><strong>Smooth LLM integration</strong>: Adding <code>LLMFilter</code> is straightforward - implement protocol and swap in CLI</li>
-<li><strong>Testability</strong>: Can test filters independently; can test <code>process_command</code> with mock filters</li>
-<li><strong>Flexibility</strong>: Easy to support multiple filter types (pass-through, LLM summarization, custom filters)</li>
-<li><strong>Separation of concerns</strong>: Output transformation logic separated from command execution</li>
-<li><strong>Type safety</strong>: Protocol provides IDE autocomplete and type checking</li>
+<li>Application never fails due to LLM configuration issues</li>
+<li>Smooth user experience in environments without LLM access</li>
+<li>No breaking changes when upgrading models or switching environments</li>
 </ul>
 <h3 id="concerns">Concerns<a class="headerlink" href="#concerns" title="Permanent link">&para;</a></h3>
 <ul>
-<li><strong>Slight complexity increase</strong>: Adds abstraction layer for currently-trivial behavior (mitigation: abstraction is minimal and will pay off immediately when LLM integration begins)</li>
-<li><strong>Indirection</strong>: One extra function call (<code>filter.filter()</code>) in execution path (mitigation: negligible performance impact, clarity benefit outweighs cost)</li>
+<li>Silent errors hide configuration mistakes (mitigation: add logging in future to warn when falling back to PassThroughFilter)</li>
+<li>Unexpected behavior when user expects LLM filtering but gets raw output (mitigation: add <code>--verbose</code> flag to show fallback notifications)</li>
+<li>Difficult debugging without indication that fallback occurred (mitigation: add <code>stym doctor</code> command to validate LLM configuration)</li>
 </ul>
 <h2 id="alternatives">Alternatives<a class="headerlink" href="#alternatives" title="Permanent link">&para;</a></h2>
-<h3 id="direct-stdout-pass-through">Direct stdout Pass-Through<a class="headerlink" href="#direct-stdout-pass-through" title="Permanent link">&para;</a></h3>
-<p>Pass subprocess stdout directly to <code>write_stdout</code> without filter abstraction.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>    <span class="n">result</span> <span class="o">=</span> <span class="n">run_command</span><span class="p">(</span><span class="n">args</span><span class="o">.</span><span class="n">command</span><span class="p">)</span>
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>    <span class="n">write_stdout</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">stdout</span><span class="p">)</span>
-<a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>    <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">returncode</span><span class="p">)</span>
-</code></pre></div>
-<ul>
-<li><strong>Pros</strong>: Simplest possible implementation, zero abstraction overhead</li>
-<li><strong>Cons</strong>: LLM integration requires modifying <code>run_command</code>, CLI logic, and all tests; no clear extension point</li>
-<li><strong>Reason for rejection</strong>: Known future requirement (LLM integration) makes abstraction worthwhile immediately</li>
-</ul>
-<h3 id="conditional-filter-application">Conditional Filter Application<a class="headerlink" href="#conditional-filter-application" title="Permanent link">&para;</a></h3>
-<p>Check flag/config and conditionally apply filter.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">process_command</span><span class="p">(</span><span class="n">command</span><span class="p">,</span> <span class="n">use_llm</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>    <span class="n">result</span> <span class="o">=</span> <span class="n">run_command</span><span class="p">(</span><span class="n">command</span><span class="p">)</span>
-<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>    <span class="k">if</span> <span class="n">use_llm</span><span class="p">:</span>
-<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a>        <span class="k">return</span> <span class="n">llm_filter</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">stdout</span><span class="p">)</span>
-<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>    <span class="k">return</span> <span class="n">result</span><span class="o">.</span><span class="n">stdout</span>
-</code></pre></div>
-<ul>
-<li><strong>Pros</strong>: No protocol needed, logic in one place</li>
-<li><strong>Cons</strong>: Violates Open/Closed Principle; adding new filter types requires modifying <code>process_command</code>; harder to test</li>
-<li><strong>Reason for rejection</strong>: Doesn't scale to multiple filter types; protocol-based approach is cleaner</li>
-</ul>
-<h3 id="strategy-pattern-with-base-class">Strategy Pattern with Base Class<a class="headerlink" href="#strategy-pattern-with-base-class" title="Permanent link">&para;</a></h3>
-<p>Use abstract base class instead of Protocol.</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="k">class</span><span class="w"> </span><span class="nc">Filter</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
-<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>    <span class="nd">@abstractmethod</span>
-<a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">filter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span> <span class="o">...</span>
-</code></pre></div>
-<ul>
-<li><strong>Pros</strong>: Enforces implementation via ABC; similar to Protocol approach</li>
-<li><strong>Cons</strong>: Requires inheritance; Protocol is more Pythonic for duck typing; heavier-weight</li>
-<li><strong>Reason for rejection</strong>: Protocol provides same benefits with lighter syntax; aligns with Python typing best practices</li>
-</ul>
+<h3 id="fail-with-error-on-model-unavailability">Fail with Error on Model Unavailability<a class="headerlink" href="#fail-with-error-on-model-unavailability" title="Permanent link">&para;</a></h3>
+<p><strong>Behavior</strong>: Exit with error message when model unavailable.</p>
+<p><strong>Pros</strong>:
+- User immediately aware of configuration issues
+- Explicit failure easier to debug than silent fallback</p>
+<p><strong>Cons</strong>:
+- Breaks zero-configuration experience
+- Requires manual intervention for every configuration issue
+- Inconsistent with graceful degradation philosophy</p>
+<p><strong>Reason for rejection</strong>: Prioritize availability over strict validation in initial implementation.</p>
+<h3 id="warn-but-continue">Warn but Continue<a class="headerlink" href="#warn-but-continue" title="Permanent link">&para;</a></h3>
+<p><strong>Behavior</strong>: Print warning to stderr, then fall back to PassThroughFilter.</p>
+<p><strong>Pros</strong>:
+- User notified of fallback
+- Still allows continued execution</p>
+<p><strong>Cons</strong>:
+- Warning noise in logs/CI environments
+- May be ignored or filtered out
+- Complicates testing (need to assert stderr)</p>
+<p><strong>Reason for rejection</strong>: Defer notification mechanism to future enhancement. Current simple behavior easier to test and reason about.</p>
 <h2 id="future-direction">Future Direction<a class="headerlink" href="#future-direction" title="Permanent link">&para;</a></h2>
-<p>This abstraction should remain stable through LLM integration and beyond. Potential triggers for revisiting:</p>
+<h3 id="follow-up-actions">Follow-up Actions<a class="headerlink" href="#follow-up-actions" title="Permanent link">&para;</a></h3>
+<ol>
+<li><strong>Add structured logging</strong>: Implement logging framework to warn when falling back to PassThroughFilter</li>
+<li><strong>Add verbose mode</strong>: Implement <code>--verbose</code> flag to show fallback notifications</li>
+<li><strong>Add diagnostic command</strong>: Implement <code>stym doctor</code> command to validate LLM configuration and report issues</li>
+<li><strong>Add strict mode</strong>: Implement <code>--strict-llm</code> flag to fail fast when model unavailable</li>
+</ol>
+<h3 id="triggers-for-revisiting">Triggers for Revisiting<a class="headerlink" href="#triggers-for-revisiting" title="Permanent link">&para;</a></h3>
+<p>This decision should be reconsidered when:</p>
 <ul>
-<li><strong>Multiple transformation steps</strong>: If we need chaining (e.g., LLM summarization → Markdown formatting → Syntax highlighting), consider Composite Pattern or pipeline approach</li>
-<li><strong>Streaming output</strong>: If we need to filter output as it streams (not batch), consider async generators or streaming protocols</li>
-<li><strong>Context-aware filtering</strong>: If filters need access to command context (working directory, environment, history), consider enriching Filter protocol with context parameter</li>
+<li>Users report confusion about unexpected passthrough behavior</li>
+<li>Multiple bug reports about model configuration typos go unnoticed</li>
+<li>CI/CD pipelines require explicit validation of LLM availability</li>
+<li>Production deployments need guaranteed LLM filtering (no silent fallback)</li>
 </ul>
-<p>For now, the simple <code>filter(text: str) -&gt; str</code> interface provides exactly what's needed for both pass-through and LLM summarization.</p>
 <h2 id="references">References<a class="headerlink" href="#references" title="Permanent link">&para;</a></h2>
 <ul>
-<li><a href="https://github.com/osoekawaitlab/shtym-py/issues/3">Issue #3: Implement basic pass-through mode</a></li>
-<li><a href="../0003-adopt-layered-architecture/">ADR-0003: Adopt Layered Architecture</a></li>
-<li><a href="https://refactoring.guru/design-patterns/strategy">Strategy Pattern</a></li>
-<li><a href="https://en.wikipedia.org/wiki/Dependency_injection">Dependency Injection Principle</a></li>
+<li><a href="https://github.com/osoekawaitlab/shtym-py/issues/7">Issue #7: Allow LLM model configuration via environment variable</a></li>
+<li><a href="../0007-introduce-filter-abstraction-for-output-processing/">ADR-0007: Introduce Filter Abstraction for Output Processing</a></li>
+<li><a href="../0008-introduce-llm-client-abstraction/">ADR-0008: Introduce LLM Client Abstraction</a></li>
 </ul>
 
 

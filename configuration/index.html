@@ -10,29 +10,31 @@
       
       
       
-        <link rel="canonical" href="https://github.com/osoekawaitlab/shtym-py/">
+        <link rel="canonical" href="https://github.com/osoekawaitlab/shtym-py/configuration/">
       
       
+        <link rel="prev" href="..">
       
-        <link rel="next" href="configuration/">
+      
+        <link rel="next" href="../architecture/overview/">
       
       
         
       
       
-      <link rel="icon" href="assets/images/favicon.png">
+      <link rel="icon" href="../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.0">
     
     
       
-        <title>shtym</title>
+        <title>Configuration - shtym</title>
       
     
     
-      <link rel="stylesheet" href="assets/stylesheets/main.618322db.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.618322db.min.css">
       
         
-        <link rel="stylesheet" href="assets/stylesheets/palette.ab4e12ef.min.css">
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
       
       
 
@@ -51,9 +53,9 @@
       
     
     
-      <link rel="stylesheet" href="assets/_mkdocstrings.css">
+      <link rel="stylesheet" href="../assets/_mkdocstrings.css">
     
-    <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -78,7 +80,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#shtym" class="md-skip">
+        <a href="#configuration" class="md-skip">
           Skip to content
         </a>
       
@@ -92,7 +94,7 @@
 
 <header class="md-header" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="." title="shtym" class="md-header__button md-logo" aria-label="shtym" data-md-component="logo">
+    <a href=".." title="shtym" class="md-header__button md-logo" aria-label="shtym" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -112,7 +114,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Home
+              Configuration
             
           </span>
         </div>
@@ -223,11 +225,9 @@
   
   
   
-    
   
-  
-    <li class="md-tabs__item md-tabs__item--active">
-      <a href="." class="md-tabs__link">
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
         
   
   
@@ -244,9 +244,11 @@
   
   
   
+    
   
-    <li class="md-tabs__item">
-      <a href="configuration/" class="md-tabs__link">
+  
+    <li class="md-tabs__item md-tabs__item--active">
+      <a href="./" class="md-tabs__link">
         
   
   
@@ -267,7 +269,7 @@
     
     
       <li class="md-tabs__item">
-        <a href="architecture/overview/" class="md-tabs__link">
+        <a href="../architecture/overview/" class="md-tabs__link">
           
   
   
@@ -301,7 +303,7 @@
 
 <nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="." title="shtym" class="md-nav__button md-logo" aria-label="shtym" data-md-component="logo">
+    <a href=".." title="shtym" class="md-nav__button md-logo" aria-label="shtym" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
@@ -328,6 +330,33 @@
       
   
   
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
     
   
   
@@ -347,7 +376,7 @@
   <span class="md-ellipsis">
     
   
-    Home
+    Configuration
   
 
     
@@ -358,14 +387,14 @@
           <span class="md-nav__icon md-icon"></span>
         </label>
       
-      <a href="." class="md-nav__link md-nav__link--active">
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
   <span class="md-ellipsis">
     
   
-    Home
+    Configuration
   
 
     
@@ -391,90 +420,41 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#overview" class="md-nav__link">
+  <a href="#environment-variables" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Overview
+        Environment Variables
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Environment Variables">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#shtym_llm_settings__base_url" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SHTYM_LLM_SETTINGS__BASE_URL
       
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#installation" class="md-nav__link">
+        
+          <li class="md-nav__item">
+  <a href="#shtym_llm_settings__model" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Installation
+        SHTYM_LLM_SETTINGS__MODEL
       
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#configuration" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Configuration
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#usage" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Usage
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#key-features" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Key Features
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#design-philosophy" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Design Philosophy
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#development" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Development
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#license" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        License
-      
-    </span>
-  </a>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -482,33 +462,6 @@
   
 </nav>
       
-    </li>
-  
-
-    
-      
-      
-  
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="configuration/" class="md-nav__link">
-        
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    Configuration
-  
-
-    
-  </span>
-  
-  
-
-      </a>
     </li>
   
 
@@ -574,7 +527,7 @@
   
   
     <li class="md-nav__item">
-      <a href="architecture/overview/" class="md-nav__link">
+      <a href="../architecture/overview/" class="md-nav__link">
         
   
   
@@ -656,7 +609,7 @@
   
   
     <li class="md-nav__item">
-      <a href="adr/0000-adr-template/" class="md-nav__link">
+      <a href="../adr/0000-adr-template/" class="md-nav__link">
         
   
   
@@ -684,7 +637,7 @@
   
   
     <li class="md-nav__item">
-      <a href="adr/0001-keep-stdout-clean-for-ai-and-human-consumption/" class="md-nav__link">
+      <a href="../adr/0001-keep-stdout-clean-for-ai-and-human-consumption/" class="md-nav__link">
         
   
   
@@ -712,7 +665,7 @@
   
   
     <li class="md-nav__item">
-      <a href="adr/0002-use-argparse-for-cli-implementation/" class="md-nav__link">
+      <a href="../adr/0002-use-argparse-for-cli-implementation/" class="md-nav__link">
         
   
   
@@ -740,7 +693,7 @@
   
   
     <li class="md-nav__item">
-      <a href="adr/0003-adopt-layered-architecture/" class="md-nav__link">
+      <a href="../adr/0003-adopt-layered-architecture/" class="md-nav__link">
         
   
   
@@ -768,7 +721,7 @@
   
   
     <li class="md-nav__item">
-      <a href="adr/0004-do-not-implement-stdin-pipe-mode/" class="md-nav__link">
+      <a href="../adr/0004-do-not-implement-stdin-pipe-mode/" class="md-nav__link">
         
   
   
@@ -796,7 +749,7 @@
   
   
     <li class="md-nav__item">
-      <a href="adr/0005-inherit-child-process-exit-codes/" class="md-nav__link">
+      <a href="../adr/0005-inherit-child-process-exit-codes/" class="md-nav__link">
         
   
   
@@ -824,7 +777,7 @@
   
   
     <li class="md-nav__item">
-      <a href="adr/0006-adopt-subcommand-architecture/" class="md-nav__link">
+      <a href="../adr/0006-adopt-subcommand-architecture/" class="md-nav__link">
         
   
   
@@ -852,7 +805,7 @@
   
   
     <li class="md-nav__item">
-      <a href="adr/0007-introduce-filter-abstraction-for-output-processing/" class="md-nav__link">
+      <a href="../adr/0007-introduce-filter-abstraction-for-output-processing/" class="md-nav__link">
         
   
   
@@ -880,7 +833,7 @@
   
   
     <li class="md-nav__item">
-      <a href="adr/0008-introduce-llm-client-abstraction/" class="md-nav__link">
+      <a href="../adr/0008-introduce-llm-client-abstraction/" class="md-nav__link">
         
   
   
@@ -908,7 +861,7 @@
   
   
     <li class="md-nav__item">
-      <a href="adr/0009-silent-fallback-to-passthrough-filter/" class="md-nav__link">
+      <a href="../adr/0009-silent-fallback-to-passthrough-filter/" class="md-nav__link">
         
   
   
@@ -971,90 +924,41 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#overview" class="md-nav__link">
+  <a href="#environment-variables" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Overview
+        Environment Variables
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Environment Variables">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#shtym_llm_settings__base_url" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SHTYM_LLM_SETTINGS__BASE_URL
       
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#installation" class="md-nav__link">
+        
+          <li class="md-nav__item">
+  <a href="#shtym_llm_settings__model" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Installation
+        SHTYM_LLM_SETTINGS__MODEL
       
     </span>
   </a>
   
 </li>
-      
-        <li class="md-nav__item">
-  <a href="#configuration" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Configuration
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#usage" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Usage
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#key-features" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Key Features
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#design-philosophy" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Design Philosophy
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#development" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Development
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#license" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        License
-      
-    </span>
-  </a>
+        
+      </ul>
+    </nav>
   
 </li>
       
@@ -1078,66 +982,25 @@
   
 
 
-<h1 id="shtym">shtym<a class="headerlink" href="#shtym" title="Permanent link">&para;</a></h1>
-<p>AI-powered summary filter that distills any command's output.</p>
-<h2 id="overview">Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
-<p>Shtym is a command wrapper designed to reduce context size for both human users and AI coding agents. It wraps command execution and, when an LLM is available, summarizes the output; otherwise it passes output through unchanged.</p>
-<h2 id="installation">Installation<a class="headerlink" href="#installation" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>pip<span class="w"> </span>install<span class="w"> </span>shtym
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="c1"># with Ollama support (requires a running Ollama instance)</span>
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>pip<span class="w"> </span>install<span class="w"> </span><span class="s2">&quot;shtym[ollama]&quot;</span>
-</code></pre></div>
-<h2 id="configuration">Configuration<a class="headerlink" href="#configuration" title="Permanent link">&para;</a></h2>
-<p>When using Ollama, you can configure the behavior using environment variables:</p>
-<ul>
-<li><code>SHTYM_LLM_SETTINGS__BASE_URL</code>: Ollama server URL (defaults to <code>http://localhost:11434</code>)</li>
-<li><code>SHTYM_LLM_SETTINGS__MODEL</code>: Model to use (defaults to <code>gpt-oss:20b</code>)</li>
-</ul>
-<p>Example:
-<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nb">export</span><span class="w"> </span><span class="nv">SHTYM_LLM_SETTINGS__BASE_URL</span><span class="o">=</span>http://localhost:11434
-<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="nb">export</span><span class="w"> </span><span class="nv">SHTYM_LLM_SETTINGS__MODEL</span><span class="o">=</span>llama2
-<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>stym<span class="w"> </span>run<span class="w"> </span>pytest<span class="w"> </span>tests/
+<h1 id="configuration">Configuration<a class="headerlink" href="#configuration" title="Permanent link">&para;</a></h1>
+<p>Shtym uses environment variables for configuration.</p>
+<h2 id="environment-variables">Environment Variables<a class="headerlink" href="#environment-variables" title="Permanent link">&para;</a></h2>
+<h3 id="shtym_llm_settings__base_url"><code>SHTYM_LLM_SETTINGS__BASE_URL</code><a class="headerlink" href="#shtym_llm_settings__base_url" title="Permanent link">&para;</a></h3>
+<p><strong>Description</strong>: Ollama server URL</p>
+<p><strong>Default</strong>: <code>http://localhost:11434</code></p>
+<p><strong>Example</strong>:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nb">export</span><span class="w"> </span><span class="nv">SHTYM_LLM_SETTINGS__BASE_URL</span><span class="o">=</span>http://ollama.example.com:11434
 </code></pre></div></p>
-<h2 id="usage">Usage<a class="headerlink" href="#usage" title="Permanent link">&para;</a></h2>
-<p>Wrap any command with <code>stym run</code>:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="c1"># Run tests</span>
-<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>stym<span class="w"> </span>run<span class="w"> </span>pytest<span class="w"> </span>tests/
-<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>
-<a id="__codelineno-2-4" name="__codelineno-2-4" href="#__codelineno-2-4"></a><span class="c1"># Run linter</span>
-<a id="__codelineno-2-5" name="__codelineno-2-5" href="#__codelineno-2-5"></a>stym<span class="w"> </span>run<span class="w"> </span>ruff<span class="w"> </span>check<span class="w"> </span>.
-<a id="__codelineno-2-6" name="__codelineno-2-6" href="#__codelineno-2-6"></a>
-<a id="__codelineno-2-7" name="__codelineno-2-7" href="#__codelineno-2-7"></a><span class="c1"># Build project</span>
-<a id="__codelineno-2-8" name="__codelineno-2-8" href="#__codelineno-2-8"></a>stym<span class="w"> </span>run<span class="w"> </span>npm<span class="w"> </span>run<span class="w"> </span>build
-<a id="__codelineno-2-9" name="__codelineno-2-9" href="#__codelineno-2-9"></a>
-<a id="__codelineno-2-10" name="__codelineno-2-10" href="#__codelineno-2-10"></a><span class="c1"># Any command with options</span>
-<a id="__codelineno-2-11" name="__codelineno-2-11" href="#__codelineno-2-11"></a>stym<span class="w"> </span>run<span class="w"> </span>ls<span class="w"> </span>-la
-<a id="__codelineno-2-12" name="__codelineno-2-12" href="#__codelineno-2-12"></a>
-<a id="__codelineno-2-13" name="__codelineno-2-13" href="#__codelineno-2-13"></a><span class="c1"># Pipe output to other commands</span>
-<a id="__codelineno-2-14" name="__codelineno-2-14" href="#__codelineno-2-14"></a>stym<span class="w"> </span>run<span class="w"> </span>pytest<span class="w"> </span>tests/<span class="w"> </span><span class="p">|</span><span class="w"> </span>grep<span class="w"> </span>FAILED
-</code></pre></div>
-<h2 id="key-features">Key Features<a class="headerlink" href="#key-features" title="Permanent link">&para;</a></h2>
-<ul>
-<li><strong>Exit code inheritance</strong>: Shtym preserves the wrapped command's exit code, making it CI/CD friendly</li>
-<li><strong>Clean stdout</strong>: Output contains only command results, no progress indicators or metadata</li>
-<li><strong>Transparent wrapper</strong>: Works seamlessly with existing workflows and scripts</li>
-<li><strong>Optional LLM summaries</strong>: If Ollama is available, output is summarized by the configured model; otherwise passthrough is used automatically</li>
-</ul>
-<h2 id="design-philosophy">Design Philosophy<a class="headerlink" href="#design-philosophy" title="Permanent link">&para;</a></h2>
-<p>Shtym follows Unix conventions for command wrappers (like <code>sudo</code>, <code>timeout</code>, <code>time</code>):</p>
-<ul>
-<li>Executes commands as subprocesses</li>
-<li>Inherits and propagates exit codes exactly</li>
-<li>Maintains clean stdout for composability</li>
-<li>Enables reliable integration with automated workflows</li>
-</ul>
-<h2 id="development">Development<a class="headerlink" href="#development" title="Permanent link">&para;</a></h2>
-<p>For development documentation, see:</p>
-<ul>
-<li><a href="https://osoekawaitlab.github.io/shtym-py/architecture/overview/">Architecture Overview</a></li>
-</ul>
-<h2 id="license">License<a class="headerlink" href="#license" title="Permanent link">&para;</a></h2>
-<p>MIT</p>
+<hr />
+<h3 id="shtym_llm_settings__model"><code>SHTYM_LLM_SETTINGS__MODEL</code><a class="headerlink" href="#shtym_llm_settings__model" title="Permanent link">&para;</a></h3>
+<p><strong>Description</strong>: Ollama model name to use for output summarization</p>
+<p><strong>Default</strong>: <code>gpt-oss:20b</code></p>
+<p><strong>Example</strong>:
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nb">export</span><span class="w"> </span><span class="nv">SHTYM_LLM_SETTINGS__MODEL</span><span class="o">=</span>llama2
+</code></pre></div></p>
+<p><strong>Notes</strong>:
+- Empty strings or whitespace-only values are treated as unset (falls back to default)
+- If the specified model is not available in Ollama, shtym silently falls back to PassThrough mode</p>
 
 
 
@@ -1193,10 +1056,10 @@
     
       
       
-      <script id="__config" type="application/json">{"annotate": null, "base": ".", "features": ["navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight", "content.code.copy", "content.code.annotate"], "search": "assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "search.suggest", "search.highlight", "content.code.copy", "content.code.annotate"], "search": "../assets/javascripts/workers/search.7a47a382.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
     
     
-      <script src="assets/javascripts/bundle.e71a0d61.min.js"></script>
+      <script src="../assets/javascripts/bundle.e71a0d61.min.js"></script>
       
     
   </body>

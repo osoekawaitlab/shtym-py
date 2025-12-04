@@ -13,7 +13,7 @@
         <link rel="canonical" href="https://github.com/osoekawaitlab/shtym-py/architecture/overview/">
       
       
-        <link rel="prev" href="../..">
+        <link rel="prev" href="../../configuration/">
       
       
         <link rel="next" href="../../adr/0000-adr-template/">
@@ -244,6 +244,25 @@
   
   
   
+  
+    <li class="md-tabs__item">
+      <a href="../../configuration/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Configuration
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
     
   
   
@@ -338,6 +357,33 @@
       
   
   
+  
+  
+    <li class="md-nav__item">
+      <a href="../../configuration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
     
   
   
@@ -359,10 +405,10 @@
       
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
         
           
-          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
             
   
   
@@ -380,8 +426,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
-          <label class="md-nav__title" for="__nav_2">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -557,6 +603,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#adr-0009-silent-fallback-to-passthrough-filter-on-model-unavailability" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ADR-0009: Silent Fallback to PassThrough Filter on Model Unavailability
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -596,10 +653,10 @@
         
           
         
-        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_2" >
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3_2" >
         
           
-          <label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="">
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="">
             
   
   
@@ -617,8 +674,8 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_2_label" aria-expanded="false">
-          <label class="md-nav__title" for="__nav_2_2">
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2">
             <span class="md-nav__icon md-icon"></span>
             
   
@@ -880,6 +937,34 @@
 
               
             
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../adr/0009-silent-fallback-to-passthrough-filter/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR 0009: Silent Fallback to PassThrough Filter on Model Unavailability
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
           </ul>
         </nav>
       
@@ -1021,6 +1106,17 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#adr-0009-silent-fallback-to-passthrough-filter-on-model-unavailability" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        ADR-0009: Silent Fallback to PassThrough Filter on Model Unavailability
+      
+    </span>
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -1080,6 +1176,10 @@
 <h3 id="adr-0008-introduce-llm-client-abstraction"><a href="../../adr/0008-introduce-llm-client-abstraction/">ADR-0008: Introduce LLM Client Abstraction</a><a class="headerlink" href="#adr-0008-introduce-llm-client-abstraction" title="Permanent link">&para;</a></h3>
 <p><strong>Status</strong>: Accepted | <strong>Date</strong>: 2025-12-02</p>
 <p>Introduce LLMClient protocol in domain layer and OllamaLLMClient in infrastructure layer to decouple domain logic from specific LLM providers, enabling future support for OpenAI, Claude, and other providers.</p>
+<hr />
+<h3 id="adr-0009-silent-fallback-to-passthrough-filter-on-model-unavailability"><a href="../../adr/0009-silent-fallback-to-passthrough-filter/">ADR-0009: Silent Fallback to PassThrough Filter on Model Unavailability</a><a class="headerlink" href="#adr-0009-silent-fallback-to-passthrough-filter-on-model-unavailability" title="Permanent link">&para;</a></h3>
+<p><strong>Status</strong>: Accepted | <strong>Date</strong>: 2025-12-04</p>
+<p>When configured LLM model is unavailable, silently fall back to PassThroughFilter without warnings or errors, prioritizing graceful degradation and zero-configuration experience over strict validation.</p>
 <hr />
 
 

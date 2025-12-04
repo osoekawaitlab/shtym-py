@@ -2,46 +2,54 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://github.com/osoekawaitlab/shtym-py/</loc>
-         <lastmod>2025-12-03</lastmod>
+         <lastmod>2025-12-04</lastmod>
+    </url>
+    <url>
+         <loc>https://github.com/osoekawaitlab/shtym-py/configuration/</loc>
+         <lastmod>2025-12-04</lastmod>
     </url>
     <url>
          <loc>https://github.com/osoekawaitlab/shtym-py/adr/0000-adr-template/</loc>
-         <lastmod>2025-12-03</lastmod>
+         <lastmod>2025-12-04</lastmod>
     </url>
     <url>
          <loc>https://github.com/osoekawaitlab/shtym-py/adr/0001-keep-stdout-clean-for-ai-and-human-consumption/</loc>
-         <lastmod>2025-12-03</lastmod>
+         <lastmod>2025-12-04</lastmod>
     </url>
     <url>
          <loc>https://github.com/osoekawaitlab/shtym-py/adr/0002-use-argparse-for-cli-implementation/</loc>
-         <lastmod>2025-12-03</lastmod>
+         <lastmod>2025-12-04</lastmod>
     </url>
     <url>
          <loc>https://github.com/osoekawaitlab/shtym-py/adr/0003-adopt-layered-architecture/</loc>
-         <lastmod>2025-12-03</lastmod>
+         <lastmod>2025-12-04</lastmod>
     </url>
     <url>
          <loc>https://github.com/osoekawaitlab/shtym-py/adr/0004-do-not-implement-stdin-pipe-mode/</loc>
-         <lastmod>2025-12-03</lastmod>
+         <lastmod>2025-12-04</lastmod>
     </url>
     <url>
          <loc>https://github.com/osoekawaitlab/shtym-py/adr/0005-inherit-child-process-exit-codes/</loc>
-         <lastmod>2025-12-03</lastmod>
+         <lastmod>2025-12-04</lastmod>
     </url>
     <url>
          <loc>https://github.com/osoekawaitlab/shtym-py/adr/0006-adopt-subcommand-architecture/</loc>
-         <lastmod>2025-12-03</lastmod>
+         <lastmod>2025-12-04</lastmod>
     </url>
     <url>
          <loc>https://github.com/osoekawaitlab/shtym-py/adr/0007-introduce-filter-abstraction-for-output-processing/</loc>
-         <lastmod>2025-12-03</lastmod>
+         <lastmod>2025-12-04</lastmod>
     </url>
     <url>
          <loc>https://github.com/osoekawaitlab/shtym-py/adr/0008-introduce-llm-client-abstraction/</loc>
-         <lastmod>2025-12-03</lastmod>
+         <lastmod>2025-12-04</lastmod>
+    </url>
+    <url>
+         <loc>https://github.com/osoekawaitlab/shtym-py/adr/0009-silent-fallback-to-passthrough-filter/</loc>
+         <lastmod>2025-12-04</lastmod>
     </url>
     <url>
          <loc>https://github.com/osoekawaitlab/shtym-py/architecture/overview/</loc>
-         <lastmod>2025-12-03</lastmod>
+         <lastmod>2025-12-04</lastmod>
     </url>
 </urlset>
