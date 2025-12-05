@@ -24,6 +24,12 @@ def generate_cli_parser() -> argparse.ArgumentParser:
         "run", help="Execute a command and filter its output"
     )
     run_parser.add_argument(
+        "--profile",
+        type=str,
+        default="default",
+        help="Profile name to use for output transformation (default: default)",
+    )
+    run_parser.add_argument(
         "command",
         nargs=argparse.REMAINDER,
         help="Command to execute and filter output",

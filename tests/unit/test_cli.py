@@ -28,6 +28,14 @@ def test_parser_version(mocker: MockerFixture) -> None:
     sys_exit.assert_called_once_with(0)
 
 
+def test_parser_accepts_profile_argument() -> None:
+    """Test that the parser accepts --profile argument for run subcommand."""
+    parser = cli.generate_cli_parser()
+    args = parser.parse_args(["run", "--profile", "default", "echo", "test"])
+    assert args.profile == "default"
+    assert args.command == ["echo", "test"]
+
+
 def test_main_executes_command_and_outputs_result(mocker: MockerFixture) -> None:
     """Test that main executes a command with 'run' subcommand."""
     mock_app = mocker.Mock()
