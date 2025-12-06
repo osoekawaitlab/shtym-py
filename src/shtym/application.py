@@ -3,8 +3,13 @@
 import importlib
 import subprocess
 from dataclasses import dataclass
+from typing import TYPE_CHECKING
 
 from shtym.domain.filter import Filter, PassThroughFilter
+from shtym.domain.profile import ProfileNotFoundError
+
+if TYPE_CHECKING:
+    from shtym.domain.profile import ProfileRepository
 
 
 @dataclass
@@ -60,12 +65,28 @@ class ShtymApplication:
         )
 
     @classmethod
-    def create(cls) -> "ShtymApplication":
+    def create(
+        cls,
+        profile_repository: "ProfileRepository",
+        profile_name: str,
+    ) -> "ShtymApplication":
         """Factory method to create a ShtymApplication with the appropriate filter.
+
+        Args:
+            profile_repository: Repository to get profiles from.
+            profile_name: Name of the profile to use.
 
         Returns:
             An instance of ShtymApplication.
         """
+        # Try to get the profile
+        try:
+            profile_repository.get(profile_name)
+            # Profile found, but we don't use it yet - fall through to LLM logic
+        except ProfileNotFoundError:
+            # Profile not found, use PassThroughFilter
+            return cls(text_filter=PassThroughFilter())
+
         try:
             filter_module = importlib.import_module("shtym.domain.filter")
             ollama_module = importlib.import_module(

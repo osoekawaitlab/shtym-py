@@ -75,3 +75,27 @@ Introduce LLMClient protocol in domain layer and OllamaLLMClient in infrastructu
 When configured LLM model is unavailable, silently fall back to PassThroughFilter without warnings or errors, prioritizing graceful degradation and zero-configuration experience over strict validation.
 
 ---
+
+### [ADR-0010: Introduce Profile as Core Domain Object](../adr/0010-introduce-profile-as-core-domain-object.md)
+
+**Status**: Accepted | **Date**: 2025-12-05
+
+Introduce "Profile" as a core domain concept representing a named configuration for output transformation, providing a stable user-facing abstraction independent of implementation changes.
+
+---
+
+### [ADR-0011: Silent Fallback on Profile Not Found](../adr/0011-silent-fallback-on-profile-not-found.md)
+
+**Status**: Accepted | **Date**: 2025-12-05
+
+When requested profile does not exist, silently fall back to PassThroughFilter without warnings or errors, consistent with ADR-0009's graceful degradation pattern.
+
+---
+
+### [ADR-0012: Adopt Repository Pattern for Profile Access](../adr/0012-adopt-repository-pattern-for-profile-access.md)
+
+**Status**: Accepted | **Date**: 2025-12-05
+
+Use Repository pattern for profile access to separate profile retrieval logic from application business logic, enabling testability and future storage backend flexibility.
+
+---

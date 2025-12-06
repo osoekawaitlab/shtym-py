@@ -6,6 +6,12 @@ from pytest_mock import MockerFixture
 
 from shtym import application
 from shtym.domain.filter import PassThroughFilter
+from shtym.domain.profile import (
+    DEFAULT_PROFILE_NAME,
+    Profile,
+    ProfileNotFoundError,
+    ProfileRepository,
+)
 
 
 def test_run_command_executes_subprocess(mocker: MockerFixture) -> None:
@@ -90,12 +96,34 @@ def test_process_command_includes_stderr(mocker: MockerFixture) -> None:
     assert result.returncode == 0
 
 
+def test_create_with_nonexistent_profile_uses_passthrough(
+    mocker: MockerFixture,
+) -> None:
+    """Test that create uses PassThroughFilter when profile is not found."""
+    # Mock ProfileRepository to raise ProfileNotFoundError
+    mock_repo = mocker.MagicMock(spec=ProfileRepository)
+    mock_repo.get.side_effect = ProfileNotFoundError("nonexistent")
+
+    app = application.ShtymApplication.create(
+        profile_name="nonexistent", profile_repository=mock_repo
+    )
+
+    # Should use PassThroughFilter when profile doesn't exist
+    assert isinstance(app.text_filter, PassThroughFilter)
+    mock_repo.get.assert_called_once_with("nonexistent")
+
+
 def test_create_falls_back_when_ollama_not_installed(mocker: MockerFixture) -> None:
     """Test that create falls back to PassThroughFilter when ollama is not installed."""
     mock_import = mocker.patch("importlib.import_module")
     mock_import.side_effect = ModuleNotFoundError("No module named 'ollama'")
 
-    app = application.ShtymApplication.create()
+    mock_repo = mocker.MagicMock(spec=ProfileRepository)
+    mock_repo.get.return_value = mocker.MagicMock(spec=Profile)
+
+    app = application.ShtymApplication.create(
+        profile_repository=mock_repo, profile_name=DEFAULT_PROFILE_NAME
+    )
 
     # Should have PassThroughFilter
     result = app.process_command(["echo", "test"])
@@ -115,7 +143,12 @@ def test_create_falls_back_when_ollama_unavailable(mocker: MockerFixture) -> Non
         filter_module if "filter" in name else ollama_module
     )
 
-    app = application.ShtymApplication.create()
+    mock_repo = mocker.MagicMock(spec=ProfileRepository)
+    mock_repo.get.return_value = mocker.MagicMock(spec=Profile)
+
+    app = application.ShtymApplication.create(
+        profile_repository=mock_repo, profile_name=DEFAULT_PROFILE_NAME
+    )
 
     # Should have PassThroughFilter
     result = app.process_command(["echo", "test"])
@@ -139,7 +172,12 @@ def test_create_uses_llm_filter_when_available(mocker: MockerFixture) -> None:
         filter_module if "filter" in name else ollama_module
     )
 
-    app = application.ShtymApplication.create()
+    mock_repo = mocker.MagicMock(spec=ProfileRepository)
+    mock_repo.get.return_value = mocker.MagicMock(spec=Profile)
+
+    app = application.ShtymApplication.create(
+        profile_repository=mock_repo, profile_name=DEFAULT_PROFILE_NAME
+    )
 
     # Should have LLMFilter
     result = app.process_command(["echo", "test"])
