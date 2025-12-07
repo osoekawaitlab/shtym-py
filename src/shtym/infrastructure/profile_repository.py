@@ -24,5 +24,5 @@ class FileBasedProfileRepository:
             ProfileNotFoundError: If profile is not found.
         """
         if name == DEFAULT_PROFILE_NAME:
-            return LLMProfile.from_env()
+            return LLMProfile()
         raise ProfileNotFoundError(name)

@@ -1,16 +1,15 @@
 """Test suite for application layer."""
 
 import subprocess
+from unittest.mock import MagicMock
 
 from pytest_mock import MockerFixture
 
 from shtym import application
-from shtym.domain.processor import PassThroughProcessor
-from shtym.domain.profile import (
-    DEFAULT_PROFILE_NAME,
-    Profile,
-    ProfileNotFoundError,
-    ProfileRepository,
+from shtym.domain.processor import (
+    CommandExecution,
+    PassThroughProcessor,
+    ProcessedCommandResult,
 )
 
 
@@ -40,7 +39,7 @@ def test_run_command_executes_subprocess(mocker: MockerFixture) -> None:
 
 def test_process_command_applies_processor(mocker: MockerFixture) -> None:
     """Test that process_command applies processor to command output."""
-    mock_processor = mocker.Mock(spec=PassThroughProcessor)
+    mock_processor = MagicMock(spec=PassThroughProcessor)
     mock_processor.process.return_value = "processed output\n"
     app = application.ShtymApplication(processor=mock_processor)
 
@@ -51,16 +50,18 @@ def test_process_command_applies_processor(mocker: MockerFixture) -> None:
         stdout="test output\n",
         stderr="",
     )
+    expected_execution = CommandExecution(
+        command=["echo", "test"], stdout="test output\n", stderr=""
+    )
+    expected = ProcessedCommandResult(
+        processed_output="processed output\n", stderr="", returncode=0
+    )
 
     result = app.process_command(["echo", "test"])
 
     mock_run_command.assert_called_once_with(["echo", "test"])
-    mock_processor.process.assert_called_once_with(
-        command=["echo", "test"], stdout="test output\n", stderr=""
-    )
-    assert result.processed_output == "processed output\n"
-    assert result.stderr == ""
-    assert result.returncode == 0
+    mock_processor.process.assert_called_once_with(expected_execution)
+    assert result == expected
 
 
 def test_process_command_with_passthrough_filter() -> None:
@@ -75,7 +76,7 @@ def test_process_command_with_passthrough_filter() -> None:
 
 def test_process_command_includes_stderr(mocker: MockerFixture) -> None:
     """Test that process_command includes stderr in result."""
-    mock_processor = mocker.Mock(spec=PassThroughProcessor)
+    mock_processor = MagicMock(spec=PassThroughProcessor)
     mock_processor.process.return_value = "processed output\n"
     app = application.ShtymApplication(processor=mock_processor)
 
@@ -86,100 +87,32 @@ def test_process_command_includes_stderr(mocker: MockerFixture) -> None:
         stdout="output\n",
         stderr="error message\n",
     )
+    expected = ProcessedCommandResult(
+        processed_output="processed output\n", stderr="error message\n", returncode=0
+    )
 
     result = app.process_command(
         ["python", "-c", "import sys; sys.stderr.write('error')"]
     )
 
-    assert result.stderr == "error message\n"
-    assert result.processed_output == "processed output\n"
-    assert result.returncode == 0
+    assert result == expected
 
 
-def test_create_with_nonexistent_profile_uses_passthrough(
-    mocker: MockerFixture,
-) -> None:
-    """Test that create uses PassThroughProcessor when profile is not found."""
-    # Mock ProfileRepository to raise ProfileNotFoundError
-    mock_repo = mocker.MagicMock(spec=ProfileRepository)
-    mock_repo.get.side_effect = ProfileNotFoundError("nonexistent")
-
-    app = application.ShtymApplication.create(
-        profile_name="nonexistent", profile_repository=mock_repo
+def test_application_create(mocker: MockerFixture) -> None:
+    """Test that ShtymApplication.create initializes with the correct processor."""
+    mock_create_processor_from_profile_name = mocker.patch(
+        "shtym.application.create_processor_from_profile_name"
     )
-
-    # Should use PassThroughProcessor when profile doesn't exist
-    assert isinstance(app.processor, PassThroughProcessor)
-    mock_repo.get.assert_called_once_with("nonexistent")
-
-
-def test_create_falls_back_when_ollama_not_installed(mocker: MockerFixture) -> None:
-    """Test create falls back to PassThroughProcessor when ollama not installed."""
-    mock_import = mocker.patch("importlib.import_module")
-    mock_import.side_effect = ModuleNotFoundError("No module named 'ollama'")
-
-    mock_repo = mocker.MagicMock(spec=ProfileRepository)
-    mock_repo.get.return_value = mocker.MagicMock(spec=Profile)
-
-    app = application.ShtymApplication.create(
-        profile_repository=mock_repo, profile_name=DEFAULT_PROFILE_NAME
+    mock_file_based_profile_repository = mocker.patch(
+        "shtym.application.FileBasedProfileRepository"
     )
+    mock_processor_factory = mocker.patch("shtym.application.ConcreteProcessorFactory")
 
-    # Should have PassThroughProcessor
-    result = app.process_command(["echo", "test"])
-    assert result.processed_output == "test\n"
+    actual = application.ShtymApplication.create(profile_name="test-profile")
 
-
-def test_create_falls_back_when_ollama_unavailable(mocker: MockerFixture) -> None:
-    """Test create falls back to PassThroughProcessor when Ollama unavailable."""
-    llm_processor_module = mocker.Mock()
-    ollama_module = mocker.Mock()
-    mock_client = mocker.Mock()
-    mock_client.is_available.return_value = False
-    ollama_module.OllamaLLMClient.create.return_value = mock_client
-
-    mock_import = mocker.patch("importlib.import_module")
-    mock_import.side_effect = lambda name: (
-        llm_processor_module if "llm_processor" in name else ollama_module
+    assert actual.processor == mock_create_processor_from_profile_name.return_value
+    mock_create_processor_from_profile_name.assert_called_once_with(
+        profile_name="test-profile",
+        profile_repository=mock_file_based_profile_repository.return_value,
+        processor_factory=mock_processor_factory.return_value,
     )
-
-    mock_repo = mocker.MagicMock(spec=ProfileRepository)
-    mock_repo.get.return_value = mocker.MagicMock(spec=Profile)
-
-    app = application.ShtymApplication.create(
-        profile_repository=mock_repo, profile_name=DEFAULT_PROFILE_NAME
-    )
-
-    # Should have PassThroughProcessor
-    result = app.process_command(["echo", "test"])
-    assert result.processed_output == "test\n"
-
-
-def test_create_uses_llm_processor_when_available(mocker: MockerFixture) -> None:
-    """Test that create uses LLMProcessor when Ollama is available."""
-    llm_processor_module = mocker.Mock()
-    ollama_module = mocker.Mock()
-    mock_client = mocker.Mock()
-    mock_client.is_available.return_value = True
-    ollama_module.OllamaLLMClient.create.return_value = mock_client
-
-    mock_processor = mocker.Mock()
-    mock_processor.process.return_value = "processed by LLM"
-    llm_processor_module.LLMProcessor.return_value = mock_processor
-
-    mock_import = mocker.patch("importlib.import_module")
-    mock_import.side_effect = lambda name: (
-        llm_processor_module if "llm_processor" in name else ollama_module
-    )
-
-    mock_repo = mocker.MagicMock(spec=ProfileRepository)
-    mock_repo.get.return_value = mocker.MagicMock(spec=Profile)
-
-    app = application.ShtymApplication.create(
-        profile_repository=mock_repo, profile_name=DEFAULT_PROFILE_NAME
-    )
-
-    # Should have LLMProcessor
-    result = app.process_command(["echo", "test"])
-    assert result.processed_output == "processed by LLM"
-    mock_processor.process.assert_called_once()

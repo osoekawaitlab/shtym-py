@@ -2,11 +2,17 @@
 
 from typing import Protocol
 
+from shtym.exceptions import ShtymDomainError
+
 DEFAULT_PROFILE_NAME = "default"
 
 
-class ProfileNotFoundError(Exception):
-    """Raised when a profile is not found."""
+class ProfileNotFoundError(ShtymDomainError):
+    """Raised when a profile is not found.
+
+    This error indicates that the requested profile does not exist
+    in the repository. The system should fall back to PassThroughProcessor.
+    """
 
     def __init__(self, profile_name: str) -> None:
         """Initialize the error.
@@ -21,32 +27,10 @@ class ProfileNotFoundError(Exception):
 class Profile(Protocol):
     """Protocol for output transformation profile.
 
-    A profile represents configuration for how to transform command output.
+    A profile represents a named configuration for how to transform command output.
+    The profile itself is an abstract concept in the domain layer.
+    Concrete implementations in the infrastructure layer contain specific settings.
     """
-
-    @property
-    def prompt_template(self) -> str:
-        """Get the prompt template for LLM processing.
-
-        Returns:
-            The prompt template string.
-        """
-
-    @property
-    def model_name(self) -> str:
-        """Get the LLM model name.
-
-        Returns:
-            The model name string.
-        """
-
-    @property
-    def base_url(self) -> str:
-        """Get the LLM service base URL.
-
-        Returns:
-            The base URL string.
-        """
 
 
 class ProfileRepository(Protocol):

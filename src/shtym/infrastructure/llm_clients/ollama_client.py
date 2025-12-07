@@ -1,9 +1,12 @@
 """Ollama-specific LLM client implementation."""
 
-import os
+from typing import TYPE_CHECKING
 
 from ollama import Client, Message
 from ollama import ResponseError as OllamaResponseError
+
+if TYPE_CHECKING:
+    from shtym.infrastructure.llm_profile import OllamaLLMClientSettings
 
 
 class OllamaLLMClient:
@@ -65,19 +68,18 @@ class OllamaLLMClient:
             return self.model in model_names
 
     @classmethod
-    def create(cls) -> "OllamaLLMClient":
-        """Factory method to create an OllamaLLMClient with default settings.
+    def create(cls, settings: "OllamaLLMClientSettings") -> "OllamaLLMClient":
+        """Factory method to create an OllamaLLMClient from settings.
 
-        Reads configuration from environment variables:
-        - SHTYM_LLM_SETTINGS__BASE_URL: Ollama server URL (default: http://localhost:11434)
-        - SHTYM_LLM_SETTINGS__MODEL: Model to use (default: gpt-oss:20b)
+        Args:
+            settings: Ollama LLM client settings.
 
         Returns:
             An instance of OllamaLLMClient.
         """
-        host = os.getenv("SHTYM_LLM_SETTINGS__BASE_URL", "http://localhost:11434")
-        model = os.getenv("SHTYM_LLM_SETTINGS__MODEL", cls.DEFAULT_MODEL).strip()
+        model = settings.model_name.strip()
         if not model:
             model = cls.DEFAULT_MODEL
-        client = Client(host=host)
+
+        client = Client(host=str(settings.base_url))
         return cls(client=client, model=model)

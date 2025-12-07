@@ -1,24 +1,15 @@
 """Application layer for shtym."""
 
-import importlib
 import subprocess
-from dataclasses import dataclass
-from typing import TYPE_CHECKING
 
-from shtym.domain.processor import PassThroughProcessor, Processor
-from shtym.domain.profile import ProfileNotFoundError
-
-if TYPE_CHECKING:
-    from shtym.domain.profile import ProfileRepository
-
-
-@dataclass
-class ProcessedCommandResult:
-    """Result of processing a command with a processor."""
-
-    processed_output: str
-    stderr: str
-    returncode: int
+from shtym.domain.processor import (
+    CommandExecution,
+    ProcessedCommandResult,
+    Processor,
+    create_processor_from_profile_name,
+)
+from shtym.infrastructure.processors.factory import ConcreteProcessorFactory
+from shtym.infrastructure.profile_repository import FileBasedProfileRepository
 
 
 class ShtymApplication:
@@ -56,7 +47,11 @@ class ShtymApplication:
         """
         result = self.run_command(command)
         processed_output = self.processor.process(
-            command=command, stdout=result.stdout, stderr=result.stderr
+            CommandExecution(
+                command=command,
+                stdout=result.stdout,
+                stderr=result.stderr,
+            )
         )
         return ProcessedCommandResult(
             processed_output=processed_output,
@@ -67,42 +62,22 @@ class ShtymApplication:
     @classmethod
     def create(
         cls,
-        profile_repository: "ProfileRepository",
         profile_name: str,
     ) -> "ShtymApplication":
         """Factory method to create a ShtymApplication with the appropriate processor.
 
         Args:
-            profile_repository: Repository to get profiles from.
             profile_name: Name of the profile to use.
 
         Returns:
             An instance of ShtymApplication.
         """
-        # Try to get the profile
-        try:
-            profile_repository.get(profile_name)
-            # Profile found, but we don't use it yet - fall through to LLM logic
-        except ProfileNotFoundError:
-            # Profile not found, use PassThroughProcessor
-            return cls(processor=PassThroughProcessor())
-
-        try:
-            llm_processor_module = importlib.import_module(
-                "shtym.infrastructure.llm_processor"
+        profile_repository = FileBasedProfileRepository()
+        processor_factory = ConcreteProcessorFactory()
+        return cls(
+            create_processor_from_profile_name(
+                profile_name=profile_name,
+                profile_repository=profile_repository,
+                processor_factory=processor_factory,
             )
-            ollama_module = importlib.import_module(
-                "shtym.infrastructure.ollama_client"
-            )
-
-            llm_client = ollama_module.OllamaLLMClient.create()
-            if llm_client.is_available():
-                processor: Processor = llm_processor_module.LLMProcessor(
-                    llm_client=llm_client
-                )
-            else:
-                processor = PassThroughProcessor()
-        except ModuleNotFoundError:
-            # Ollama not installed, fall back to PassThroughProcessor
-            processor = PassThroughProcessor()
-        return cls(processor=processor)
+        )
