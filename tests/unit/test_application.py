@@ -132,7 +132,7 @@ def test_create_falls_back_when_ollama_not_installed(mocker: MockerFixture) -> N
 
 def test_create_falls_back_when_ollama_unavailable(mocker: MockerFixture) -> None:
     """Test create falls back to PassThroughProcessor when Ollama unavailable."""
-    filter_module = mocker.Mock()
+    llm_processor_module = mocker.Mock()
     ollama_module = mocker.Mock()
     mock_client = mocker.Mock()
     mock_client.is_available.return_value = False
@@ -140,7 +140,7 @@ def test_create_falls_back_when_ollama_unavailable(mocker: MockerFixture) -> Non
 
     mock_import = mocker.patch("importlib.import_module")
     mock_import.side_effect = lambda name: (
-        filter_module if "filter" in name else ollama_module
+        llm_processor_module if "llm_processor" in name else ollama_module
     )
 
     mock_repo = mocker.MagicMock(spec=ProfileRepository)
@@ -157,7 +157,7 @@ def test_create_falls_back_when_ollama_unavailable(mocker: MockerFixture) -> Non
 
 def test_create_uses_llm_processor_when_available(mocker: MockerFixture) -> None:
     """Test that create uses LLMProcessor when Ollama is available."""
-    processor_module = mocker.Mock()
+    llm_processor_module = mocker.Mock()
     ollama_module = mocker.Mock()
     mock_client = mocker.Mock()
     mock_client.is_available.return_value = True
@@ -165,11 +165,11 @@ def test_create_uses_llm_processor_when_available(mocker: MockerFixture) -> None
 
     mock_processor = mocker.Mock()
     mock_processor.process.return_value = "processed by LLM"
-    processor_module.LLMProcessor.return_value = mock_processor
+    llm_processor_module.LLMProcessor.return_value = mock_processor
 
     mock_import = mocker.patch("importlib.import_module")
     mock_import.side_effect = lambda name: (
-        processor_module if "processor" in name else ollama_module
+        llm_processor_module if "llm_processor" in name else ollama_module
     )
 
     mock_repo = mocker.MagicMock(spec=ProfileRepository)

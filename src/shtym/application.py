@@ -88,14 +88,16 @@ class ShtymApplication:
             return cls(processor=PassThroughProcessor())
 
         try:
-            processor_module = importlib.import_module("shtym.domain.processor")
+            llm_processor_module = importlib.import_module(
+                "shtym.infrastructure.llm_processor"
+            )
             ollama_module = importlib.import_module(
                 "shtym.infrastructure.ollama_client"
             )
 
             llm_client = ollama_module.OllamaLLMClient.create()
             if llm_client.is_available():
-                processor: Processor = processor_module.LLMProcessor(
+                processor: Processor = llm_processor_module.LLMProcessor(
                     llm_client=llm_client
                 )
             else:
