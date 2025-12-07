@@ -5,7 +5,7 @@ import subprocess
 from dataclasses import dataclass
 from typing import TYPE_CHECKING
 
-from shtym.domain.filter import Filter, PassThroughFilter
+from shtym.domain.processor import PassThroughProcessor, Processor
 from shtym.domain.profile import ProfileNotFoundError
 
 if TYPE_CHECKING:
@@ -14,9 +14,9 @@ if TYPE_CHECKING:
 
 @dataclass
 class ProcessedCommandResult:
-    """Result of processing a command with a filter."""
+    """Result of processing a command with a processor."""
 
-    filtered_output: str
+    processed_output: str
     stderr: str
     returncode: int
 
@@ -24,13 +24,13 @@ class ProcessedCommandResult:
 class ShtymApplication:
     """Main application class for shtym."""
 
-    def __init__(self, text_filter: Filter) -> None:
-        """Initialize the application with a text filter.
+    def __init__(self, processor: Processor) -> None:
+        """Initialize the application with an output processor.
 
         Args:
-            text_filter: The filter to apply to command outputs.
+            processor: The processor to apply to command outputs.
         """
-        self.text_filter = text_filter
+        self.processor = processor
 
     def run_command(self, command: list[str]) -> subprocess.CompletedProcess[str]:
         """Execute a command as a subprocess.
@@ -46,20 +46,20 @@ class ShtymApplication:
         )
 
     def process_command(self, command: list[str]) -> ProcessedCommandResult:
-        """Execute a command and apply the filter to its output.
+        """Execute a command and apply the processor to its output.
 
         Args:
             command: The command and its arguments as a list.
 
         Returns:
-            The processed command result with filtered output, stderr, and return code.
+            The processed command result with processed output, stderr, and return code.
         """
         result = self.run_command(command)
-        filtered_output = self.text_filter.filter(
+        processed_output = self.processor.process(
             command=command, stdout=result.stdout, stderr=result.stderr
         )
         return ProcessedCommandResult(
-            filtered_output=filtered_output,
+            processed_output=processed_output,
             stderr=result.stderr,
             returncode=result.returncode,
         )
@@ -70,7 +70,7 @@ class ShtymApplication:
         profile_repository: "ProfileRepository",
         profile_name: str,
     ) -> "ShtymApplication":
-        """Factory method to create a ShtymApplication with the appropriate filter.
+        """Factory method to create a ShtymApplication with the appropriate processor.
 
         Args:
             profile_repository: Repository to get profiles from.
@@ -84,21 +84,23 @@ class ShtymApplication:
             profile_repository.get(profile_name)
             # Profile found, but we don't use it yet - fall through to LLM logic
         except ProfileNotFoundError:
-            # Profile not found, use PassThroughFilter
-            return cls(text_filter=PassThroughFilter())
+            # Profile not found, use PassThroughProcessor
+            return cls(processor=PassThroughProcessor())
 
         try:
-            filter_module = importlib.import_module("shtym.domain.filter")
+            processor_module = importlib.import_module("shtym.domain.processor")
             ollama_module = importlib.import_module(
                 "shtym.infrastructure.ollama_client"
             )
 
             llm_client = ollama_module.OllamaLLMClient.create()
             if llm_client.is_available():
-                text_filter: Filter = filter_module.LLMFilter(llm_client=llm_client)
+                processor: Processor = processor_module.LLMProcessor(
+                    llm_client=llm_client
+                )
             else:
-                text_filter = PassThroughFilter()
+                processor = PassThroughProcessor()
         except ModuleNotFoundError:
-            # Ollama not installed, fall back to PassThroughFilter
-            text_filter = PassThroughFilter()
-        return cls(text_filter=text_filter)
+            # Ollama not installed, fall back to PassThroughProcessor
+            processor = PassThroughProcessor()
+        return cls(processor=processor)

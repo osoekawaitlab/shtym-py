@@ -99,3 +99,11 @@ When requested profile does not exist, silently fall back to PassThroughFilter w
 Use Repository pattern for profile access to separate profile retrieval logic from application business logic, enabling testability and future storage backend flexibility.
 
 ---
+
+### [ADR-0013: Rename Filter to Processor](../adr/0013-rename-filter-to-processor.md)
+
+**Status**: Accepted | **Date**: 2025-12-06
+
+Rename "Filter" to "Processor" to better reflect the abstraction's purpose of transforming output (expansion, conversion, translation) rather than only filtering/reducing it.
+
+---

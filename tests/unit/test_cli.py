@@ -40,7 +40,7 @@ def test_main_executes_command_and_outputs_result(mocker: MockerFixture) -> None
     """Test that main executes a command with 'run' subcommand."""
     mock_app = mocker.Mock()
     mock_app.process_command.return_value = ProcessedCommandResult(
-        filtered_output="test output\n",
+        processed_output="test output\n",
         stderr="",
         returncode=0,
     )
@@ -63,7 +63,7 @@ def test_main_propagates_stderr(mocker: MockerFixture) -> None:
     """Test that main propagates stderr from child process."""
     mock_app = mocker.Mock()
     mock_app.process_command.return_value = ProcessedCommandResult(
-        filtered_output="test output\n",
+        processed_output="test output\n",
         stderr="error message\n",
         returncode=0,
     )
@@ -84,7 +84,7 @@ def test_main_uses_llm_filter_by_default(mocker: MockerFixture) -> None:
     """Test that main uses ShtymApplication.create by default."""
     mock_app = mocker.Mock()
     mock_app.process_command.return_value = ProcessedCommandResult(
-        filtered_output="filtered\n",
+        processed_output="filtered\n",
         stderr="",
         returncode=0,
     )

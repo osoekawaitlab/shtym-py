@@ -2,7 +2,7 @@
 
 ## Status
 
-Accepted
+Accepted (Amended 2025-12-06)
 
 ## Date
 
@@ -110,3 +110,30 @@ This decision should be reconsidered when:
 - [Issue #7: Allow LLM model configuration via environment variable](https://github.com/osoekawaitlab/shtym-py/issues/7)
 - [ADR-0007: Introduce Filter Abstraction for Output Processing](./0007-introduce-filter-abstraction-for-output-processing.md)
 - [ADR-0008: Introduce LLM Client Abstraction](./0008-introduce-llm-client-abstraction.md)
+
+## Amendment (2025-12-06)
+
+### What Changed
+
+The term "Filter" used throughout this ADR has been renamed to "Processor":
+
+- "PassThrough Filter" → "PassThrough Processor"
+- "LLMFilter" → "LLMProcessor"
+
+### Reason for Amendment
+
+The term "Filter" strongly implies **reduction or removal**, but shtym's transformation capabilities extend beyond reduction. "Processor" is a more neutral and accurate term for output transformation.
+
+See ADR-0013 for detailed rationale.
+
+### Impact on Original ADR
+
+**Unchanged:**
+
+- The decision to silently fall back when model is unavailable remains valid
+- The graceful degradation philosophy is unchanged
+- Future direction (logging, verbose mode, doctor command) remains applicable
+
+**Changed:**
+
+- Terminology only: "Filter" → "Processor" throughout the codebase and documentation

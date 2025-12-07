@@ -22,7 +22,7 @@ def generate_cli_parser() -> argparse.ArgumentParser:
 
     # 'run' subcommand
     run_parser = subparsers.add_parser(
-        "run", help="Execute a command and filter its output"
+        "run", help="Execute a command and process its output"
     )
     run_parser.add_argument(
         "--profile",
@@ -33,7 +33,7 @@ def generate_cli_parser() -> argparse.ArgumentParser:
     run_parser.add_argument(
         "command",
         nargs=argparse.REMAINDER,
-        help="Command to execute and filter output",
+        help="Command to execute and process output",
     )
 
     return parser
@@ -54,7 +54,7 @@ def main() -> None:
         result = app.process_command(args.command)
         if result.stderr:
             write_stderr(result.stderr)
-        write_stdout(result.filtered_output)
+        write_stdout(result.processed_output)
         sys.exit(result.returncode)
     else:
         # Show help if no subcommand or no command provided

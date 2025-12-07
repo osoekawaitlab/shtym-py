@@ -2,7 +2,7 @@
 
 ## Status
 
-Accepted
+Accepted (Amended 2025-12-06)
 
 ## Date
 
@@ -168,3 +168,32 @@ For now, the simple `filter(text: str) -> str` interface provides exactly what's
 - [ADR-0003: Adopt Layered Architecture](./0003-adopt-layered-architecture.md)
 - [Strategy Pattern](https://refactoring.guru/design-patterns/strategy)
 - [Dependency Injection Principle](https://en.wikipedia.org/wiki/Dependency_injection)
+
+## Amendment (2025-12-06)
+
+### What Changed
+
+The term "Filter" used throughout this ADR has been renamed to "Processor":
+
+- `Filter` Protocol → `Processor` Protocol
+- `PassThroughFilter` → `PassThroughProcessor`
+- `LLMFilter` → `LLMProcessor`
+
+### Reason for Amendment
+
+The term "Filter" strongly implies **reduction or removal** (filtering out unwanted elements), but shtym's transformation capabilities extend beyond reduction to include expansion, conversion, and translation. "Processor" is a more neutral term that accurately represents the abstraction's purpose of transforming output in various ways.
+
+See ADR-0013 for detailed rationale.
+
+### Impact on Original ADR
+
+**Unchanged:**
+
+- The architectural decision to introduce an abstraction for output transformation remains valid
+- The Strategy pattern and Dependency Injection principles still apply
+- The benefits of testability, flexibility, and separation of concerns are unchanged
+
+**Changed:**
+
+- Terminology only: "Filter" → "Processor" throughout the codebase
+- No changes to the abstraction's interface or behavior
