@@ -16,7 +16,7 @@ pytest.importorskip(
 # Import after importorskip to avoid import errors
 import ollama
 
-from tests.e2e.test_ollama import JUDGE_MODEL, OllamaJudge
+from tests.e2e.test_ollama_judge import JUDGE_MODEL, OllamaJudge
 
 Client = ollama.Client
 

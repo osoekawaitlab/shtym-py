@@ -1,4 +1,8 @@
-"""End-to-end tests for shtym."""
+"""End-to-end tests for basic CLI functionality.
+
+These tests verify core CLI behavior without LLM integration.
+All tests disable LLM by setting BASE_URL to an invalid address.
+"""
 
 import os
 import re
