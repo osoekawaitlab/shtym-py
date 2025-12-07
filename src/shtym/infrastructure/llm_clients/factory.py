@@ -1,21 +1,23 @@
 """LLM client factory module."""
 
 import importlib
-from typing import cast
+from typing import TYPE_CHECKING, cast
 
 from shtym.domain.processor import ProcessorCreationError
 from shtym.exceptions import LLMModuleNotFoundError
-from shtym.infrastructure.llm_clients.llm_client import LLMClient
 from shtym.infrastructure.llm_profile import (
     BaseLLMClientSettings,
     OllamaLLMClientSettings,
 )
 
+if TYPE_CHECKING:
+    from shtym.infrastructure.processors.llm_processor import LLMClient
+
 
 class LLMClientFactory:
     """Factory that creates LLM clients from LLM client settings."""
 
-    def create(self, profile: BaseLLMClientSettings) -> LLMClient:
+    def create(self, profile: BaseLLMClientSettings) -> "LLMClient":
         """Create an LLM client from the given settings.
 
         Args:

@@ -1,4 +1,7 @@
-"""Ollama-specific LLM client implementation."""
+"""Ollama-specific LLM client implementation.
+
+Implements the LLMClient protocol defined in processors.llm_processor.
+"""
 
 from typing import TYPE_CHECKING
 
