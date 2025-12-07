@@ -1,4 +1,6 @@
-"""Profile domain objects and abstractions."""
+"""Profile domain protocols and abstractions."""
+
+from typing import Protocol
 
 DEFAULT_PROFILE_NAME = "default"
 
@@ -16,12 +18,39 @@ class ProfileNotFoundError(Exception):
         super().__init__(f"Profile '{profile_name}' not found")
 
 
-class Profile:
-    """Domain object representing an output transformation profile."""
+class Profile(Protocol):
+    """Protocol for output transformation profile.
+
+    A profile represents configuration for how to transform command output.
+    """
+
+    @property
+    def prompt_template(self) -> str:
+        """Get the prompt template for LLM processing.
+
+        Returns:
+            The prompt template string.
+        """
+
+    @property
+    def model_name(self) -> str:
+        """Get the LLM model name.
+
+        Returns:
+            The model name string.
+        """
+
+    @property
+    def base_url(self) -> str:
+        """Get the LLM service base URL.
+
+        Returns:
+            The base URL string.
+        """
 
 
-class ProfileRepository:
-    """Repository for profiles."""
+class ProfileRepository(Protocol):
+    """Protocol for profile repository."""
 
     def get(self, name: str) -> Profile:
         """Get a profile by name.
@@ -35,7 +64,3 @@ class ProfileRepository:
         Raises:
             ProfileNotFoundError: If profile is not found.
         """
-        # For now, only default profile exists
-        if name == DEFAULT_PROFILE_NAME:
-            return Profile()
-        raise ProfileNotFoundError(name)

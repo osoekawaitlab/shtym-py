@@ -5,7 +5,7 @@ import sys
 
 from shtym._version import __version__
 from shtym.application import ShtymApplication
-from shtym.domain.profile import ProfileRepository
+from shtym.infrastructure.profile_repository import FileBasedProfileRepository
 from shtym.infrastructure.stdio import write_stderr, write_stdout
 
 
@@ -45,7 +45,7 @@ def main() -> None:
     args = parser.parse_args()
 
     if args.subcommand == "run" and args.command:
-        profile_repository = ProfileRepository()
+        profile_repository = FileBasedProfileRepository()
         app = ShtymApplication.create(
             profile_repository=profile_repository,
             profile_name=args.profile,
