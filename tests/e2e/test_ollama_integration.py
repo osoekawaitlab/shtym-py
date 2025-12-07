@@ -32,8 +32,9 @@ def test_ollama_integration_with_custom_model() -> None:
     # Use JUDGE_MODEL as custom model for testing
     env["SHTYM_LLM_SETTINGS__MODEL"] = JUDGE_MODEL
 
-    result = subprocess.run(
-        ["stym", "run", "echo", "Hello World"],
+    test_input = "This is a test and you should summarize to 'T'"
+    result = subprocess.run(  # noqa: S603
+        ["stym", "run", "echo", test_input],
         capture_output=True,
         text=True,
         check=False,
@@ -42,8 +43,10 @@ def test_ollama_integration_with_custom_model() -> None:
 
     # Verify command succeeded
     assert result.returncode == 0
-    # Verify output is present (either filtered or passthrough)
-    assert "Hello World" in result.stdout or len(result.stdout) > 0
+    # Verify LLM processed the output (output should be different from input)
+    assert result.stdout != f"{test_input}\n", (
+        "Output should be processed by LLM, not passed through unchanged"
+    )
 
 
 @pytest.mark.usefixtures("ollama_environment")
