@@ -19,12 +19,6 @@ from ollama import Client, Message
 
 from tests.fixtures import nox_pytest_failure_message
 
-if os.getenv("SHTYM_LLM_SETTINGS__BASE_URL") is None:
-    pytest.skip(
-        "SHTYM_LLM_SETTINGS__BASE_URL not set; skipping Ollama E2E",
-        allow_module_level=True,
-    )
-
 
 @dataclass
 class JudgementResult:
@@ -101,11 +95,9 @@ class OllamaJudge:
         return JudgementResult(score=score, confidence=confidence, feedback=feedback)
 
 
-def test_ollama_integration_when_enabled() -> None:
+def test_ollama_integration_when_enabled(ollama_judge: OllamaJudge) -> None:
     """Run CLI against a real Ollama instance when explicitly enabled."""
     env = os.environ.copy()
-    assert env.get("SHTYM_LLM_SETTINGS__BASE_URL") is not None
-    judge = OllamaJudge.create(base_url=env["SHTYM_LLM_SETTINGS__BASE_URL"])
 
     result = subprocess.run(  # noqa: S603
         ["stym", "run", "echo", nox_pytest_failure_message],
@@ -116,7 +108,7 @@ def test_ollama_integration_when_enabled() -> None:
     )
 
     assert result.returncode == 0
-    judge_result = judge.judge(
+    judge_result = ollama_judge.judge(
         prompt="Did the output contain a pytest failure message?",
         response=result.stdout,
     )
@@ -130,10 +122,10 @@ def test_ollama_integration_when_enabled() -> None:
     )
 
 
+@pytest.mark.usefixtures("ollama_environment")
 def test_ollama_integration_with_custom_model() -> None:
     """Run CLI with custom model specified via SHTYM_LLM_SETTINGS__MODEL."""
     env = os.environ.copy()
-    assert env.get("SHTYM_LLM_SETTINGS__BASE_URL") is not None
 
     # Use JUDGE_MODEL as custom model for testing
     env["SHTYM_LLM_SETTINGS__MODEL"] = JUDGE_MODEL
@@ -152,10 +144,10 @@ def test_ollama_integration_with_custom_model() -> None:
     assert "Hello World" in result.stdout or len(result.stdout) > 0
 
 
+@pytest.mark.usefixtures("ollama_environment")
 def test_ollama_integration_with_nonexistent_model_falls_back_to_passthrough() -> None:
     """Run CLI with non-existent model to verify fallback to PassThroughFilter."""
     env = os.environ.copy()
-    assert env.get("SHTYM_LLM_SETTINGS__BASE_URL") is not None
 
     # Use a model name that definitely doesn't exist
     env["SHTYM_LLM_SETTINGS__MODEL"] = "definitely-nonexistent-model-12345"
