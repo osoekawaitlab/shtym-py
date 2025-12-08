@@ -19,7 +19,9 @@ classifiers = [
     "Typing :: Typed",
 ]
 requires-python = ">=3.10"
-dependencies = []
+dependencies = [
+    "pydantic>=2.12.4",
+]
 
 [project.urls]
 Homepage = "https://github.com/osoekawaitlab/shtym-py"
@@ -117,4 +119,7 @@ addopts = [
     "--strict-markers",
     "--strict-config",
     "--doctest-modules",
+]
+markers = [
+    "requires_external_service: tests that require external services (e.g., Ollama) to be running",
 ]

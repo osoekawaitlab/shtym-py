@@ -1,4 +1,13 @@
-"""End-to-end tests for the CLI with and without Ollama."""
+"""End-to-end tests using LLM-as-a-Judge.
+
+These tests use a large LLM model to evaluate the quality of shtym's output.
+They are expensive and require:
+- SHTYMTEST_ENABLE_LLM_JUDGE environment variable to be set
+- A large judge model (gpt-oss:120b) to be available in Ollama
+
+These tests should typically be skipped in CI/CD environments and only
+run during local development or manual testing.
+"""
 
 import json
 import os
@@ -18,12 +27,6 @@ pytest.importorskip(
 from ollama import Client, Message
 
 from tests.fixtures import nox_pytest_failure_message
-
-if os.getenv("SHTYM_LLM_SETTINGS__BASE_URL") is None:
-    pytest.skip(
-        "SHTYM_LLM_SETTINGS__BASE_URL not set; skipping Ollama E2E",
-        allow_module_level=True,
-    )
 
 
 @dataclass
@@ -101,11 +104,15 @@ class OllamaJudge:
         return JudgementResult(score=score, confidence=confidence, feedback=feedback)
 
 
-def test_ollama_integration_when_enabled() -> None:
-    """Run CLI against a real Ollama instance when explicitly enabled."""
+@pytest.mark.requires_external_service
+def test_ollama_integration_when_enabled(ollama_judge: OllamaJudge) -> None:
+    """Run CLI against a real Ollama instance and evaluate output quality.
+
+    This test uses LLM-as-a-Judge to verify that shtym produces high-quality
+    summaries. It requires SHTYMTEST_ENABLE_LLM_JUDGE to be set and is
+    expensive to run.
+    """
     env = os.environ.copy()
-    assert env.get("SHTYM_LLM_SETTINGS__BASE_URL") is not None
-    judge = OllamaJudge.create(base_url=env["SHTYM_LLM_SETTINGS__BASE_URL"])
 
     result = subprocess.run(  # noqa: S603
         ["stym", "run", "echo", nox_pytest_failure_message],
@@ -116,7 +123,7 @@ def test_ollama_integration_when_enabled() -> None:
     )
 
     assert result.returncode == 0
-    judge_result = judge.judge(
+    judge_result = ollama_judge.judge(
         prompt="Did the output contain a pytest failure message?",
         response=result.stdout,
     )
@@ -128,48 +135,3 @@ def test_ollama_integration_when_enabled() -> None:
     assert judge_result.confidence >= confidence_threshold, (
         f"Low confidence: {judge_result.confidence}, feedback: {judge_result.feedback}"
     )
-
-
-def test_ollama_integration_with_custom_model() -> None:
-    """Run CLI with custom model specified via SHTYM_LLM_SETTINGS__MODEL."""
-    env = os.environ.copy()
-    assert env.get("SHTYM_LLM_SETTINGS__BASE_URL") is not None
-
-    # Use JUDGE_MODEL as custom model for testing
-    env["SHTYM_LLM_SETTINGS__MODEL"] = JUDGE_MODEL
-
-    result = subprocess.run(
-        ["stym", "run", "echo", "Hello World"],
-        capture_output=True,
-        text=True,
-        check=False,
-        env=env,
-    )
-
-    # Verify command succeeded
-    assert result.returncode == 0
-    # Verify output is present (either filtered or passthrough)
-    assert "Hello World" in result.stdout or len(result.stdout) > 0
-
-
-def test_ollama_integration_with_nonexistent_model_falls_back_to_passthrough() -> None:
-    """Run CLI with non-existent model to verify fallback to PassThroughFilter."""
-    env = os.environ.copy()
-    assert env.get("SHTYM_LLM_SETTINGS__BASE_URL") is not None
-
-    # Use a model name that definitely doesn't exist
-    env["SHTYM_LLM_SETTINGS__MODEL"] = "definitely-nonexistent-model-12345"
-
-    test_input = "Test output from command"
-    result = subprocess.run(  # noqa: S603
-        ["stym", "run", "echo", test_input],
-        capture_output=True,
-        text=True,
-        check=False,
-        env=env,
-    )
-
-    # Verify command succeeded
-    assert result.returncode == 0
-    # Verify output is passed through unchanged (fallback to PassThroughFilter)
-    assert test_input in result.stdout

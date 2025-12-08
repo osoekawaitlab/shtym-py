@@ -62,9 +62,9 @@ Introduce Filter protocol with PassThroughFilter implementation now to minimize 
 
 ### [ADR-0008: Introduce LLM Client Abstraction](../adr/0008-introduce-llm-client-abstraction.md)
 
-**Status**: Accepted | **Date**: 2025-12-02
+**Status**: Accepted (Amended 2025-12-08) | **Date**: 2025-12-02
 
-Introduce LLMClient protocol in domain layer and OllamaLLMClient in infrastructure layer to decouple domain logic from specific LLM providers, enabling future support for OpenAI, Claude, and other providers.
+Introduce LLMClient protocol as internal infrastructure abstraction and OllamaLLMClient implementation to decouple LLM processor from specific providers. Amendment clarifies LLMClient belongs in infrastructure layer, not domain layer.
 
 ---
 
@@ -73,5 +73,61 @@ Introduce LLMClient protocol in domain layer and OllamaLLMClient in infrastructu
 **Status**: Accepted | **Date**: 2025-12-04
 
 When configured LLM model is unavailable, silently fall back to PassThroughFilter without warnings or errors, prioritizing graceful degradation and zero-configuration experience over strict validation.
+
+---
+
+### [ADR-0010: Introduce Profile as Core Domain Object](../adr/0010-introduce-profile-as-core-domain-object.md)
+
+**Status**: Accepted | **Date**: 2025-12-05
+
+Introduce "Profile" as a core domain concept representing a named configuration for output transformation, providing a stable user-facing abstraction independent of implementation changes.
+
+---
+
+### [ADR-0011: Silent Fallback on Profile Not Found](../adr/0011-silent-fallback-on-profile-not-found.md)
+
+**Status**: Accepted | **Date**: 2025-12-05
+
+When requested profile does not exist, silently fall back to PassThroughFilter without warnings or errors, consistent with ADR-0009's graceful degradation pattern.
+
+---
+
+### [ADR-0012: Adopt Repository Pattern for Profile Access](../adr/0012-adopt-repository-pattern-for-profile-access.md)
+
+**Status**: Accepted | **Date**: 2025-12-05
+
+Use Repository pattern for profile access to separate profile retrieval logic from application business logic, enabling testability and future storage backend flexibility.
+
+---
+
+### [ADR-0013: Rename Filter to Processor](../adr/0013-rename-filter-to-processor.md)
+
+**Status**: Accepted | **Date**: 2025-12-06
+
+Rename "Filter" to "Processor" to better reflect the abstraction's purpose of transforming output (expansion, conversion, translation) rather than only filtering/reducing it.
+
+---
+
+### [ADR-0014: Introduce Processor Factory Functions in Domain Layer](../adr/0014-introduce-processor-factory-functions-in-domain-layer.md)
+
+**Status**: Accepted | **Date**: 2025-12-08
+
+Introduce domain-level factory functions (create_processor_with_fallback, create_processor_from_profile_name) to centralize processor creation logic and ensure consistent fallback behavior across all entry points.
+
+---
+
+### [ADR-0015: Adopt Factory Pattern for Profile-to-Processor Conversion](../adr/0015-adopt-factory-pattern-for-profile-to-processor-conversion.md)
+
+**Status**: Accepted | **Date**: 2025-12-08
+
+Introduce ProcessorFactory protocol in domain layer and ConcreteProcessorFactory in infrastructure layer to decouple profile configuration from processor instantiation, following dependency inversion principle.
+
+---
+
+### [ADR-0016: Use Dynamic Module Loading for LLM Client Creation](../adr/0016-use-dynamic-module-loading-for-llm-client-creation.md)
+
+**Status**: Accepted | **Date**: 2025-12-08
+
+Use importlib for dynamic module loading in LLMClientFactory to enable graceful degradation when optional LLM dependencies are not installed, supporting zero-configuration usage of PassThroughProcessor.
 
 ---

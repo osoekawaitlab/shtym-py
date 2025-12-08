@@ -21,12 +21,18 @@ def generate_cli_parser() -> argparse.ArgumentParser:
 
     # 'run' subcommand
     run_parser = subparsers.add_parser(
-        "run", help="Execute a command and filter its output"
+        "run", help="Execute a command and process its output"
+    )
+    run_parser.add_argument(
+        "--profile",
+        type=str,
+        default="default",
+        help="Profile name to use for output transformation (default: default)",
     )
     run_parser.add_argument(
         "command",
         nargs=argparse.REMAINDER,
-        help="Command to execute and filter output",
+        help="Command to execute and process output",
     )
 
     return parser
@@ -38,12 +44,14 @@ def main() -> None:
     args = parser.parse_args()
 
     if args.subcommand == "run" and args.command:
-        app = ShtymApplication.create()
+        app = ShtymApplication.create(
+            profile_name=args.profile,
+        )
 
         result = app.process_command(args.command)
         if result.stderr:
             write_stderr(result.stderr)
-        write_stdout(result.filtered_output)
+        write_stdout(result.processed_output)
         sys.exit(result.returncode)
     else:
         # Show help if no subcommand or no command provided

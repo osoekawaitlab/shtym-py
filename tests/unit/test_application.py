@@ -1,11 +1,16 @@
 """Test suite for application layer."""
 
 import subprocess
+from unittest.mock import MagicMock
 
 from pytest_mock import MockerFixture
 
 from shtym import application
-from shtym.domain.filter import PassThroughFilter
+from shtym.domain.processor import (
+    CommandExecution,
+    PassThroughProcessor,
+    ProcessedCommandResult,
+)
 
 
 def test_run_command_executes_subprocess(mocker: MockerFixture) -> None:
@@ -17,7 +22,7 @@ def test_run_command_executes_subprocess(mocker: MockerFixture) -> None:
         stdout="test\n",
         stderr="",
     )
-    app = application.ShtymApplication(text_filter=PassThroughFilter())
+    app = application.ShtymApplication(processor=PassThroughProcessor())
 
     result = app.run_command(["echo", "test"])
 
@@ -32,11 +37,11 @@ def test_run_command_executes_subprocess(mocker: MockerFixture) -> None:
     assert result.stderr == ""
 
 
-def test_process_command_applies_filter(mocker: MockerFixture) -> None:
-    """Test that process_command applies filter to command output."""
-    mock_filter = mocker.Mock(spec=PassThroughFilter)
-    mock_filter.filter.return_value = "filtered output\n"
-    app = application.ShtymApplication(text_filter=mock_filter)
+def test_process_command_applies_processor(mocker: MockerFixture) -> None:
+    """Test that process_command applies processor to command output."""
+    mock_processor = MagicMock(spec=PassThroughProcessor)
+    mock_processor.process.return_value = "processed output\n"
+    app = application.ShtymApplication(processor=mock_processor)
 
     mock_run_command = mocker.patch.object(app, "run_command")
     mock_run_command.return_value = subprocess.CompletedProcess(
@@ -45,33 +50,35 @@ def test_process_command_applies_filter(mocker: MockerFixture) -> None:
         stdout="test output\n",
         stderr="",
     )
+    expected_execution = CommandExecution(
+        command=["echo", "test"], stdout="test output\n", stderr=""
+    )
+    expected = ProcessedCommandResult(
+        processed_output="processed output\n", stderr="", returncode=0
+    )
 
     result = app.process_command(["echo", "test"])
 
     mock_run_command.assert_called_once_with(["echo", "test"])
-    mock_filter.filter.assert_called_once_with(
-        command=["echo", "test"], stdout="test output\n", stderr=""
-    )
-    assert result.filtered_output == "filtered output\n"
-    assert result.stderr == ""
-    assert result.returncode == 0
+    mock_processor.process.assert_called_once_with(expected_execution)
+    assert result == expected
 
 
 def test_process_command_with_passthrough_filter() -> None:
-    """Test that process_command with PassThroughFilter returns original output."""
-    app = application.ShtymApplication(text_filter=PassThroughFilter())
+    """Test that process_command with PassThroughProcessor returns original output."""
+    app = application.ShtymApplication(processor=PassThroughProcessor())
 
     result = app.process_command(["echo", "test"])
 
-    assert result.filtered_output == "test\n"
+    assert result.processed_output == "test\n"
     assert result.returncode == 0
 
 
 def test_process_command_includes_stderr(mocker: MockerFixture) -> None:
     """Test that process_command includes stderr in result."""
-    mock_filter = mocker.Mock(spec=PassThroughFilter)
-    mock_filter.filter.return_value = "filtered output\n"
-    app = application.ShtymApplication(text_filter=mock_filter)
+    mock_processor = MagicMock(spec=PassThroughProcessor)
+    mock_processor.process.return_value = "processed output\n"
+    app = application.ShtymApplication(processor=mock_processor)
 
     mock_run_command = mocker.patch.object(app, "run_command")
     mock_run_command.return_value = subprocess.CompletedProcess(
@@ -80,68 +87,32 @@ def test_process_command_includes_stderr(mocker: MockerFixture) -> None:
         stdout="output\n",
         stderr="error message\n",
     )
+    expected = ProcessedCommandResult(
+        processed_output="processed output\n", stderr="error message\n", returncode=0
+    )
 
     result = app.process_command(
         ["python", "-c", "import sys; sys.stderr.write('error')"]
     )
 
-    assert result.stderr == "error message\n"
-    assert result.filtered_output == "filtered output\n"
-    assert result.returncode == 0
+    assert result == expected
 
 
-def test_create_falls_back_when_ollama_not_installed(mocker: MockerFixture) -> None:
-    """Test that create falls back to PassThroughFilter when ollama is not installed."""
-    mock_import = mocker.patch("importlib.import_module")
-    mock_import.side_effect = ModuleNotFoundError("No module named 'ollama'")
-
-    app = application.ShtymApplication.create()
-
-    # Should have PassThroughFilter
-    result = app.process_command(["echo", "test"])
-    assert result.filtered_output == "test\n"
-
-
-def test_create_falls_back_when_ollama_unavailable(mocker: MockerFixture) -> None:
-    """Test that create falls back to PassThroughFilter when Ollama is unavailable."""
-    filter_module = mocker.Mock()
-    ollama_module = mocker.Mock()
-    mock_client = mocker.Mock()
-    mock_client.is_available.return_value = False
-    ollama_module.OllamaLLMClient.create.return_value = mock_client
-
-    mock_import = mocker.patch("importlib.import_module")
-    mock_import.side_effect = lambda name: (
-        filter_module if "filter" in name else ollama_module
+def test_application_create(mocker: MockerFixture) -> None:
+    """Test that ShtymApplication.create initializes with the correct processor."""
+    mock_create_processor_from_profile_name = mocker.patch(
+        "shtym.application.create_processor_from_profile_name"
     )
-
-    app = application.ShtymApplication.create()
-
-    # Should have PassThroughFilter
-    result = app.process_command(["echo", "test"])
-    assert result.filtered_output == "test\n"
-
-
-def test_create_uses_llm_filter_when_available(mocker: MockerFixture) -> None:
-    """Test that create uses LLMFilter when Ollama is available."""
-    filter_module = mocker.Mock()
-    ollama_module = mocker.Mock()
-    mock_client = mocker.Mock()
-    mock_client.is_available.return_value = True
-    ollama_module.OllamaLLMClient.create.return_value = mock_client
-
-    mock_filter = mocker.Mock()
-    mock_filter.filter.return_value = "filtered by LLM"
-    filter_module.LLMFilter.return_value = mock_filter
-
-    mock_import = mocker.patch("importlib.import_module")
-    mock_import.side_effect = lambda name: (
-        filter_module if "filter" in name else ollama_module
+    mock_file_based_profile_repository = mocker.patch(
+        "shtym.application.FileBasedProfileRepository"
     )
+    mock_processor_factory = mocker.patch("shtym.application.ConcreteProcessorFactory")
 
-    app = application.ShtymApplication.create()
+    actual = application.ShtymApplication.create(profile_name="test-profile")
 
-    # Should have LLMFilter
-    result = app.process_command(["echo", "test"])
-    assert result.filtered_output == "filtered by LLM"
-    mock_filter.filter.assert_called_once()
+    assert actual.processor == mock_create_processor_from_profile_name.return_value
+    mock_create_processor_from_profile_name.assert_called_once_with(
+        profile_name="test-profile",
+        profile_repository=mock_file_based_profile_repository.return_value,
+        processor_factory=mock_processor_factory.return_value,
+    )

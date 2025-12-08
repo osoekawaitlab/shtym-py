@@ -1,15 +1,18 @@
 """Test suite for Ollama LLM client."""
 
 import pytest
+from pydantic import AnyHttpUrl
 from pytest_mock import MockerFixture
 
 try:
-    from shtym.infrastructure import ollama_client as ollama_client_module
+    from shtym.infrastructure.llm_clients import ollama_client as ollama_client_module
+    from shtym.infrastructure.llm_profile import OllamaLLMClientSettings
 
     OLLAMA_AVAILABLE = True
 except ImportError:
     OLLAMA_AVAILABLE = False
     ollama_client_module = None  # type: ignore[assignment]
+    OllamaLLMClientSettings = None  # type: ignore[assignment, misc]
 
 pytestmark = pytest.mark.skipif(not OLLAMA_AVAILABLE, reason="ollama not installed")
 
@@ -117,37 +120,38 @@ def test_ollama_client_is_available_returns_false_on_connection_error(
     assert sut.is_available() is False
 
 
-def test_ollama_client_create_uses_custom_model_from_env(
-    mocker: MockerFixture,
-) -> None:
-    """Test that OllamaLLMClient.create uses SHTYM_LLM_SETTINGS__MODEL env var."""
-    mocker.patch.dict("os.environ", {"SHTYM_LLM_SETTINGS__MODEL": "llama2"})
-    mocker.patch("shtym.infrastructure.ollama_client.Client")
+def test_ollama_client_create(mocker: MockerFixture) -> None:
+    """Test that OllamaLLMClient.create creates client from settings."""
+    settings = OllamaLLMClientSettings(
+        model_name="custom-model", base_url=AnyHttpUrl("http://custom-host:1234")
+    )
+    mock_client_class = mocker.patch(
+        "shtym.infrastructure.llm_clients.ollama_client.Client"
+    )
 
-    sut = ollama_client_module.OllamaLLMClient.create()
+    sut = ollama_client_module.OllamaLLMClient.create(settings=settings)
 
-    # Verify model is set correctly
-    assert sut.model == "llama2"
+    mock_client_class.assert_called_once_with(host=str(settings.base_url))
+    assert sut.client == mock_client_class.return_value
+    assert sut.model == "custom-model"
 
 
 @pytest.mark.parametrize(
-    "env_value",
+    "model_name",
     [
-        None,  # env var not set
         "",  # empty string
         "   ",  # whitespace only
     ],
 )
-def test_ollama_client_create_defaults_to_gpt_oss_20b(
-    mocker: MockerFixture, env_value: str | None
+def test_ollama_client_create_defaults_to_gpt_oss_20b_when_empty(
+    mocker: MockerFixture, model_name: str
 ) -> None:
-    """Test OllamaLLMClient.create defaults when env var not set or empty."""
-    if env_value is None:
-        mocker.patch.dict("os.environ", {}, clear=True)
-    else:
-        mocker.patch.dict("os.environ", {"SHTYM_LLM_SETTINGS__MODEL": env_value})
-    mocker.patch("shtym.infrastructure.ollama_client.Client")
+    """Test OllamaLLMClient.create defaults when model_name is empty."""
+    settings = OllamaLLMClientSettings(
+        model_name=model_name, base_url=AnyHttpUrl("http://localhost:11434")
+    )
+    mocker.patch("shtym.infrastructure.llm_clients.ollama_client.Client")
 
-    sut = ollama_client_module.OllamaLLMClient.create()
+    sut = ollama_client_module.OllamaLLMClient.create(settings=settings)
 
     assert sut.model == "gpt-oss:20b"
