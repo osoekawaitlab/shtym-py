@@ -76,7 +76,7 @@ def test_llm_processor_falls_back_on_any_error(mocker: MockerFixture) -> None:
     llm_client.chat.assert_called_once()
 
 
-def test_llm_processor_create_deligates_to_llm_client_factory(
+def test_llm_processor_create_delegates_to_llm_client_factory(
     mocker: MockerFixture,
 ) -> None:
     """Test that LLMProcessor.create delegates to LLMClientFactory."""
