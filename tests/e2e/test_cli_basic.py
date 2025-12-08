@@ -1,7 +1,7 @@
 """End-to-end tests for basic CLI functionality.
 
 These tests verify core CLI behavior without LLM integration.
-All tests disable LLM by setting BASE_URL to an invalid address.
+Some tests disable LLM by setting SHTYM_LLM_SETTINGS__BASE_URL to an invalid address.
 """
 
 import os
