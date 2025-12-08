@@ -10,13 +10,13 @@
       
       
       
-        <link rel="canonical" href="https://github.com/osoekawaitlab/shtym-py/adr/0006-adopt-subcommand-architecture/">
+        <link rel="canonical" href="https://github.com/osoekawaitlab/shtym-py/adr/0013-rename-filter-to-processor/">
       
       
-        <link rel="prev" href="../0005-inherit-child-process-exit-codes/">
+        <link rel="prev" href="../0012-adopt-repository-pattern-for-profile-access/">
       
       
-        <link rel="next" href="../0007-introduce-filter-abstraction-for-output-processing/">
+        <link rel="next" href="../0014-introduce-processor-factory-functions-in-domain-layer/">
       
       
         
@@ -27,7 +27,7 @@
     
     
       
-        <title>ADR 0006: Adopt Subcommand Architecture - shtym</title>
+        <title>ADR 0013: Rename Filter to Processor - shtym</title>
       
     
     
@@ -80,7 +80,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#adr-0006-adopt-subcommand-architecture" class="md-skip">
+        <a href="#adr-0013-rename-filter-to-processor" class="md-skip">
           Skip to content
         </a>
       
@@ -114,7 +114,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              ADR 0006: Adopt Subcommand Architecture
+              ADR 0013: Rename Filter to Processor
             
           </span>
         </div>
@@ -694,37 +694,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    ADR 0006: Adopt Subcommand Architecture
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../0006-adopt-subcommand-architecture/" class="md-nav__link">
         
   
   
@@ -740,192 +713,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#status" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Status
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#date" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Date
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#context" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Context
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#decision" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Decision
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#rationale" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Rationale
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#implications" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Implications
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Implications">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#positive-implications" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Positive Implications
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#concerns" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Concerns
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#alternatives" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Alternatives
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Alternatives">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#simple-wrapper-no-subcommands" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Simple Wrapper (No Subcommands)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#reserved-word-list" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Reserved Word List
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#auto-detection" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Auto-Detection
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#future-direction" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Future Direction
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#references" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        References
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -1103,10 +890,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../0013-rename-filter-to-processor/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR 0013: Rename Filter to Processor
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -1122,6 +936,170 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#status" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Status
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#date" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Date
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#context" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Context
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#decision" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Decision
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rationale" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Rationale
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#implications" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Implications
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Implications">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#positive-implications" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Positive Implications
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#concerns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Concerns
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#alternatives" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Alternatives
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Alternatives">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#keep-filter-and-expand-its-definition" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Keep "Filter" and expand its definition
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#use-transformer" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Use "Transformer"
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        References
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1359,10 +1337,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#simple-wrapper-no-subcommands" class="md-nav__link">
+  <a href="#keep-filter-and-expand-its-definition" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Simple Wrapper (No Subcommands)
+        Keep "Filter" and expand its definition
       
     </span>
   </a>
@@ -1370,21 +1348,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#reserved-word-list" class="md-nav__link">
+  <a href="#use-transformer" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Reserved Word List
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#auto-detection" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Auto-Detection
+        Use "Transformer"
       
     </span>
   </a>
@@ -1393,17 +1360,6 @@
         
       </ul>
     </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#future-direction" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Future Direction
-      
-    </span>
-  </a>
   
 </li>
       
@@ -1438,124 +1394,63 @@
   
 
 
-<h1 id="adr-0006-adopt-subcommand-architecture">ADR 0006: Adopt Subcommand Architecture<a class="headerlink" href="#adr-0006-adopt-subcommand-architecture" title="Permanent link">&para;</a></h1>
+<h1 id="adr-0013-rename-filter-to-processor">ADR 0013: Rename Filter to Processor<a class="headerlink" href="#adr-0013-rename-filter-to-processor" title="Permanent link">&para;</a></h1>
 <h2 id="status">Status<a class="headerlink" href="#status" title="Permanent link">&para;</a></h2>
 <p>Accepted</p>
 <h2 id="date">Date<a class="headerlink" href="#date" title="Permanent link">&para;</a></h2>
-<p>2025-11-21</p>
+<p>2025-12-06</p>
 <h2 id="context">Context<a class="headerlink" href="#context" title="Permanent link">&para;</a></h2>
-<p>Shtym's CLI was initially designed as a simple wrapper: <code>stym command args</code>. While this works for the basic pass-through functionality, future LLM integration will require additional commands for configuration and status checking.</p>
-<p>With a simple wrapper design, commands like <code>stym status</code> would be ambiguous:</p>
-<ul>
-<li>Does it execute a command named "status"?</li>
-<li>Does it show shtym's LLM status?</li>
-</ul>
-<p>This ambiguity becomes critical when planning for future features:</p>
-<ul>
-<li><code>stym status</code> - Check LLM connection, API key validity, usage quota</li>
-<li><code>stym config</code> - View or modify configuration (API keys, default model)</li>
-<li><code>stym models</code> - List available LLM models</li>
-</ul>
-<p>Without a clear subcommand structure, these would either:</p>
-<ol>
-<li>Require awkward flag syntax (<code>stym --status</code>, <code>stym --config</code>)</li>
-<li>Use reserved word lists (fragile, prevents wrapping commands with those names)</li>
-<li>Be impossible to implement without breaking changes</li>
-</ol>
-<p>This decision must be made <strong>before the first release</strong> because changing from <code>stym command</code> to <code>stym run command</code> later would be a breaking change for all users.</p>
+<p>The term "Filter" was introduced in ADR-0007 to represent output transformation logic. While the name was reasonable at the time, it has become apparent that "Filter" carries a strong connotation of <strong>removal or reduction</strong> (like coffee filters, air filters, or UNIX grep).</p>
+<p>However, shtym's transformation capabilities include:
+- <strong>Reducing</strong>: Long output → summary (fits "filter" metaphor)
+- <strong>Expanding</strong>: Error messages → detailed explanations (does not fit "filter" metaphor)
+- <strong>Converting</strong>: JSON → human-readable format (does not fit "filter" metaphor)
+- <strong>Translating</strong>: English → Japanese (does not fit "filter" metaphor)</p>
+<p>The term "Filter" emphasizes only the reduction aspect, which misrepresents the abstraction's full purpose.</p>
 <h2 id="decision">Decision<a class="headerlink" href="#decision" title="Permanent link">&para;</a></h2>
-<p>Adopt a subcommand architecture using argparse subparsers:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>stym<span class="w"> </span>run<span class="w"> </span>&lt;command&gt;<span class="w"> </span><span class="o">[</span>args...<span class="o">]</span><span class="w">     </span><span class="c1"># Execute and filter command</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>stym<span class="w"> </span>status<span class="w">                      </span><span class="c1"># (Future) Check LLM status</span>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>stym<span class="w"> </span>config<span class="w"> </span><span class="o">[</span>options<span class="o">]</span><span class="w">            </span><span class="c1"># (Future) Manage configuration</span>
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>stym<span class="w"> </span>models<span class="w">                      </span><span class="c1"># (Future) List available models</span>
-</code></pre></div>
+<p>Rename "Filter" to "Processor" throughout the codebase.</p>
+<ul>
+<li><code>Filter</code> Protocol → <code>Processor</code> Protocol</li>
+<li><code>PassThroughFilter</code> → <code>PassThroughProcessor</code></li>
+<li><code>LLMFilter</code> → <code>LLMProcessor</code></li>
+</ul>
 <h2 id="rationale">Rationale<a class="headerlink" href="#rationale" title="Permanent link">&para;</a></h2>
-<p><strong>Extensibility for LLM integration:</strong></p>
-<ul>
-<li>Clear namespace for shtym operations vs wrapped commands</li>
-<li>No ambiguity: <code>stym status</code> always means shtym's status, never a command named "status"</li>
-<li>Natural place for future subcommands without breaking changes</li>
-</ul>
-<p><strong>Industry standard pattern:</strong></p>
-<ul>
-<li><code>git commit</code>, <code>docker run</code>, <code>kubectl get</code> - all use subcommands</li>
-<li><code>gh pr create</code>, <code>cargo build</code> - modern CLIs follow this pattern</li>
-<li>Users familiar with these tools will immediately understand shtym's structure</li>
-</ul>
-<p><strong>Prevents future breaking changes:</strong></p>
-<ul>
-<li>Adding <code>stym status</code> later would break users running <code>stym status</code> expecting command execution</li>
-<li>Changing from <code>stym pytest</code> to <code>stym run pytest</code> would break all existing scripts and documentation</li>
-<li>Must decide now, before first release and user adoption</li>
-</ul>
-<p><strong>Explicit is better than implicit:</strong></p>
-<ul>
-<li><code>stym run pytest</code> clearly indicates "run this command through shtym"</li>
-<li>No magic reserved words or special parsing rules</li>
-<li>Easier to explain and document</li>
-</ul>
+<p><strong>"Processor" is more accurate:</strong>
+- Neutral term that covers transformation, conversion, expansion, and reduction
+- Commonly used in software (data processors, text processors, image processors)
+- Does not imply a specific type of operation</p>
+<p><strong>Precedent in similar tools:</strong>
+- Text processors (word processors transform text)
+- Data processors (ETL tools transform data)
+- Stream processors (transform streaming data)</p>
+<p><strong>Better alignment with user mental model:</strong>
+- Users configure "how to process output", not "how to filter output"
+- Processing includes both simplification and enrichment</p>
 <h2 id="implications">Implications<a class="headerlink" href="#implications" title="Permanent link">&para;</a></h2>
 <h3 id="positive-implications">Positive Implications<a class="headerlink" href="#positive-implications" title="Permanent link">&para;</a></h3>
 <ul>
-<li>Future-proof: can add <code>status</code>, <code>config</code>, <code>models</code> without breaking changes</li>
-<li>Clear separation: shtym commands vs wrapped commands</li>
-<li>Industry-standard pattern: familiar to users</li>
-<li>Enables rich CLI features: help for each subcommand, subcommand-specific options</li>
-<li>Testable: each subcommand can be tested independently</li>
+<li>More accurate terminology that reflects actual capabilities</li>
+<li>Easier to explain future features (translation, format conversion)</li>
+<li>Aligns with common software engineering vocabulary</li>
 </ul>
 <h3 id="concerns">Concerns<a class="headerlink" href="#concerns" title="Permanent link">&para;</a></h3>
 <ul>
-<li>Slightly more typing: <code>stym run pytest</code> vs <code>stym pytest</code> (mitigation: users can create shell aliases if desired: <code>alias sr='stym run'</code>)</li>
-<li>Breaking change from current development version (mitigation: no released version yet, no users affected)</li>
+<li>Breaking change for any external documentation or tutorials (mitigation: no public API yet, only internal usage)</li>
+<li>Existing ADRs use "Filter" terminology (mitigation: amendment sections will clarify the rename)</li>
 </ul>
 <h2 id="alternatives">Alternatives<a class="headerlink" href="#alternatives" title="Permanent link">&para;</a></h2>
-<h3 id="simple-wrapper-no-subcommands">Simple Wrapper (No Subcommands)<a class="headerlink" href="#simple-wrapper-no-subcommands" title="Permanent link">&para;</a></h3>
-<p>Keep <code>stym command args</code> pattern, add shtym operations as flags.</p>
-<ul>
-<li><strong>Pros</strong>: Shortest syntax for command execution</li>
-<li><strong>Cons</strong>: Awkward operation syntax (<code>stym --status</code>), limited extensibility, confusing help output</li>
-<li><strong>Reason for rejection</strong>: Cannot support rich LLM features without awkward UX</li>
-</ul>
-<h3 id="reserved-word-list">Reserved Word List<a class="headerlink" href="#reserved-word-list" title="Permanent link">&para;</a></h3>
-<p>Use <code>stym command</code> but treat certain words (status, config, etc.) as special.</p>
-<ul>
-<li><strong>Pros</strong>: Short command execution syntax</li>
-<li><strong>Cons</strong>: Cannot wrap commands named "status", "config", etc.; fragile (must maintain reserved list); confusing ("why doesn't <code>stym status</code> work?")</li>
-<li><strong>Reason for rejection</strong>: Too many edge cases and user confusion</li>
-</ul>
-<h3 id="auto-detection">Auto-Detection<a class="headerlink" href="#auto-detection" title="Permanent link">&para;</a></h3>
-<p>Detect whether argument is a shtym subcommand or external command.</p>
-<ul>
-<li><strong>Pros</strong>: "Smart" behavior</li>
-<li><strong>Cons</strong>: Magic behavior, ambiguity (what if someone creates a command named "status"?), hard to predict</li>
-<li><strong>Reason for rejection</strong>: Explicit is better than implicit; too much magic</li>
-</ul>
-<h2 id="future-direction">Future Direction<a class="headerlink" href="#future-direction" title="Permanent link">&para;</a></h2>
-<p>This subcommand structure is foundational and should remain stable. Expected future subcommands:</p>
-<p><strong>Planned:</strong></p>
-<ul>
-<li><code>stym status</code> - LLM connection and usage status</li>
-<li><code>stym config</code> - Configuration management</li>
-<li><code>stym models</code> - List and manage available models</li>
-</ul>
-<p><strong>Possible:</strong></p>
-<ul>
-<li><code>stym history</code> - Command execution history</li>
-<li><code>stym explain</code> - Explain previous command output</li>
-<li><code>stym debug</code> - Debug mode with verbose logging</li>
-</ul>
-<p><strong>Triggers for revisiting:</strong></p>
-<ul>
-<li>If <code>stym run</code> becomes overwhelming majority of usage and other subcommands rarely used (could add <code>run</code> as default, but keep subcommand structure)</li>
-<li>If user feedback strongly prefers shorter syntax despite tradeoffs (could add shell completion to make <code>stym run</code> typing easier)</li>
-</ul>
-<p>For now, explicit subcommand architecture provides the best balance of clarity, extensibility, and future-proofing.</p>
+<h3 id="keep-filter-and-expand-its-definition">Keep "Filter" and expand its definition<a class="headerlink" href="#keep-filter-and-expand-its-definition" title="Permanent link">&para;</a></h3>
+<p><strong>Pros</strong>: No renaming needed, term already established in ADRs</p>
+<p><strong>Cons</strong>: Fighting against common understanding of "filter"; confusing to new contributors</p>
+<p><strong>Reason for rejection</strong>: Misleading terminology is worse than a one-time rename</p>
+<h3 id="use-transformer">Use "Transformer"<a class="headerlink" href="#use-transformer" title="Permanent link">&para;</a></h3>
+<p><strong>Pros</strong>: Clear transformation intent</p>
+<p><strong>Cons</strong>: Overloaded term (ML transformers, electrical transformers, design pattern)</p>
+<p><strong>Reason for rejection</strong>: "Processor" is less ambiguous</p>
 <h2 id="references">References<a class="headerlink" href="#references" title="Permanent link">&para;</a></h2>
 <ul>
-<li><a href="https://github.com/osoekawaitlab/shtym-py/issues/3">Issue #3: Implement basic pass-through mode</a></li>
-<li><a href="../0002-use-argparse-for-cli-implementation/">ADR-0002: Use argparse for CLI Implementation</a></li>
-<li><a href="https://git-scm.com/docs/git#_git_commands">Git Subcommands</a></li>
+<li><a href="../0007-introduce-filter-abstraction-for-output-processing/">ADR-0007: Introduce Filter Abstraction for Output Processing</a> (uses "Filter" terminology)</li>
+<li><a href="../0009-silent-fallback-to-passthrough-filter/">ADR-0009: Silent Fallback to PassThrough Filter</a> (uses "Filter" terminology)</li>
 </ul>
 
 

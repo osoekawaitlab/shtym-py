@@ -10,13 +10,13 @@
       
       
       
-        <link rel="canonical" href="https://github.com/osoekawaitlab/shtym-py/adr/0006-adopt-subcommand-architecture/">
+        <link rel="canonical" href="https://github.com/osoekawaitlab/shtym-py/adr/0015-adopt-factory-pattern-for-profile-to-processor-conversion/">
       
       
-        <link rel="prev" href="../0005-inherit-child-process-exit-codes/">
+        <link rel="prev" href="../0014-introduce-processor-factory-functions-in-domain-layer/">
       
       
-        <link rel="next" href="../0007-introduce-filter-abstraction-for-output-processing/">
+        <link rel="next" href="../0016-use-dynamic-module-loading-for-llm-client-creation/">
       
       
         
@@ -27,7 +27,7 @@
     
     
       
-        <title>ADR 0006: Adopt Subcommand Architecture - shtym</title>
+        <title>ADR 0015: Adopt Factory Pattern for Profile-to-Processor Conversion - shtym</title>
       
     
     
@@ -80,7 +80,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#adr-0006-adopt-subcommand-architecture" class="md-skip">
+        <a href="#adr-0015-adopt-factory-pattern-for-profile-to-processor-conversion" class="md-skip">
           Skip to content
         </a>
       
@@ -114,7 +114,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              ADR 0006: Adopt Subcommand Architecture
+              ADR 0015: Adopt Factory Pattern for Profile-to-Processor Conversion
             
           </span>
         </div>
@@ -694,37 +694,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    ADR 0006: Adopt Subcommand Architecture
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../0006-adopt-subcommand-architecture/" class="md-nav__link">
         
   
   
@@ -740,192 +713,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#status" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Status
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#date" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Date
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#context" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Context
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#decision" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Decision
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#rationale" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Rationale
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#implications" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Implications
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Implications">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#positive-implications" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Positive Implications
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#concerns" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Concerns
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#alternatives" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Alternatives
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Alternatives">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#simple-wrapper-no-subcommands" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Simple Wrapper (No Subcommands)
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#reserved-word-list" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Reserved Word List
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#auto-detection" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Auto-Detection
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#future-direction" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Future Direction
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#references" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        References
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -1159,10 +946,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../0015-adopt-factory-pattern-for-profile-to-processor-conversion/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR 0015: Adopt Factory Pattern for Profile-to-Processor Conversion
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -1178,6 +992,170 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#status" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Status
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#date" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Date
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#context" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Context
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#decision" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Decision
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rationale" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Rationale
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#implications" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Implications
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Implications">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#positive-implications" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Positive Implications
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#concerns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Concerns
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#alternatives" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Alternatives
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Alternatives">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#direct-profile-to-processor-method" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Direct Profile-to-Processor Method
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#service-locator-pattern" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Service Locator Pattern
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        References
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1359,10 +1337,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#simple-wrapper-no-subcommands" class="md-nav__link">
+  <a href="#direct-profile-to-processor-method" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Simple Wrapper (No Subcommands)
+        Direct Profile-to-Processor Method
       
     </span>
   </a>
@@ -1370,21 +1348,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#reserved-word-list" class="md-nav__link">
+  <a href="#service-locator-pattern" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Reserved Word List
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#auto-detection" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Auto-Detection
+        Service Locator Pattern
       
     </span>
   </a>
@@ -1393,17 +1360,6 @@
         
       </ul>
     </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#future-direction" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Future Direction
-      
-    </span>
-  </a>
   
 </li>
       
@@ -1438,124 +1394,70 @@
   
 
 
-<h1 id="adr-0006-adopt-subcommand-architecture">ADR 0006: Adopt Subcommand Architecture<a class="headerlink" href="#adr-0006-adopt-subcommand-architecture" title="Permanent link">&para;</a></h1>
+<h1 id="adr-0015-adopt-factory-pattern-for-profile-to-processor-conversion">ADR 0015: Adopt Factory Pattern for Profile-to-Processor Conversion<a class="headerlink" href="#adr-0015-adopt-factory-pattern-for-profile-to-processor-conversion" title="Permanent link">&para;</a></h1>
 <h2 id="status">Status<a class="headerlink" href="#status" title="Permanent link">&para;</a></h2>
 <p>Accepted</p>
 <h2 id="date">Date<a class="headerlink" href="#date" title="Permanent link">&para;</a></h2>
-<p>2025-11-21</p>
+<p>2025-12-08</p>
 <h2 id="context">Context<a class="headerlink" href="#context" title="Permanent link">&para;</a></h2>
-<p>Shtym's CLI was initially designed as a simple wrapper: <code>stym command args</code>. While this works for the basic pass-through functionality, future LLM integration will require additional commands for configuration and status checking.</p>
-<p>With a simple wrapper design, commands like <code>stym status</code> would be ambiguous:</p>
-<ul>
-<li>Does it execute a command named "status"?</li>
-<li>Does it show shtym's LLM status?</li>
-</ul>
-<p>This ambiguity becomes critical when planning for future features:</p>
-<ul>
-<li><code>stym status</code> - Check LLM connection, API key validity, usage quota</li>
-<li><code>stym config</code> - View or modify configuration (API keys, default model)</li>
-<li><code>stym models</code> - List available LLM models</li>
-</ul>
-<p>Without a clear subcommand structure, these would either:</p>
-<ol>
-<li>Require awkward flag syntax (<code>stym --status</code>, <code>stym --config</code>)</li>
-<li>Use reserved word lists (fragile, prevents wrapping commands with those names)</li>
-<li>Be impossible to implement without breaking changes</li>
-</ol>
-<p>This decision must be made <strong>before the first release</strong> because changing from <code>stym command</code> to <code>stym run command</code> later would be a breaking change for all users.</p>
+<p>Profiles (domain objects) contain configuration for output transformation. Processors (infrastructure implementations) perform the actual transformation.</p>
+<p>The application needs to convert Profile → Processor. This conversion involves:
+- Type-based dispatch (LLMProfile → LLMProcessor, future profiles → other processors)
+- Infrastructure-specific instantiation (LLM clients, API connections, etc.)
+- Error handling for unsupported profile types</p>
+<p>Without abstraction, domain layer would need to know about all infrastructure implementations.</p>
 <h2 id="decision">Decision<a class="headerlink" href="#decision" title="Permanent link">&para;</a></h2>
-<p>Adopt a subcommand architecture using argparse subparsers:</p>
-<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>stym<span class="w"> </span>run<span class="w"> </span>&lt;command&gt;<span class="w"> </span><span class="o">[</span>args...<span class="o">]</span><span class="w">     </span><span class="c1"># Execute and filter command</span>
-<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>stym<span class="w"> </span>status<span class="w">                      </span><span class="c1"># (Future) Check LLM status</span>
-<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>stym<span class="w"> </span>config<span class="w"> </span><span class="o">[</span>options<span class="o">]</span><span class="w">            </span><span class="c1"># (Future) Manage configuration</span>
-<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>stym<span class="w"> </span>models<span class="w">                      </span><span class="c1"># (Future) List available models</span>
+<p>Introduce ProcessorFactory protocol in domain layer and ConcreteProcessorFactory in infrastructure layer.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="c1"># domain/processor.py</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="k">class</span><span class="w"> </span><span class="nc">ProcessorFactory</span><span class="p">(</span><span class="n">Protocol</span><span class="p">):</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">create</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">profile</span><span class="p">:</span> <span class="n">Profile</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Processor</span><span class="p">:</span> <span class="o">...</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="c1"># infrastructure/processors/factory.py</span>
+<a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a><span class="k">class</span><span class="w"> </span><span class="nc">ConcreteProcessorFactory</span><span class="p">:</span>
+<a id="__codelineno-0-7" name="__codelineno-0-7" href="#__codelineno-0-7"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">create</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">profile</span><span class="p">:</span> <span class="n">Profile</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Processor</span><span class="p">:</span>
+<a id="__codelineno-0-8" name="__codelineno-0-8" href="#__codelineno-0-8"></a>        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">profile</span><span class="p">,</span> <span class="n">LLMProfile</span><span class="p">):</span>
+<a id="__codelineno-0-9" name="__codelineno-0-9" href="#__codelineno-0-9"></a>            <span class="k">return</span> <span class="n">LLMProcessor</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">profile</span><span class="o">=</span><span class="n">profile</span><span class="p">)</span>
+<a id="__codelineno-0-10" name="__codelineno-0-10" href="#__codelineno-0-10"></a>        <span class="k">raise</span> <span class="n">ProcessorCreationError</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
 </code></pre></div>
 <h2 id="rationale">Rationale<a class="headerlink" href="#rationale" title="Permanent link">&para;</a></h2>
-<p><strong>Extensibility for LLM integration:</strong></p>
 <ul>
-<li>Clear namespace for shtym operations vs wrapped commands</li>
-<li>No ambiguity: <code>stym status</code> always means shtym's status, never a command named "status"</li>
-<li>Natural place for future subcommands without breaking changes</li>
-</ul>
-<p><strong>Industry standard pattern:</strong></p>
-<ul>
-<li><code>git commit</code>, <code>docker run</code>, <code>kubectl get</code> - all use subcommands</li>
-<li><code>gh pr create</code>, <code>cargo build</code> - modern CLIs follow this pattern</li>
-<li>Users familiar with these tools will immediately understand shtym's structure</li>
-</ul>
-<p><strong>Prevents future breaking changes:</strong></p>
-<ul>
-<li>Adding <code>stym status</code> later would break users running <code>stym status</code> expecting command execution</li>
-<li>Changing from <code>stym pytest</code> to <code>stym run pytest</code> would break all existing scripts and documentation</li>
-<li>Must decide now, before first release and user adoption</li>
-</ul>
-<p><strong>Explicit is better than implicit:</strong></p>
-<ul>
-<li><code>stym run pytest</code> clearly indicates "run this command through shtym"</li>
-<li>No magic reserved words or special parsing rules</li>
-<li>Easier to explain and document</li>
+<li><strong>Dependency Inversion</strong>: Domain depends on ProcessorFactory abstraction, not concrete implementations</li>
+<li><strong>Open/Closed</strong>: Adding new profile types requires only new infrastructure code, no domain changes</li>
+<li><strong>Type-based dispatch</strong>: Factory centralizes profile-type-to-processor-implementation mapping</li>
+<li><strong>Encapsulation</strong>: Infrastructure creation details hidden from domain layer</li>
 </ul>
 <h2 id="implications">Implications<a class="headerlink" href="#implications" title="Permanent link">&para;</a></h2>
 <h3 id="positive-implications">Positive Implications<a class="headerlink" href="#positive-implications" title="Permanent link">&para;</a></h3>
 <ul>
-<li>Future-proof: can add <code>status</code>, <code>config</code>, <code>models</code> without breaking changes</li>
-<li>Clear separation: shtym commands vs wrapped commands</li>
-<li>Industry-standard pattern: familiar to users</li>
-<li>Enables rich CLI features: help for each subcommand, subcommand-specific options</li>
-<li>Testable: each subcommand can be tested independently</li>
+<li>Domain layer remains ignorant of infrastructure implementations</li>
+<li>Easy to add new profile types (OpenAI, Claude, custom processors)</li>
+<li>Factory is single point for processor instantiation logic</li>
+<li>Testable via mock factories in domain tests</li>
 </ul>
 <h3 id="concerns">Concerns<a class="headerlink" href="#concerns" title="Permanent link">&para;</a></h3>
 <ul>
-<li>Slightly more typing: <code>stym run pytest</code> vs <code>stym pytest</code> (mitigation: users can create shell aliases if desired: <code>alias sr='stym run'</code>)</li>
-<li>Breaking change from current development version (mitigation: no released version yet, no users affected)</li>
+<li>Adds abstraction layer between Profile and Processor (mitigation: necessary for dependency inversion)</li>
+<li>Factory must know all profile types (mitigation: limited to infrastructure layer, acceptable coupling)</li>
 </ul>
 <h2 id="alternatives">Alternatives<a class="headerlink" href="#alternatives" title="Permanent link">&para;</a></h2>
-<h3 id="simple-wrapper-no-subcommands">Simple Wrapper (No Subcommands)<a class="headerlink" href="#simple-wrapper-no-subcommands" title="Permanent link">&para;</a></h3>
-<p>Keep <code>stym command args</code> pattern, add shtym operations as flags.</p>
-<ul>
-<li><strong>Pros</strong>: Shortest syntax for command execution</li>
-<li><strong>Cons</strong>: Awkward operation syntax (<code>stym --status</code>), limited extensibility, confusing help output</li>
-<li><strong>Reason for rejection</strong>: Cannot support rich LLM features without awkward UX</li>
-</ul>
-<h3 id="reserved-word-list">Reserved Word List<a class="headerlink" href="#reserved-word-list" title="Permanent link">&para;</a></h3>
-<p>Use <code>stym command</code> but treat certain words (status, config, etc.) as special.</p>
-<ul>
-<li><strong>Pros</strong>: Short command execution syntax</li>
-<li><strong>Cons</strong>: Cannot wrap commands named "status", "config", etc.; fragile (must maintain reserved list); confusing ("why doesn't <code>stym status</code> work?")</li>
-<li><strong>Reason for rejection</strong>: Too many edge cases and user confusion</li>
-</ul>
-<h3 id="auto-detection">Auto-Detection<a class="headerlink" href="#auto-detection" title="Permanent link">&para;</a></h3>
-<p>Detect whether argument is a shtym subcommand or external command.</p>
-<ul>
-<li><strong>Pros</strong>: "Smart" behavior</li>
-<li><strong>Cons</strong>: Magic behavior, ambiguity (what if someone creates a command named "status"?), hard to predict</li>
-<li><strong>Reason for rejection</strong>: Explicit is better than implicit; too much magic</li>
-</ul>
-<h2 id="future-direction">Future Direction<a class="headerlink" href="#future-direction" title="Permanent link">&para;</a></h2>
-<p>This subcommand structure is foundational and should remain stable. Expected future subcommands:</p>
-<p><strong>Planned:</strong></p>
-<ul>
-<li><code>stym status</code> - LLM connection and usage status</li>
-<li><code>stym config</code> - Configuration management</li>
-<li><code>stym models</code> - List and manage available models</li>
-</ul>
-<p><strong>Possible:</strong></p>
-<ul>
-<li><code>stym history</code> - Command execution history</li>
-<li><code>stym explain</code> - Explain previous command output</li>
-<li><code>stym debug</code> - Debug mode with verbose logging</li>
-</ul>
-<p><strong>Triggers for revisiting:</strong></p>
-<ul>
-<li>If <code>stym run</code> becomes overwhelming majority of usage and other subcommands rarely used (could add <code>run</code> as default, but keep subcommand structure)</li>
-<li>If user feedback strongly prefers shorter syntax despite tradeoffs (could add shell completion to make <code>stym run</code> typing easier)</li>
-</ul>
-<p>For now, explicit subcommand architecture provides the best balance of clarity, extensibility, and future-proofing.</p>
+<h3 id="direct-profile-to-processor-method">Direct Profile-to-Processor Method<a class="headerlink" href="#direct-profile-to-processor-method" title="Permanent link">&para;</a></h3>
+<p>Add <code>to_processor()</code> method on Profile base class.</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="k">class</span><span class="w"> </span><span class="nc">Profile</span><span class="p">:</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">to_processor</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Processor</span><span class="p">:</span> <span class="o">...</span>
+</code></pre></div>
+<p><strong>Pros</strong>: No separate factory needed, simple API</p>
+<p><strong>Cons</strong>: Domain objects create infrastructure objects, violates layering; Profile must import infrastructure</p>
+<p><strong>Reason for rejection</strong>: Violates dependency inversion and layered architecture</p>
+<h3 id="service-locator-pattern">Service Locator Pattern<a class="headerlink" href="#service-locator-pattern" title="Permanent link">&para;</a></h3>
+<p>Use service locator to find processor for given profile.</p>
+<p><strong>Pros</strong>: Decouples profile from processor creation</p>
+<p><strong>Cons</strong>: Hidden dependencies, harder to test, anti-pattern in modern design</p>
+<p><strong>Reason for rejection</strong>: Factory pattern is more explicit and testable</p>
 <h2 id="references">References<a class="headerlink" href="#references" title="Permanent link">&para;</a></h2>
 <ul>
-<li><a href="https://github.com/osoekawaitlab/shtym-py/issues/3">Issue #3: Implement basic pass-through mode</a></li>
-<li><a href="../0002-use-argparse-for-cli-implementation/">ADR-0002: Use argparse for CLI Implementation</a></li>
-<li><a href="https://git-scm.com/docs/git#_git_commands">Git Subcommands</a></li>
+<li><a href="https://github.com/osoekawaitlab/shtym-py/issues/10">Issue #10: Introduce default profile concept</a></li>
+<li><a href="../0010-introduce-profile-as-core-domain-object/">ADR-0010: Introduce Profile as Core Domain Object</a></li>
+<li><a href="https://refactoring.guru/design-patterns/factory-method">Factory Pattern</a></li>
 </ul>
 
 
