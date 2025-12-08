@@ -24,6 +24,7 @@ pytest.importorskip(
 from tests.e2e.test_ollama_judge import JUDGE_MODEL
 
 
+@pytest.mark.requires_external_service
 @pytest.mark.usefixtures("ollama_environment")
 def test_ollama_integration_with_custom_model() -> None:
     """Run CLI with custom model specified via SHTYM_LLM_SETTINGS__MODEL."""
@@ -49,6 +50,7 @@ def test_ollama_integration_with_custom_model() -> None:
     )
 
 
+@pytest.mark.requires_external_service
 @pytest.mark.usefixtures("ollama_environment")
 def test_ollama_integration_with_nonexistent_model_falls_back_to_passthrough() -> None:
     """Run CLI with non-existent model to verify fallback to PassThroughProcessor."""

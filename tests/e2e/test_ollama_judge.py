@@ -104,6 +104,7 @@ class OllamaJudge:
         return JudgementResult(score=score, confidence=confidence, feedback=feedback)
 
 
+@pytest.mark.requires_external_service
 def test_ollama_integration_when_enabled(ollama_judge: OllamaJudge) -> None:
     """Run CLI against a real Ollama instance and evaluate output quality.
 

@@ -59,7 +59,7 @@ jobs:
         run: uv sync --group dev
 
       - name: Run E2E Tests
-        run: uv run nox -s tests_e2e
+        run: uv run pytest tests/e2e/ -v -m "not requires_external_service"
 
   quality:
     name: Quality Checks
@@ -104,4 +104,4 @@ jobs:
         run: uv sync --group dev
 
       - name: Run Tests with Coverage
-        run: uv run nox -s tests
+        run: uv run pytest --cov=src/shtym --cov-report=term-missing --cov-report=html --cov-fail-under=80 -m "not requires_external_service"

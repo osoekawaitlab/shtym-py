@@ -120,3 +120,6 @@ addopts = [
     "--strict-config",
     "--doctest-modules",
 ]
+markers = [
+    "requires_external_service: tests that require external services (e.g., Ollama) to be running",
+]
