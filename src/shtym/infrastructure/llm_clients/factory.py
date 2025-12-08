@@ -44,6 +44,10 @@ class LLMClientFactory:
                 raise LLMModuleNotFoundError(module_name) from e
             if client.is_available():
                 return client
+            # Client was created but is unavailable
+            msg = f"LLM client is unavailable: {type(profile).__name__}"
+            raise ProcessorCreationError(msg)
 
+        # Profile type is not supported
         msg = f"Unsupported LLM settings type: {type(profile).__name__}"
         raise ProcessorCreationError(msg)
