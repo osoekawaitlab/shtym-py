@@ -1179,6 +1179,7 @@ name = "shtym"
 source = { editable = "." }
 dependencies = [
     { name = "pydantic" },
+    { name = "tomli", marker = "python_full_version < '3.11'" },
 ]
 
 [package.optional-dependencies]
@@ -1208,6 +1209,7 @@ docs = [
 requires-dist = [
     { name = "ollama", marker = "extra == 'ollama'", specifier = ">=0.6.1" },
     { name = "pydantic", specifier = ">=2.12.4" },
+    { name = "tomli", marker = "python_full_version < '3.11'", specifier = ">=2.0.0" },
 ]
 provides-extras = ["ollama"]
 
