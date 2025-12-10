@@ -4,10 +4,10 @@ These tests verify basic Ollama integration functionality:
 - Custom model specification via environment variables
 - Fallback to PassThrough when model doesn't exist
 
-These tests require Ollama to be running but do NOT use LLM-as-a-Judge.
-They are suitable for CI/CD execution.
+These tests use ollama_recorder to verify actual HTTP requests.
 """
 
+import json
 import os
 import subprocess
 
@@ -21,15 +21,22 @@ pytest.importorskip(
     ),
 )
 
+from tests.e2e.conftest import OllamaRecorder
 from tests.e2e.test_ollama_judge import JUDGE_MODEL
 
 
-@pytest.mark.requires_external_service
-@pytest.mark.usefixtures("ollama_environment")
-def test_ollama_integration_with_custom_model() -> None:
-    """Run CLI with custom model specified via SHTYM_LLM_SETTINGS__MODEL."""
+def test_ollama_integration_with_custom_model(
+    ollama_recorder: OllamaRecorder,
+) -> None:
+    """Verify custom model name is passed to Ollama API correctly.
+
+    This test confirms that SHTYM_LLM_SETTINGS__MODEL is respected
+    and the specified model name appears in the HTTP request to Ollama.
+    """
     env = os.environ.copy()
 
+    # Use recorder's proxy URL
+    env["SHTYM_LLM_SETTINGS__BASE_URL"] = ollama_recorder.base_url
     # Use JUDGE_MODEL as custom model for testing
     env["SHTYM_LLM_SETTINGS__MODEL"] = JUDGE_MODEL
 
@@ -44,10 +51,21 @@ def test_ollama_integration_with_custom_model() -> None:
 
     # Verify command succeeded
     assert result.returncode == 0
-    # Verify LLM processed the output (output should be different from input)
-    assert result.stdout != f"{test_input}\n", (
-        "Output should be processed by LLM, not passed through unchanged"
-    )
+
+    # Verify the model name was sent in the HTTP request
+    # Check all recorded requests for /api/chat endpoint
+    found_chat_request = False
+    for request_data in ollama_recorder.get_recorded_requests().values():
+        if request_data["request"]["path"] == "/api/chat":
+            found_chat_request = True
+            request_body = json.loads(request_data["request"]["body"])
+            assert request_body["model"] == JUDGE_MODEL, (
+                f"Expected model '{JUDGE_MODEL}' in request, "
+                f"got '{request_body.get('model')}'"
+            )
+            break
+
+    assert found_chat_request, "No /api/chat request found in recorded interactions"
 
 
 @pytest.mark.requires_external_service
