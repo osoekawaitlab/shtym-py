@@ -3,13 +3,16 @@
 import hashlib
 import json
 import re
+import urllib.parse
+from collections.abc import Mapping
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any
+from typing import Literal, TypedDict, TypeGuard, cast
 
 import httpx
 import pytest
 from pytest_httpserver import HTTPServer
+from pytest_httpserver.httpserver import HandlerType
 from werkzeug.wrappers import Request, Response
 
 # Skip entire module if ollama package is not installed (optional dependency)
@@ -22,6 +25,13 @@ pytest.importorskip(
 )
 
 from ollama import Client, Message
+
+RecorderMode = Literal["record", "replay", "auto"]
+
+
+def is_valid_recorder_mode(mode: str) -> TypeGuard[RecorderMode]:
+    """Check if the given mode is a valid RecorderMode."""
+    return mode in {"record", "replay", "auto"}
 
 
 @dataclass
@@ -46,6 +56,31 @@ judgement_result_schema = {
     "required": ["score", "confidence", "feedback"],
     "additionalProperties": False,
 }
+
+
+class CassetteRequest(TypedDict):
+    """Recorded request for cassette storage."""
+
+    method: str
+    path: str
+    query: str
+    body: str
+    headers: dict[str, str]
+
+
+class CassetteResponse(TypedDict):
+    """Recorded response for cassette storage."""
+
+    status: int
+    body: str
+    headers: dict[str, str]
+
+
+class CassetteRecord(TypedDict):
+    """Cassette entry keyed by normalized request."""
+
+    request: CassetteRequest
+    response: CassetteResponse
 
 
 class OllamaJudge:
@@ -110,7 +145,7 @@ class OllamaRecorder:
         self,
         httpserver: HTTPServer,
         cassette_path: Path,
-        mode: str = "replay",
+        mode: RecorderMode = "replay",
         real_base_url: str = "http://localhost:11434",
     ) -> None:
         """Initialize the Ollama recorder.
@@ -125,19 +160,18 @@ class OllamaRecorder:
         self.cassette_path = cassette_path
         self.mode = mode
         self.real_base_url = real_base_url
-        self._cassette_data: dict[str, Any] = {}
+        self._cassette_data: dict[str, CassetteRecord] = {}
 
         if mode in {"replay", "auto"}:
             self._load_cassette()
 
-        # Register permanent handler for all Ollama API endpoints
-        # This will handle multiple requests without being consumed
-        for _ in range(100):  # Register handler many times for multiple requests
-            self.httpserver.expect_request(re.compile(r"/api/.*")).respond_with_handler(
-                self._handle_request
-            )
+        # Register a permanent handler for all Ollama API endpoints.
+        pattern = re.compile(r"/api/.*")
+        self.httpserver.expect_request(
+            pattern, handler_type=HandlerType.PERMANENT
+        ).respond_with_handler(self._handle_request)
 
-    def get_recorded_requests(self) -> dict[str, Any]:
+    def get_recorded_requests(self) -> dict[str, CassetteRecord]:
         """Get all recorded requests and responses.
 
         Returns:
@@ -149,7 +183,8 @@ class OllamaRecorder:
         """Load cassette from file if it exists."""
         if self.cassette_path.exists():
             with self.cassette_path.open() as f:
-                self._cassette_data = json.load(f)
+                loaded = json.load(f)
+                self._cassette_data = cast("dict[str, CassetteRecord]", loaded)
 
     def _save_cassette(self) -> None:
         """Save cassette to file."""
@@ -158,17 +193,48 @@ class OllamaRecorder:
             json.dump(self._cassette_data, f, indent=2)
 
     def _make_key(self, request: Request) -> str:
-        """Generate unique key for request based on method, path, and body.
-
-        Args:
-            request: The HTTP request
-
-        Returns:
-            Hash string representing the request
-        """
-        body = request.get_data(as_text=True)
-        key_data = f"{request.method}:{request.path}:{body}"
+        """Generate unique key for request based on method, path/query, and body."""
+        normalized_body = self._normalize_body(request.get_data())
+        canonical_path = self._canonicalize_path(request)
+        normalized_headers = self._normalize_headers_for_key(dict(request.headers))
+        key_data = (
+            f"{request.method}:{canonical_path}:{normalized_body}:{normalized_headers}"
+        )
         return hashlib.sha256(key_data.encode()).hexdigest()
+
+    def _canonicalize_path(self, request: Request) -> str:
+        """Normalize query strings so parameter order does not change the key."""
+        if not request.query_string:
+            return request.path
+        query_pairs = urllib.parse.parse_qsl(
+            request.query_string.decode(errors="replace"), keep_blank_values=True
+        )
+        canonical_query = urllib.parse.urlencode(sorted(query_pairs))
+        return f"{request.path}?{canonical_query}"
+
+    def _normalize_body(self, body: bytes) -> str:
+        """Normalize request body to make cassette keys stable."""
+        if not body:
+            return ""
+
+        try:
+            text = body.decode()
+        except UnicodeDecodeError:
+            return hashlib.sha256(body).hexdigest()
+
+        try:
+            parsed = json.loads(text)
+        except ValueError:
+            return text
+
+        return json.dumps(parsed, sort_keys=True, separators=(",", ":"))
+
+    def _normalize_headers_for_key(self, headers: Mapping[str, str]) -> str:
+        """Normalize whitelisted headers for stable cassette keys."""
+        filtered = self._filter_request_headers(dict(headers))
+        if not filtered:
+            return ""
+        return json.dumps(filtered, sort_keys=True, separators=(",", ":"))
 
     def _filter_problematic_headers(self, headers: dict[str, str]) -> dict[str, str]:
         """Filter out headers that cause issues when replaying responses.
@@ -228,8 +294,9 @@ class OllamaRecorder:
             "request": {
                 "method": request.method,
                 "path": request.path,
+                "query": request.query_string.decode(errors="replace"),
                 "body": request.get_data(as_text=True),
-                "headers": dict(request.headers),
+                "headers": self._filter_request_headers(dict(request.headers)),
             },
             "response": {
                 "status": response.status_code,
@@ -257,7 +324,7 @@ class OllamaRecorder:
         Raises:
             ConnectionError: If real server is not available
         """
-        url = f"{self.real_base_url}{request.path}"
+        url = self._build_target_url(request)
 
         # Use extended timeout for LLM requests (can take a long time)
         timeout = httpx.Timeout(300.0, connect=10.0)  # 5 minutes for read
@@ -267,7 +334,7 @@ class OllamaRecorder:
                 method=request.method,
                 url=url,
                 content=request.get_data(),
-                headers=dict(request.headers),
+                headers=self._prepare_forward_headers(dict(request.headers)),
             )
 
     @property
@@ -279,3 +346,23 @@ class OllamaRecorder:
         """
         url: str = self.httpserver.url_for("/")
         return url
+
+    def _build_target_url(self, request: Request) -> str:
+        """Build URL for the real server including query parameters."""
+        if request.query_string:
+            query = request.query_string.decode(errors="replace")
+            return f"{self.real_base_url}{request.path}?{query}"
+        return f"{self.real_base_url}{request.path}"
+
+    def _prepare_forward_headers(self, headers: dict[str, str]) -> dict[str, str]:
+        """Drop headers that should be regenerated when proxying to the real server."""
+        return {
+            k: v
+            for k, v in headers.items()
+            if k.lower() not in {"host", "content-length"}
+        }
+
+    def _filter_request_headers(self, headers: dict[str, str]) -> dict[str, str]:
+        """Keep only whitelisted headers for cassette logging."""
+        allowed = {"content-type", "accept"}
+        return {k: v for k, v in headers.items() if k.lower() in allowed}

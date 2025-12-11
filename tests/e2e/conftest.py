@@ -18,7 +18,12 @@ pytest.importorskip(
 # Import after importorskip to avoid import errors
 from ollama import Client
 
-from tests.e2e.helpers import JUDGE_MODEL, OllamaJudge, OllamaRecorder
+from tests.e2e.helpers import (
+    JUDGE_MODEL,
+    OllamaJudge,
+    OllamaRecorder,
+    is_valid_recorder_mode,
+)
 
 
 @pytest.fixture(scope="session")
@@ -95,7 +100,7 @@ def ollama_recorder(
     By default, uses replay mode with cassette at:
         tests/fixtures/cassettes/<test_module>/<test_name>.json
 
-    To record new cassettes, set SHTYM_RECORDER_MODE=record or auto.
+    To record new cassettes, set SHTYMTEST_RECORDER_MODE=record or auto.
 
     Args:
         httpserver: pytest-httpserver fixture
@@ -111,7 +116,13 @@ def ollama_recorder(
     cassette_path = cassette_dir / f"{test_name}.json"
 
     # Get recording mode from environment
-    mode = os.getenv("SHTYM_RECORDER_MODE", "replay")
+    mode = os.getenv("SHTYMTEST_RECORDER_MODE", "replay")
+    if not is_valid_recorder_mode(mode):
+        msg = (
+            "Invalid SHTYMTEST_RECORDER_MODE: "
+            f"{mode}. Must be 'record', 'replay', or 'auto'."
+        )
+        raise ValueError(msg)
 
     # Get real Ollama URL
     real_base_url = os.getenv("SHTYM_LLM_SETTINGS__BASE_URL", "http://localhost:11434")
