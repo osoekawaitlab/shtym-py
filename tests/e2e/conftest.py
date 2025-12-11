@@ -22,11 +22,9 @@ pytest.importorskip(
 )
 
 # Import after importorskip to avoid import errors
-import ollama
+from ollama import Client
 
-from tests.e2e.test_ollama_judge import JUDGE_MODEL, OllamaJudge
-
-Client = ollama.Client
+from tests.e2e.helpers import JUDGE_MODEL, OllamaJudge
 
 
 class OllamaRecorder:

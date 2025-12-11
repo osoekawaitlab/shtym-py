@@ -22,7 +22,7 @@ pytest.importorskip(
 )
 
 from tests.e2e.conftest import OllamaRecorder
-from tests.e2e.test_ollama_judge import JUDGE_MODEL
+from tests.e2e.helpers import JUDGE_MODEL
 
 
 def test_ollama_integration_with_custom_model(
