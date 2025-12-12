@@ -66,14 +66,23 @@ def test_ollama_integration_with_custom_model(
     )
 
 
-@pytest.mark.requires_external_service
-@pytest.mark.usefixtures("ollama_environment")
-def test_ollama_integration_with_nonexistent_model_falls_back_to_passthrough() -> None:
-    """Run CLI with non-existent model to verify fallback to PassThroughProcessor."""
+def test_ollama_integration_with_nonexistent_model_falls_back_to_passthrough(
+    ollama_recorder: OllamaRecorder,
+) -> None:
+    """Verify fallback to PassThrough when specified model doesn't exist.
+
+    This test confirms that:
+    1. The non-existent model name is checked via /api/tags
+    2. When model is not available, output passes through unchanged
+    3. No /api/chat request is made (fallback to PassThroughProcessor)
+    """
     env = os.environ.copy()
 
+    # Use recorder's proxy URL
+    env["SHTYM_LLM_SETTINGS__BASE_URL"] = ollama_recorder.base_url
     # Use a model name that definitely doesn't exist
-    env["SHTYM_LLM_SETTINGS__MODEL"] = "definitely-nonexistent-model-12345"
+    nonexistent_model = "definitely-nonexistent-model-12345"
+    env["SHTYM_LLM_SETTINGS__MODEL"] = nonexistent_model
 
     test_input = "Test output from command"
     result = subprocess.run(  # noqa: S603
@@ -88,3 +97,22 @@ def test_ollama_integration_with_nonexistent_model_falls_back_to_passthrough() -
     assert result.returncode == 0
     # Verify output is passed through unchanged (fallback to PassThroughProcessor)
     assert test_input in result.stdout
+
+    # Verify /api/tags was called (model availability check)
+    recorded_requests = list(ollama_recorder.get_recorded_requests().values())
+    tags_requests = [
+        req for req in recorded_requests if req["request"]["path"] == "/api/tags"
+    ]
+    assert tags_requests, (
+        "Expected /api/tags request for model availability check; "
+        f"paths seen: {sorted({req['request']['path'] for req in recorded_requests})}"
+    )
+
+    # Verify NO /api/chat request was made (should fallback to PassThrough)
+    chat_requests = [
+        req for req in recorded_requests if req["request"]["path"] == "/api/chat"
+    ]
+    assert not chat_requests, (
+        f"Expected no /api/chat requests (PassThrough fallback), "
+        f"but found {len(chat_requests)} request(s)"
+    )
