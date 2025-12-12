@@ -51,20 +51,19 @@ def test_ollama_integration_with_custom_model(
     # Verify command succeeded
     assert result.returncode == 0
 
-    # Verify the model name was sent in the HTTP request
-    # Check all recorded requests for /api/chat endpoint
-    found_chat_request = False
-    for request_data in ollama_recorder.get_recorded_requests().values():
-        if request_data["request"]["path"] == "/api/chat":
-            found_chat_request = True
-            request_body = json.loads(request_data["request"]["body"])
-            assert request_body["model"] == JUDGE_MODEL, (
-                f"Expected model '{JUDGE_MODEL}' in request, "
-                f"got '{request_body.get('model')}'"
-            )
-            break
+    recorded_requests = list(ollama_recorder.get_recorded_requests().values())
+    chat_requests = [
+        req for req in recorded_requests if req["request"]["path"] == "/api/chat"
+    ]
+    assert chat_requests, (
+        "No /api/chat request found in recorded interactions; "
+        f"paths seen: {sorted({req['request']['path'] for req in recorded_requests})}"
+    )
 
-    assert found_chat_request, "No /api/chat request found in recorded interactions"
+    models = [json.loads(req["request"]["body"]).get("model") for req in chat_requests]
+    assert JUDGE_MODEL in models, (
+        f"Expected model '{JUDGE_MODEL}' in chat requests, got {models}"
+    )
 
 
 @pytest.mark.requires_external_service
