@@ -68,7 +68,7 @@ docs = [
 
 [tool.ruff]
 indent-width = 4
-target-version = "py312"
+target-version = "py310"
 line-length = 88
 
 [tool.ruff.lint]
