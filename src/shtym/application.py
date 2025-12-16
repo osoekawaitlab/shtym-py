@@ -1,6 +1,7 @@
 """Application layer for shtym."""
 
 import subprocess
+from pathlib import Path
 
 from shtym.domain.processor import (
     CommandExecution,
@@ -8,7 +9,9 @@ from shtym.domain.processor import (
     Processor,
     create_processor_from_profile_name,
 )
+from shtym.infrastructure.fileio import FileReader
 from shtym.infrastructure.processors.factory import ConcreteProcessorFactory
+from shtym.infrastructure.profile_parsers import TOMLProfileParser
 from shtym.infrastructure.profile_repository import FileBasedProfileRepository
 
 
@@ -72,7 +75,11 @@ class ShtymApplication:
         Returns:
             An instance of ShtymApplication.
         """
-        profile_repository = FileBasedProfileRepository()
+        file_reader = FileReader(Path.home() / ".config" / "shtym" / "profiles.toml")
+        parser = TOMLProfileParser()
+        profile_repository = FileBasedProfileRepository(
+            file_reader=file_reader, parser=parser
+        )
         processor_factory = ConcreteProcessorFactory()
         return cls(
             create_processor_from_profile_name(
