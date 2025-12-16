@@ -5,7 +5,7 @@ from unittest.mock import MagicMock
 import pytest
 
 from shtym.domain.profile import DEFAULT_PROFILE_NAME, Profile, ProfileNotFoundError
-from shtym.infrastructure.fileio import FileReader
+from shtym.infrastructure.fileio import FileReader, FileReadError
 from shtym.infrastructure.llm_profile import LLMProfile
 from shtym.infrastructure.profile_parsers import ProfileParserError, TOMLProfileParser
 from shtym.infrastructure.profile_repository import FileBasedProfileRepository
@@ -14,7 +14,7 @@ from shtym.infrastructure.profile_repository import FileBasedProfileRepository
 def test_get_nonexistent_profile_raises_error() -> None:
     """Test that getting a non-existent profile raises ProfileNotFoundError."""
     mock_file_reader = MagicMock(spec=FileReader)
-    mock_file_reader.read_str.side_effect = FileNotFoundError()
+    mock_file_reader.read_str.side_effect = FileReadError("File not found")
     mock_parser = MagicMock(spec=TOMLProfileParser)
 
     repository = FileBasedProfileRepository(
@@ -92,9 +92,9 @@ def test_get_nonexistent_profile_from_parsed_content_raises_error() -> None:
 
 
 def test_get_profile_when_file_read_fails() -> None:
-    """Test that file read failure only allows default profile."""
+    """Test that file read failure silently falls back to default (ADR-0011)."""
     mock_file_reader = MagicMock(spec=FileReader)
-    mock_file_reader.read_str.side_effect = FileNotFoundError()
+    mock_file_reader.read_str.side_effect = FileReadError("File not found")
     mock_parser = MagicMock(spec=TOMLProfileParser)
 
     repository = FileBasedProfileRepository(
@@ -134,21 +134,21 @@ def test_profiles_are_cached() -> None:
     mock_parser.parse.assert_called_once()
 
 
-def test_get_profile_when_os_error_occurs() -> None:
-    """Test that OSError during file read only allows default profile."""
+def test_get_profile_when_file_read_error_occurs() -> None:
+    """Test that FileReadError during file read silently falls back (ADR-0011)."""
     mock_file_reader = MagicMock(spec=FileReader)
-    mock_file_reader.read_str.side_effect = OSError("Permission denied")
+    mock_file_reader.read_str.side_effect = FileReadError("Permission denied")
     mock_parser = MagicMock(spec=TOMLProfileParser)
 
     repository = FileBasedProfileRepository(
         file_reader=mock_file_reader, parser=mock_parser
     )
 
-    # Default profile should still work
+    # Default profile should still work (silent fallback per ADR-0011)
     default = repository.get(DEFAULT_PROFILE_NAME)
     assert isinstance(default, LLMProfile)
 
-    # Non-default profile should raise error
+    # Non-default profile should raise ProfileNotFoundError
     with pytest.raises(ProfileNotFoundError):
         repository.get("summary")
 

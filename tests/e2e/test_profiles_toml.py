@@ -388,8 +388,7 @@ prompt_template = "Test"
     # Verify silent fallback (no error messages in stderr per ADR-0011)
     # Note: This is the current behavior; future --verbose flag may add notifications
     assert result.stderr == "", (
-        f"Expected silent fallback with no stderr per ADR-0011; "
-        f"got: {result.stderr}"
+        f"Expected silent fallback with no stderr per ADR-0011; got: {result.stderr}"
     )
 
 
@@ -448,8 +447,7 @@ base_url = "not-a-valid-url"
 
     # Verify silent fallback (no error messages in stderr per ADR-0011)
     assert result.stderr == "", (
-        f"Expected silent fallback with no stderr per ADR-0011; "
-        f"got: {result.stderr}"
+        f"Expected silent fallback with no stderr per ADR-0011; got: {result.stderr}"
     )
 
 
