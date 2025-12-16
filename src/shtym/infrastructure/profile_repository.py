@@ -3,7 +3,7 @@
 from shtym.domain.profile import DEFAULT_PROFILE_NAME, Profile, ProfileNotFoundError
 from shtym.infrastructure.fileio import FileReader
 from shtym.infrastructure.llm_profile import LLMProfile
-from shtym.infrastructure.profile_parsers import TOMLProfileParser
+from shtym.infrastructure.profile_parsers import ProfileParserError, TOMLProfileParser
 
 
 class FileBasedProfileRepository:
@@ -37,8 +37,10 @@ class FileBasedProfileRepository:
                 parsed_profiles = self.parser.parse(content)
                 # Include default profile along with parsed profiles
                 self._profiles = {DEFAULT_PROFILE_NAME: LLMProfile(), **parsed_profiles}
-            except (FileNotFoundError, OSError):
-                # If file doesn't exist or can't be read, only include default profile
+            except (FileNotFoundError, OSError, ProfileParserError):
+                # Silent fallback to default profile (ADR-0011)
+                # Handles: file not found, read errors, TOML parse errors,
+                # validation errors
                 self._profiles = {DEFAULT_PROFILE_NAME: LLMProfile()}
         return self._profiles
 

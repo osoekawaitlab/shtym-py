@@ -154,7 +154,7 @@ def test_get_profile_when_os_error_occurs() -> None:
 
 
 def test_get_profile_when_parser_raises_error() -> None:
-    """Test that parser error propagates to caller."""
+    """Test that parser error silently falls back to default profile (ADR-0011)."""
     mock_file_reader = MagicMock(spec=FileReader)
     mock_file_reader.read_str.return_value = "invalid toml content"
     mock_parser = MagicMock(spec=TOMLProfileParser)
@@ -164,6 +164,10 @@ def test_get_profile_when_parser_raises_error() -> None:
         file_reader=mock_file_reader, parser=mock_parser
     )
 
-    # Parser error should propagate
-    with pytest.raises(ProfileParserError):
-        repository.get(DEFAULT_PROFILE_NAME)
+    # Parser error should be caught and fall back to default profile (ADR-0011)
+    profile = repository.get(DEFAULT_PROFILE_NAME)
+    assert isinstance(profile, LLMProfile)
+
+    # Non-default profile should raise ProfileNotFoundError (not ProfileParserError)
+    with pytest.raises(ProfileNotFoundError):
+        repository.get("summary")
