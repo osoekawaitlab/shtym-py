@@ -131,3 +131,11 @@ Introduce ProcessorFactory protocol in domain layer and ConcreteProcessorFactory
 Use importlib for dynamic module loading in LLMClientFactory to enable graceful degradation when optional LLM dependencies are not installed, supporting zero-configuration usage of PassThroughProcessor.
 
 ---
+
+### [ADR-0017: Use Custom Exception Hierarchy for Infrastructure Errors](../adr/0017-use-custom-exception-hierarchy-for-infrastructure-errors.md)
+
+**Status**: Accepted | **Date**: 2025-12-16
+
+All infrastructure layer errors must extend ShtymInfrastructureError to ensure consistent error handling, clear layer boundaries, and uniform exception patterns across the codebase.
+
+---
