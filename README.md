@@ -70,7 +70,8 @@ Shtym follows Unix conventions for command wrappers (like `sudo`, `timeout`, `ti
 
 For development documentation, see:
 
-- [Architecture Overview](https://osoekawaitlab.github.io/shtym-py/architecture/overview/)
+- [Development Guide](https://osoekawaitlab.github.io/shtym-py/development/) - Setup, testing, and contribution guidelines
+- [Architecture Overview](https://osoekawaitlab.github.io/shtym-py/architecture/overview/) - Design principles and ADRs
 
 ## License
 
