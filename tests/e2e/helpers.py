@@ -161,6 +161,7 @@ class OllamaRecorder:
         self.mode = mode
         self.real_base_url = real_base_url
         self._cassette_data: dict[str, CassetteRecord] = {}
+        self._observed_requests: dict[str, CassetteRecord] = {}
 
         if mode in {"replay", "auto"}:
             self._load_cassette()
@@ -172,12 +173,37 @@ class OllamaRecorder:
         ).respond_with_handler(self._handle_request)
 
     def get_recorded_requests(self) -> dict[str, CassetteRecord]:
-        """Get all recorded requests and responses.
+        """Get all recorded requests and responses from cassette.
+
+        This returns all requests stored in the cassette, including those
+        pre-loaded from file. To get only requests observed in the current
+        test execution, use get_observed_requests().
 
         Returns:
             Dictionary mapping request hashes to request/response data
         """
         return self._cassette_data.copy()
+
+    def get_observed_requests(self) -> dict[str, CassetteRecord]:
+        """Get requests observed during the current test execution.
+
+        In replay mode, this only includes requests that were actually
+        served by the mock server during this test run, not all requests
+        in the cassette file.
+
+        Returns:
+            Dictionary mapping request hashes to request/response data
+        """
+        return self._observed_requests.copy()
+
+    def clear_observed_requests(self) -> None:
+        """Clear observed requests from the current test execution.
+
+        This only clears the observed requests tracking, not the cassette data.
+        Useful for tests that run multiple profile iterations and need to verify
+        each iteration's requests independently.
+        """
+        self._observed_requests.clear()
 
     def _load_cassette(self) -> None:
         """Load cassette from file if it exists."""
@@ -268,6 +294,8 @@ class OllamaRecorder:
         ):
             if key in self._cassette_data:
                 recorded = self._cassette_data[key]
+                # Track this request as observed during this test execution
+                self._observed_requests[key] = recorded
                 headers = self._filter_problematic_headers(
                     recorded["response"]["headers"]
                 )
@@ -290,7 +318,7 @@ class OllamaRecorder:
         # Save to cassette (filter problematic headers for storage)
         headers = self._filter_problematic_headers(dict(response.headers))
 
-        self._cassette_data[key] = {
+        cassette_record: CassetteRecord = {
             "request": {
                 "method": request.method,
                 "path": request.path,
@@ -304,6 +332,9 @@ class OllamaRecorder:
                 "headers": headers,
             },
         }
+        self._cassette_data[key] = cassette_record
+        # Track this request as observed during this test execution
+        self._observed_requests[key] = cassette_record
         self._save_cassette()
 
         return Response(

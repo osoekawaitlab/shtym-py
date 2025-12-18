@@ -69,7 +69,7 @@ base_url = "{ollama_recorder.base_url}"
     )
 
     # Verify LLM was called with the profile's configuration
-    recorded_requests = list(ollama_recorder.get_recorded_requests().values())
+    recorded_requests = list(ollama_recorder.get_observed_requests().values())
     chat_requests = [
         req for req in recorded_requests if req["request"]["path"] == "/api/chat"
     ]
@@ -159,7 +159,7 @@ base_url = "{ollama_recorder.base_url}"
     )
 
     # Verify LLM was called (overridden default uses LLM, not env vars)
-    recorded_requests = list(ollama_recorder.get_recorded_requests().values())
+    recorded_requests = list(ollama_recorder.get_observed_requests().values())
     chat_requests = [
         req for req in recorded_requests if req["request"]["path"] == "/api/chat"
     ]
@@ -287,8 +287,8 @@ base_url = "{ollama_recorder.base_url}"
     ]
 
     for profile_name, expected_prefix in profiles_to_test:
-        # Clear recorded requests for clean test
-        ollama_recorder.get_recorded_requests().clear()
+        # Clear observed requests for clean test
+        ollama_recorder.clear_observed_requests()
 
         result = subprocess.run(  # noqa: S603
             ["stym", "run", "--profile", profile_name, "echo", test_input],
@@ -306,7 +306,7 @@ base_url = "{ollama_recorder.base_url}"
         )
 
         # Verify correct prompt template was used
-        recorded_requests = list(ollama_recorder.get_recorded_requests().values())
+        recorded_requests = list(ollama_recorder.get_observed_requests().values())
         chat_requests = [
             req for req in recorded_requests if req["request"]["path"] == "/api/chat"
         ]
@@ -508,7 +508,7 @@ base_url = "{ollama_recorder.base_url}"
     )
 
     # Verify LLM was called with default profile
-    recorded_requests = list(ollama_recorder.get_recorded_requests().values())
+    recorded_requests = list(ollama_recorder.get_observed_requests().values())
     chat_requests = [
         req for req in recorded_requests if req["request"]["path"] == "/api/chat"
     ]

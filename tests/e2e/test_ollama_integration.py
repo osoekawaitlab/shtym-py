@@ -51,7 +51,7 @@ def test_ollama_integration_with_custom_model(
     # Verify command succeeded
     assert result.returncode == 0
 
-    recorded_requests = list(ollama_recorder.get_recorded_requests().values())
+    recorded_requests = list(ollama_recorder.get_observed_requests().values())
     chat_requests = [
         req for req in recorded_requests if req["request"]["path"] == "/api/chat"
     ]
@@ -99,7 +99,7 @@ def test_ollama_integration_with_nonexistent_model_falls_back_to_passthrough(
     assert test_input in result.stdout
 
     # Verify /api/tags was called (model availability check)
-    recorded_requests = list(ollama_recorder.get_recorded_requests().values())
+    recorded_requests = list(ollama_recorder.get_observed_requests().values())
     tags_requests = [
         req for req in recorded_requests if req["request"]["path"] == "/api/tags"
     ]
