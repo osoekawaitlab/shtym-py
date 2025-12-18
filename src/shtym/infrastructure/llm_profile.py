@@ -1,6 +1,7 @@
 """LLM-based profile implementation."""
 
 import os
+from typing import Literal
 
 from pydantic import AnyHttpUrl, Field
 
@@ -32,6 +33,7 @@ LLMSettings = OllamaLLMClientSettings
 class LLMProfile(ShtymBaseModel):
     """Profile for LLM-based output transformation."""
 
+    type: Literal["llm"] = Field(default="llm", description="Profile type identifier")
     prompt_template: str = Field(
         default=(
             "Your task is to summarize and distill the essential information"

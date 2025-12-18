@@ -149,3 +149,19 @@ def test_parse_empty_profiles_section() -> None:
     profiles = parser.parse(toml_content)
 
     assert len(profiles) == 0
+
+
+def test_parse_raises_error_on_invalid_type() -> None:
+    """Test that parser raises ProfileParserError for invalid type field."""
+    toml_content = """
+[profiles.invalid_type]
+type = "unknown"
+prompt_template = "Test: $command"
+"""
+    parser = TOMLProfileParser()
+
+    with pytest.raises(ProfileParserError) as exc_info:
+        parser.parse(toml_content)
+
+    error_message = str(exc_info.value).lower()
+    assert "invalid profile type" in error_message or "type" in error_message
