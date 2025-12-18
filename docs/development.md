@@ -354,7 +354,7 @@ E2E test cassettes are stored in `tests/fixtures/cassettes/`:
 
 ```bash
 # View cassette content
-cat tests/fixtures/cassettes/test_load_profile_from_toml_file.json
+cat tests/fixtures/cassettes/test_profiles_toml/test_load_profile_from_toml_file.json
 ```
 
 ### Test Individual Files
