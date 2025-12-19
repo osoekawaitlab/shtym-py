@@ -60,5 +60,6 @@ class LLMProcessorFactory:
         )
         return LLMProcessor(
             llm_client=llm_client,
-            prompt_template=profile.prompt_template,
+            system_prompt_template=profile.system_prompt_template,
+            user_prompt_template=profile.user_prompt_template,
         )

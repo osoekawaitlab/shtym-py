@@ -34,16 +34,22 @@ class LLMProfile(ShtymBaseModel):
     """Profile for LLM-based output transformation."""
 
     type: Literal["llm"] = Field(default="llm", description="Profile type identifier")
-    prompt_template: str = Field(
+    version: int = Field(default=1, description="Profile schema version")
+    system_prompt_template: str = Field(
         default=(
-            "Your task is to summarize and distill the essential information"
-            " from the command $command:\n\n"
-            "The provided user message is the raw output of the command so it may"
-            " contain extraneous information, errors, or formatting artifacts."
-            " Your goal is to extract the most relevant and accurate information."
-            " Also, error will be provided if any as a separate user message."
+            "Your task is to summarize and distill the essential information "
+            "from the command $command."
         ),
-        description="Prompt template for LLM processing",
+        description="System prompt template (sets LLM context)",
+    )
+    user_prompt_template: str = Field(
+        default=(
+            "The provided message is the raw output of the command. "
+            "It may contain extraneous information, errors, or formatting artifacts. "
+            "Extract the most relevant and accurate information.\n\n"
+            "Output:\n$stdout\n\nErrors:\n$stderr"
+        ),
+        description="User prompt template (contains command output)",
     )
     llm_settings: LLMSettings = Field(
         default_factory=OllamaLLMClientSettings,
