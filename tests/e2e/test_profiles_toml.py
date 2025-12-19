@@ -25,7 +25,8 @@ def test_load_profile_from_toml_file(
 
     This test verifies that:
     1. Custom profiles can be loaded from ~/.config/shtym/profiles.toml
-    2. Profile settings (prompt_template, model_name, base_url) are applied
+    2. Profile settings (system_prompt_template, user_prompt_template,
+       model_name, base_url) are applied
     3. The LLM is called with the profile's configuration
     """
     # Create config directory structure
@@ -38,7 +39,8 @@ def test_load_profile_from_toml_file(
         f"""
 [profiles.summary]
 type = "llm"
-prompt_template = "Summarize this in one word: $command"
+system_prompt_template = "Summarize this in one word: $command"
+user_prompt_template = "$stdout"
 
 [profiles.summary.llm_settings]
 model_name = "{JUDGE_MODEL}"
@@ -128,7 +130,8 @@ def test_override_default_profile_from_toml_file(
         f"""
 [profiles.default]
 type = "llm"
-prompt_template = "CUSTOM DEFAULT: $command"
+system_prompt_template = "CUSTOM DEFAULT: $command"
+user_prompt_template = "$stdout"
 
 [profiles.default.llm_settings]
 model_name = "{JUDGE_MODEL}"
@@ -248,7 +251,8 @@ def test_multiple_profiles_work_independently(
         f"""
 [profiles.summary]
 type = "llm"
-prompt_template = "SUMMARIZE: $command"
+system_prompt_template = "SUMMARIZE: $command"
+user_prompt_template = "$stdout"
 
 [profiles.summary.llm_settings]
 model_name = "{JUDGE_MODEL}"
@@ -256,7 +260,8 @@ base_url = "{ollama_recorder.base_url}"
 
 [profiles.translate]
 type = "llm"
-prompt_template = "TRANSLATE: $command"
+system_prompt_template = "TRANSLATE: $command"
+user_prompt_template = "$stdout"
 
 [profiles.translate.llm_settings]
 model_name = "{JUDGE_MODEL}"
@@ -264,7 +269,8 @@ base_url = "{ollama_recorder.base_url}"
 
 [profiles.explain]
 type = "llm"
-prompt_template = "EXPLAIN: $command"
+system_prompt_template = "EXPLAIN: $command"
+user_prompt_template = "$stdout"
 
 [profiles.explain.llm_settings]
 model_name = "{JUDGE_MODEL}"
@@ -353,7 +359,7 @@ def test_invalid_toml_syntax_falls_back_gracefully(tmp_path: Path) -> None:
         """
 [profiles.summary
 type = "llm"
-prompt_template = "Test"
+system_prompt_template = "Test"
 """,
         encoding="utf-8",
     )
@@ -409,7 +415,7 @@ def test_missing_required_fields_in_profile(tmp_path: Path) -> None:
         """
 [profiles.invalid]
 type = "llm"
-prompt_template = "Test: $command"
+system_prompt_template = "Test: $command"
 
 [profiles.invalid.llm_settings]
 model_name = "test-model"
@@ -469,7 +475,8 @@ def test_use_default_profile_when_no_profile_specified(
         f"""
 [profiles.default]
 type = "llm"
-prompt_template = "AUTO DEFAULT: $command"
+system_prompt_template = "AUTO DEFAULT: $command"
+user_prompt_template = "$stdout"
 
 [profiles.default.llm_settings]
 model_name = "{JUDGE_MODEL}"
@@ -477,7 +484,8 @@ base_url = "{ollama_recorder.base_url}"
 
 [profiles.other]
 type = "llm"
-prompt_template = "OTHER: $command"
+system_prompt_template = "OTHER: $command"
+user_prompt_template = "$stdout"
 
 [profiles.other.llm_settings]
 model_name = "{JUDGE_MODEL}"
