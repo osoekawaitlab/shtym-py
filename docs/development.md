@@ -41,7 +41,7 @@ uv sync --group docs
 
 ## Project Structure
 
-```
+```text
 shtym-py/
 ├── src/shtym/              # Source code
 │   ├── domain/             # Domain layer (business logic)
@@ -134,6 +134,7 @@ uv run pytest tests/e2e/
 ```
 
 **Behavior in replay mode:**
+
 - Tests send HTTP requests to a local mock server (pytest-httpserver)
 - Mock server responds with data from cassette files
 - No external dependencies required (Ollama doesn't need to be running)
@@ -141,6 +142,7 @@ uv run pytest tests/e2e/
 - Cassette files must exist or tests will fail
 
 **Use replay mode for:**
+
 - CI/CD pipelines
 - Local development without Ollama
 - Fast test execution
@@ -156,6 +158,7 @@ SHTYMTEST_RECORDER_MODE=record uv run pytest tests/e2e/
 ```
 
 **Behavior in record mode:**
+
 - Tests send HTTP requests to local mock server (pytest-httpserver)
 - Mock server forwards requests to real Ollama server
 - Receives responses from Ollama and records request/response pairs to cassette files
@@ -163,21 +166,25 @@ SHTYMTEST_RECORDER_MODE=record uv run pytest tests/e2e/
 - Requires Ollama server running at configured URL (default: `http://localhost:11434`)
 
 **Prerequisites for recording:**
+
 1. Ollama server must be running: `ollama serve`
 2. Required model must be available: `ollama pull gpt-oss:20b` (or configured model)
 3. Environment variables set if using non-default configuration:
+
    ```bash
    export SHTYM_LLM_SETTINGS__BASE_URL=http://localhost:11434
    export SHTYM_LLM_SETTINGS__MODEL=gpt-oss:20b
    ```
 
 **When to record new cassettes:**
+
 - Adding new E2E tests that interact with Ollama
 - Changing prompt templates or LLM interaction logic
 - Updating to new Ollama API version
 - Modifying test data that affects LLM requests
 
 **After recording:**
+
 - Commit the updated cassette files to version control
 - Verify tests still pass in replay mode: `uv run pytest tests/e2e/`
 - Review cassette diffs to ensure expected changes only
@@ -192,16 +199,19 @@ SHTYMTEST_RECORDER_MODE=auto uv run pytest tests/e2e/
 ```
 
 **Behavior in auto mode:**
+
 - If cassette entry exists for a request → replay from cassette (fast, no Ollama needed)
 - If cassette entry missing for a request → forward to real Ollama server and record
 - Automatically creates cassettes for new tests while using existing cassettes for unchanged tests
 
 **Use auto mode for:**
+
 - Adding new tests incrementally (only records new interactions)
 - Updating specific tests (only re-records changed interactions)
 - Local development workflow (avoids repeatedly recording unchanged tests)
 
 **Prerequisites:**
+
 - Same as record mode: Ollama server must be running with required model
 
 ## Code Quality

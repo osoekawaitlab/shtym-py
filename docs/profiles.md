@@ -21,7 +21,7 @@ Profiles enable you to:
 
 Profiles are defined in a TOML file located at:
 
-```
+```bash
 ~/.config/shtym/profiles.toml
 ```
 

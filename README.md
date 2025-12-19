@@ -25,6 +25,7 @@ Configure Ollama settings using environment variables:
 - `SHTYM_LLM_SETTINGS__MODEL`: Model to use (defaults to `gpt-oss:20b`)
 
 Example:
+
 ```bash
 export SHTYM_LLM_SETTINGS__BASE_URL=http://localhost:11434
 export SHTYM_LLM_SETTINGS__MODEL=llama2
@@ -47,6 +48,7 @@ base_url = "http://localhost:11434"
 ```
 
 Use profiles with the `--profile` option:
+
 ```bash
 stym run --profile summary pytest tests/
 ```
