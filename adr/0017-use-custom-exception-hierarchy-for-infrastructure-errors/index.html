@@ -10,13 +10,11 @@
       
       
       
-        <link rel="canonical" href="https://github.com/osoekawaitlab/shtym-py/adr/0002-use-argparse-for-cli-implementation/">
+        <link rel="canonical" href="https://github.com/osoekawaitlab/shtym-py/adr/0017-use-custom-exception-hierarchy-for-infrastructure-errors/">
       
       
-        <link rel="prev" href="../0001-keep-stdout-clean-for-ai-and-human-consumption/">
+        <link rel="prev" href="../0016-use-dynamic-module-loading-for-llm-client-creation/">
       
-      
-        <link rel="next" href="../0003-adopt-layered-architecture/">
       
       
         
@@ -27,7 +25,7 @@
     
     
       
-        <title>ADR 0002: Use argparse for CLI Implementation - shtym</title>
+        <title>ADR 0017: Use Custom Exception Hierarchy for Infrastructure Errors - shtym</title>
       
     
     
@@ -80,7 +78,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#adr-0002-use-argparse-for-cli-implementation" class="md-skip">
+        <a href="#adr-0017-use-custom-exception-hierarchy-for-infrastructure-errors" class="md-skip">
           Skip to content
         </a>
       
@@ -114,7 +112,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              ADR 0002: Use argparse for CLI Implementation
+              ADR 0017: Use Custom Exception Hierarchy for Infrastructure Errors
             
           </span>
         </div>
@@ -720,37 +718,10 @@
                 
   
   
-    
   
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  
-  <span class="md-ellipsis">
-    
-  
-    ADR 0002: Use argparse for CLI Implementation
-  
-
-    
-  </span>
-  
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../0002-use-argparse-for-cli-implementation/" class="md-nav__link">
         
   
   
@@ -766,192 +737,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#status" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Status
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#date" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Date
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#context" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Context
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#decision" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Decision
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#rationale" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Rationale
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#implications" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Implications
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Implications">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#positive-implications" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Positive Implications
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#concerns" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Concerns
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#alternatives" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Alternatives
-      
-    </span>
-  </a>
-  
-    <nav class="md-nav" aria-label="Alternatives">
-      <ul class="md-nav__list">
-        
-          <li class="md-nav__item">
-  <a href="#click" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Click
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#typer" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Typer
-      
-    </span>
-  </a>
-  
-</li>
-        
-          <li class="md-nav__item">
-  <a href="#python-fire" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Python Fire
-      
-    </span>
-  </a>
-  
-</li>
-        
-      </ul>
-    </nav>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#future-direction" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        Future Direction
-      
-    </span>
-  </a>
-  
-</li>
-      
-        <li class="md-nav__item">
-  <a href="#references" class="md-nav__link">
-    <span class="md-ellipsis">
-      
-        References
-      
-    </span>
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -1353,10 +1138,37 @@
                 
   
   
+    
   
   
-    <li class="md-nav__item">
-      <a href="../0017-use-custom-exception-hierarchy-for-infrastructure-errors/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    ADR 0017: Use Custom Exception Hierarchy for Infrastructure Errors
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   
@@ -1372,6 +1184,192 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#status" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Status
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#date" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Date
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#context" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Context
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#decision" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Decision
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#rationale" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Rationale
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#implications" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Implications
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Implications">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#positive-implications" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Positive Implications
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#concerns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Concerns
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#alternatives" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Alternatives
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Alternatives">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#use-python-built-in-exceptions-directly" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Use Python Built-in Exceptions Directly
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mix-built-in-and-custom-exceptions-based-on-error-type" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mix Built-in and Custom Exceptions Based on Error Type
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#create-exception-wrappers-only-at-application-boundaries" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Create Exception Wrappers Only at Application Boundaries
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#future-direction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Future Direction
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#references" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        References
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -1525,10 +1523,10 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
-  <a href="#click" class="md-nav__link">
+  <a href="#use-python-built-in-exceptions-directly" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Click
+        Use Python Built-in Exceptions Directly
       
     </span>
   </a>
@@ -1536,10 +1534,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#typer" class="md-nav__link">
+  <a href="#mix-built-in-and-custom-exceptions-based-on-error-type" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Typer
+        Mix Built-in and Custom Exceptions Based on Error Type
       
     </span>
   </a>
@@ -1547,10 +1545,10 @@
 </li>
         
           <li class="md-nav__item">
-  <a href="#python-fire" class="md-nav__link">
+  <a href="#create-exception-wrappers-only-at-application-boundaries" class="md-nav__link">
     <span class="md-ellipsis">
       
-        Python Fire
+        Create Exception Wrappers Only at Application Boundaries
       
     </span>
   </a>
@@ -1604,76 +1602,60 @@
   
 
 
-<h1 id="adr-0002-use-argparse-for-cli-implementation">ADR 0002: Use argparse for CLI Implementation<a class="headerlink" href="#adr-0002-use-argparse-for-cli-implementation" title="Permanent link">&para;</a></h1>
+<h1 id="adr-0017-use-custom-exception-hierarchy-for-infrastructure-errors">ADR 0017: Use Custom Exception Hierarchy for Infrastructure Errors<a class="headerlink" href="#adr-0017-use-custom-exception-hierarchy-for-infrastructure-errors" title="Permanent link">&para;</a></h1>
 <h2 id="status">Status<a class="headerlink" href="#status" title="Permanent link">&para;</a></h2>
 <p>Accepted</p>
 <h2 id="date">Date<a class="headerlink" href="#date" title="Permanent link">&para;</a></h2>
-<p>2025-11-20</p>
+<p>2025-12-16</p>
 <h2 id="context">Context<a class="headerlink" href="#context" title="Permanent link">&para;</a></h2>
-<p>Following ADR-0001's decision to keep stdout clean, shtym needs a CLI argument parsing library. Python offers several options including the standard library's argparse, and third-party libraries like click and typer that provide rich terminal UI features.</p>
-<p>The tool's design philosophy emphasizes simplicity and minimal dependencies. Since shtym's primary function is piping input through AI summarization, the CLI surface area is intentionally small. Complex interactive features, auto-completion, or rich formatting would not align with the clean stdout principle established in ADR-0001.</p>
+<p>Infrastructure layer components interact with external systems such as file systems, networks, and configuration parsers. These operations can fail for various reasons (file not found, permission denied, network timeout, parse errors).</p>
+<p>Python provides built-in exceptions like <code>FileNotFoundError</code>, <code>OSError</code>, and <code>ValueError</code> that can be raised directly. However, using Python built-in exceptions directly in the infrastructure layer creates inconsistency when some infrastructure components use domain-specific exceptions while others use built-ins.</p>
+<p>This inconsistency makes error handling less uniform and harder to reason about. Callers need to catch both built-in exceptions and domain-specific exceptions, and it's unclear which layer is responsible for which error type.</p>
 <h2 id="decision">Decision<a class="headerlink" href="#decision" title="Permanent link">&para;</a></h2>
-<p>Use argparse from Python's standard library for CLI argument parsing.</p>
+<p>All infrastructure layer errors must extend <code>ShtymInfrastructureError</code>, which itself extends the base <code>ShtymError</code> exception class.</p>
+<p>Infrastructure components must catch Python built-in exceptions (such as <code>FileNotFoundError</code>, <code>OSError</code>, <code>ValueError</code>) at the boundary and re-raise them as domain-specific exceptions that extend <code>ShtymInfrastructureError</code>.</p>
 <h2 id="rationale">Rationale<a class="headerlink" href="#rationale" title="Permanent link">&para;</a></h2>
-<ul>
-<li><strong>Zero external dependencies</strong>: argparse is part of Python's standard library, requiring no additional packages</li>
-<li><strong>Sufficient functionality</strong>: Provides all necessary features (flags, options, help text, subcommands if needed)</li>
-<li><strong>No rich UI features</strong>: Lack of built-in colors, prompts, and progress bars aligns with ADR-0001's philosophy</li>
-<li><strong>Simplicity</strong>: Straightforward API without magic decorators or complex abstractions</li>
-<li><strong>Stability</strong>: Part of the standard library with guaranteed long-term support</li>
-<li><strong>Predictability</strong>: Well-documented behavior, no surprises from framework-specific conventions</li>
-</ul>
+<p><strong>Consistency</strong>: All infrastructure errors follow the same pattern, making error handling uniform across the codebase.</p>
+<p><strong>Clear layer boundaries</strong>: The exception hierarchy explicitly marks which errors come from which architectural layer. Infrastructure errors are distinguishable from domain errors and application errors.</p>
+<p><strong>Simplified error handling</strong>: Callers can catch <code>ShtymInfrastructureError</code> to handle all infrastructure failures without needing to know about specific Python built-in exceptions.</p>
+<p><strong>Extensibility</strong>: New infrastructure error types can be added by extending <code>ShtymInfrastructureError</code>, maintaining consistency as the system evolves.</p>
 <h2 id="implications">Implications<a class="headerlink" href="#implications" title="Permanent link">&para;</a></h2>
 <h3 id="positive-implications">Positive Implications<a class="headerlink" href="#positive-implications" title="Permanent link">&para;</a></h3>
 <ul>
-<li>No dependency management overhead</li>
-<li>Works out-of-the-box in any Python environment</li>
-<li>Lightweight CLI with minimal overhead</li>
-<li>Clear, explicit argument definitions without decorators</li>
-<li>Easy to test with standard mocking techniques</li>
-<li>Reduces package size and installation complexity</li>
+<li>Exception hierarchy clearly reflects architectural layers</li>
+<li>Error handling code is more consistent and predictable</li>
+<li>Infrastructure errors can be handled uniformly by upper layers</li>
+<li>New contributors can easily understand which exceptions belong to which layer</li>
 </ul>
 <h3 id="concerns">Concerns<a class="headerlink" href="#concerns" title="Permanent link">&para;</a></h3>
 <ul>
-<li>Manual help text formatting (mitigation: acceptable trade-off for simplicity)</li>
-<li>No built-in shell completion (mitigation: can add via argcomplete if needed, but likely unnecessary for our simple CLI)</li>
-<li>More verbose than decorator-based frameworks (mitigation: explicit is better than implicit, aids readability)</li>
+<li>Adds boilerplate code to catch and re-raise built-in exceptions (mitigation: consistent pattern makes copy-paste straightforward; future helper utilities can reduce boilerplate if needed)</li>
+<li>Each new infrastructure component needs to define its own exception class (mitigation: clear naming convention and template pattern; existing examples serve as reference)</li>
+<li>Exception chaining must be used (<code>raise ... from e</code>) to preserve original error information (mitigation: linters and code review enforce proper chaining; tests verify stack traces)</li>
 </ul>
 <h2 id="alternatives">Alternatives<a class="headerlink" href="#alternatives" title="Permanent link">&para;</a></h2>
-<h3 id="click">Click<a class="headerlink" href="#click" title="Permanent link">&para;</a></h3>
-<p>A popular third-party CLI framework with decorator-based API.</p>
-<ul>
-<li><strong>Pros</strong>: Elegant decorator syntax, rich ecosystem, wide adoption</li>
-<li><strong>Cons</strong>: External dependency, includes rich terminal features we don't need (colors, prompts, progress bars), adds framework magic</li>
-<li><strong>Reason for rejection</strong>: Adds unnecessary dependency and features that contradict ADR-0001's clean output philosophy</li>
-</ul>
-<h3 id="typer">Typer<a class="headerlink" href="#typer" title="Permanent link">&para;</a></h3>
-<p>Modern CLI framework built on top of Click with type hints.</p>
-<ul>
-<li><strong>Pros</strong>: Type-safe, modern Python syntax, automatic help generation from type hints</li>
-<li><strong>Cons</strong>: External dependency, even heavier than Click (depends on Click + rich), includes rich terminal UI we don't want</li>
-<li><strong>Reason for rejection</strong>: Same concerns as Click, plus additional dependency weight and unwanted UI features</li>
-</ul>
-<h3 id="python-fire">Python Fire<a class="headerlink" href="#python-fire" title="Permanent link">&para;</a></h3>
-<p>Automatically generates CLIs from Python objects.</p>
-<ul>
-<li><strong>Pros</strong>: Zero boilerplate, automatic CLI generation</li>
-<li><strong>Cons</strong>: External dependency, magic behavior, less explicit control, harder to understand CLI structure</li>
-<li><strong>Reason for rejection</strong>: Too much magic, lack of explicit control contradicts our simplicity goal</li>
-</ul>
+<h3 id="use-python-built-in-exceptions-directly">Use Python Built-in Exceptions Directly<a class="headerlink" href="#use-python-built-in-exceptions-directly" title="Permanent link">&para;</a></h3>
+<p>Allow infrastructure components to raise Python built-in exceptions like <code>FileNotFoundError</code>, <code>OSError</code>, <code>ValueError</code> without wrapping them.</p>
+<p><strong>Pros</strong>: Simpler implementation with no wrapper exceptions needed; less boilerplate code</p>
+<p><strong>Cons</strong>: Creates inconsistency when some components use domain exceptions; makes layer boundaries unclear; callers must know about both built-in and custom exceptions</p>
+<p><strong>Reason for rejection</strong>: Inconsistent with existing domain-specific exceptions like ProfileParserError; violates layered architecture principle</p>
+<h3 id="mix-built-in-and-custom-exceptions-based-on-error-type">Mix Built-in and Custom Exceptions Based on Error Type<a class="headerlink" href="#mix-built-in-and-custom-exceptions-based-on-error-type" title="Permanent link">&para;</a></h3>
+<p>Allow some exceptions to be built-ins (e.g., file errors) while others are custom (e.g., parsing errors).</p>
+<p><strong>Pros</strong>: Flexible approach; uses built-ins where they fit naturally</p>
+<p><strong>Cons</strong>: Creates confusion about which errors use which pattern; inconsistent error handling across infrastructure layer; unclear guidelines for contributors</p>
+<p><strong>Reason for rejection</strong>: Consistency is more valuable than flexibility; uniform pattern easier to understand and maintain</p>
+<h3 id="create-exception-wrappers-only-at-application-boundaries">Create Exception Wrappers Only at Application Boundaries<a class="headerlink" href="#create-exception-wrappers-only-at-application-boundaries" title="Permanent link">&para;</a></h3>
+<p>Let infrastructure layer raise built-in exceptions; convert to custom exceptions only at application entry points.</p>
+<p><strong>Pros</strong>: Minimal boilerplate in infrastructure layer; conversion logic centralized</p>
+<p><strong>Cons</strong>: Pushes error handling responsibility to application layer; doesn't clearly separate infrastructure concerns; leaks implementation details across layers</p>
+<p><strong>Reason for rejection</strong>: Violates separation of concerns; each layer should own its error types</p>
 <h2 id="future-direction">Future Direction<a class="headerlink" href="#future-direction" title="Permanent link">&para;</a></h2>
-<p>This decision is expected to remain stable. Potential triggers for revisiting:</p>
-<ul>
-<li><strong>Complex subcommand structure emerges</strong>: If shtym grows to require many subcommands with nested options, a richer framework might become beneficial (unlikely given the tool's focused scope)</li>
-<li><strong>Shell completion becomes essential</strong>: If users strongly request shell completion, we could add argcomplete as an optional dependency</li>
-<li><strong>Standard library evolution</strong>: If argparse gains significant improvements or a better alternative enters the standard library</li>
-</ul>
-<p>For now, argparse provides everything needed for shtym's straightforward CLI.</p>
+<p>As new infrastructure components are added (network clients, database adapters, external API integrations), each must define its own exception class extending <code>ShtymInfrastructureError</code>.</p>
+<p>If exception handling becomes overly verbose, consider introducing helper utilities to reduce boilerplate while maintaining the custom exception hierarchy.</p>
 <h2 id="references">References<a class="headerlink" href="#references" title="Permanent link">&para;</a></h2>
 <ul>
-<li><a href="../0001-keep-stdout-clean-for-ai-and-human-consumption/">ADR-0001: Keep stdout Clean for AI and Human Consumption</a></li>
-<li><a href="https://docs.python.org/3/library/argparse.html">Python argparse documentation</a></li>
-<li><a href="https://peps.python.org/pep-0389/">PEP 389: argparse - New Command Line Parsing Module</a></li>
+<li>ADR-0003: Adopt Layered Architecture - establishes the infrastructure layer</li>
+<li>Python Exception Hierarchy: <a href="https://docs.python.org/3/library/exceptions.html">https://docs.python.org/3/library/exceptions.html</a></li>
 </ul>
 
 

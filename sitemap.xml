@@ -2,82 +2,98 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://github.com/osoekawaitlab/shtym-py/</loc>
-         <lastmod>2025-12-08</lastmod>
+         <lastmod>2025-12-19</lastmod>
     </url>
     <url>
          <loc>https://github.com/osoekawaitlab/shtym-py/configuration/</loc>
-         <lastmod>2025-12-08</lastmod>
+         <lastmod>2025-12-19</lastmod>
+    </url>
+    <url>
+         <loc>https://github.com/osoekawaitlab/shtym-py/development/</loc>
+         <lastmod>2025-12-19</lastmod>
+    </url>
+    <url>
+         <loc>https://github.com/osoekawaitlab/shtym-py/profiles/</loc>
+         <lastmod>2025-12-19</lastmod>
+    </url>
+    <url>
+         <loc>https://github.com/osoekawaitlab/shtym-py/roadmap/</loc>
+         <lastmod>2025-12-19</lastmod>
     </url>
     <url>
          <loc>https://github.com/osoekawaitlab/shtym-py/adr/0000-adr-template/</loc>
-         <lastmod>2025-12-08</lastmod>
+         <lastmod>2025-12-19</lastmod>
     </url>
     <url>
          <loc>https://github.com/osoekawaitlab/shtym-py/adr/0001-keep-stdout-clean-for-ai-and-human-consumption/</loc>
-         <lastmod>2025-12-08</lastmod>
+         <lastmod>2025-12-19</lastmod>
     </url>
     <url>
          <loc>https://github.com/osoekawaitlab/shtym-py/adr/0002-use-argparse-for-cli-implementation/</loc>
-         <lastmod>2025-12-08</lastmod>
+         <lastmod>2025-12-19</lastmod>
     </url>
     <url>
          <loc>https://github.com/osoekawaitlab/shtym-py/adr/0003-adopt-layered-architecture/</loc>
-         <lastmod>2025-12-08</lastmod>
+         <lastmod>2025-12-19</lastmod>
     </url>
     <url>
          <loc>https://github.com/osoekawaitlab/shtym-py/adr/0004-do-not-implement-stdin-pipe-mode/</loc>
-         <lastmod>2025-12-08</lastmod>
+         <lastmod>2025-12-19</lastmod>
     </url>
     <url>
          <loc>https://github.com/osoekawaitlab/shtym-py/adr/0005-inherit-child-process-exit-codes/</loc>
-         <lastmod>2025-12-08</lastmod>
+         <lastmod>2025-12-19</lastmod>
     </url>
     <url>
          <loc>https://github.com/osoekawaitlab/shtym-py/adr/0006-adopt-subcommand-architecture/</loc>
-         <lastmod>2025-12-08</lastmod>
+         <lastmod>2025-12-19</lastmod>
     </url>
     <url>
          <loc>https://github.com/osoekawaitlab/shtym-py/adr/0007-introduce-filter-abstraction-for-output-processing/</loc>
-         <lastmod>2025-12-08</lastmod>
+         <lastmod>2025-12-19</lastmod>
     </url>
     <url>
          <loc>https://github.com/osoekawaitlab/shtym-py/adr/0008-introduce-llm-client-abstraction/</loc>
-         <lastmod>2025-12-08</lastmod>
+         <lastmod>2025-12-19</lastmod>
     </url>
     <url>
          <loc>https://github.com/osoekawaitlab/shtym-py/adr/0009-silent-fallback-to-passthrough-filter/</loc>
-         <lastmod>2025-12-08</lastmod>
+         <lastmod>2025-12-19</lastmod>
     </url>
     <url>
          <loc>https://github.com/osoekawaitlab/shtym-py/adr/0010-introduce-profile-as-core-domain-object/</loc>
-         <lastmod>2025-12-08</lastmod>
+         <lastmod>2025-12-19</lastmod>
     </url>
     <url>
          <loc>https://github.com/osoekawaitlab/shtym-py/adr/0011-silent-fallback-on-profile-not-found/</loc>
-         <lastmod>2025-12-08</lastmod>
+         <lastmod>2025-12-19</lastmod>
     </url>
     <url>
          <loc>https://github.com/osoekawaitlab/shtym-py/adr/0012-adopt-repository-pattern-for-profile-access/</loc>
-         <lastmod>2025-12-08</lastmod>
+         <lastmod>2025-12-19</lastmod>
     </url>
     <url>
          <loc>https://github.com/osoekawaitlab/shtym-py/adr/0013-rename-filter-to-processor/</loc>
-         <lastmod>2025-12-08</lastmod>
+         <lastmod>2025-12-19</lastmod>
     </url>
     <url>
          <loc>https://github.com/osoekawaitlab/shtym-py/adr/0014-introduce-processor-factory-functions-in-domain-layer/</loc>
-         <lastmod>2025-12-08</lastmod>
+         <lastmod>2025-12-19</lastmod>
     </url>
     <url>
          <loc>https://github.com/osoekawaitlab/shtym-py/adr/0015-adopt-factory-pattern-for-profile-to-processor-conversion/</loc>
-         <lastmod>2025-12-08</lastmod>
+         <lastmod>2025-12-19</lastmod>
     </url>
     <url>
          <loc>https://github.com/osoekawaitlab/shtym-py/adr/0016-use-dynamic-module-loading-for-llm-client-creation/</loc>
-         <lastmod>2025-12-08</lastmod>
+         <lastmod>2025-12-19</lastmod>
+    </url>
+    <url>
+         <loc>https://github.com/osoekawaitlab/shtym-py/adr/0017-use-custom-exception-hierarchy-for-infrastructure-errors/</loc>
+         <lastmod>2025-12-19</lastmod>
     </url>
     <url>
          <loc>https://github.com/osoekawaitlab/shtym-py/architecture/overview/</loc>
-         <lastmod>2025-12-08</lastmod>
+         <lastmod>2025-12-19</lastmod>
     </url>
 </urlset>
