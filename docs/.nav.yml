@@ -1,6 +1,8 @@
 nav:
   - Home: index.md
   - Configuration: configuration.md
+  - Profiles: profiles.md
+  - Roadmap: roadmap.md
   - Development: development.md
   - Architecture:
     - Overview: architecture/overview.md

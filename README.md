@@ -17,7 +17,9 @@ pip install "shtym[ollama]"
 
 ## Configuration
 
-When using Ollama, you can configure the behavior using environment variables:
+### Basic Configuration (Environment Variables)
+
+Configure Ollama settings using environment variables:
 
 - `SHTYM_LLM_SETTINGS__BASE_URL`: Ollama server URL (defaults to `http://localhost:11434`)
 - `SHTYM_LLM_SETTINGS__MODEL`: Model to use (defaults to `gpt-oss:20b`)
@@ -28,6 +30,28 @@ export SHTYM_LLM_SETTINGS__BASE_URL=http://localhost:11434
 export SHTYM_LLM_SETTINGS__MODEL=llama2
 stym run pytest tests/
 ```
+
+### Advanced Configuration (Profiles)
+
+For more control, create profiles in `~/.config/shtym/profiles.toml` with custom prompts and LLM settings:
+
+```toml
+[profiles.summary]
+type = "llm"
+system_prompt_template = "You are summarizing: $command"
+user_prompt_template = "Output:\n$stdout"
+
+[profiles.summary.llm_settings]
+model_name = "gpt-oss:20b"
+base_url = "http://localhost:11434"
+```
+
+Use profiles with the `--profile` option:
+```bash
+stym run --profile summary pytest tests/
+```
+
+See the [Profiles documentation](https://osoekawaitlab.github.io/shtym-py/profiles/) for more details.
 
 ## Usage
 
@@ -65,6 +89,11 @@ Shtym follows Unix conventions for command wrappers (like `sudo`, `timeout`, `ti
 - Inherits and propagates exit codes exactly
 - Maintains clean stdout for composability
 - Enables reliable integration with automated workflows
+
+## Documentation
+
+- [Profiles](https://osoekawaitlab.github.io/shtym-py/profiles/) - Advanced configuration with custom profiles
+- [Roadmap](https://osoekawaitlab.github.io/shtym-py/roadmap/) - Planned features and enhancements
 
 ## Development
 
