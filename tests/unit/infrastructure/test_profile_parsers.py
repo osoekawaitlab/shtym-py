@@ -11,7 +11,8 @@ def test_parse_valid_toml_with_single_profile() -> None:
     toml_content = """
 [profiles.summary]
 type = "llm"
-prompt_template = "Summarize: $command"
+system_prompt_template = "Summarize: $command"
+user_prompt_template = "Output: $stdout"
 
 [profiles.summary.llm_settings]
 model_name = "test-model"
@@ -23,7 +24,8 @@ base_url = "http://localhost:11434"
     assert len(profiles) == 1
     assert "summary" in profiles
     assert isinstance(profiles["summary"], LLMProfile)
-    assert profiles["summary"].prompt_template == "Summarize: $command"
+    assert profiles["summary"].system_prompt_template == "Summarize: $command"
+    assert profiles["summary"].user_prompt_template == "Output: $stdout"
     assert profiles["summary"].llm_settings.model_name == "test-model"
     assert str(profiles["summary"].llm_settings.base_url) == "http://localhost:11434/"
 
@@ -33,7 +35,8 @@ def test_parse_valid_toml_with_multiple_profiles() -> None:
     toml_content = """
 [profiles.summary]
 type = "llm"
-prompt_template = "Summarize: $command"
+system_prompt_template = "Summarize: $command"
+user_prompt_template = "Output: $stdout"
 
 [profiles.summary.llm_settings]
 model_name = "summary-model"
@@ -41,7 +44,8 @@ base_url = "http://localhost:1111"
 
 [profiles.translate]
 type = "llm"
-prompt_template = "Translate: $command"
+system_prompt_template = "Translate: $command"
+user_prompt_template = "Text: $stdout"
 
 [profiles.translate.llm_settings]
 model_name = "translate-model"
@@ -60,8 +64,8 @@ base_url = "http://localhost:2222"
     translate_profile = profiles["translate"]
     assert isinstance(summary_profile, LLMProfile)
     assert isinstance(translate_profile, LLMProfile)
-    assert summary_profile.prompt_template == "Summarize: $command"
-    assert translate_profile.prompt_template == "Translate: $command"
+    assert summary_profile.system_prompt_template == "Summarize: $command"
+    assert translate_profile.system_prompt_template == "Translate: $command"
 
 
 def test_parse_raises_error_on_invalid_toml_syntax() -> None:
@@ -110,7 +114,7 @@ def test_parse_raises_error_on_validation_failure() -> None:
     toml_with_invalid_data = """
 [profiles.invalid]
 type = "llm"
-prompt_template = "Test: $command"
+system_prompt_template = "Test: $command"
 
 [profiles.invalid.llm_settings]
 model_name = "test-model"
@@ -135,8 +139,9 @@ type = "llm"
 
     assert "minimal" in profiles
     assert isinstance(profiles["minimal"], LLMProfile)
-    # Should use default prompt_template and llm_settings
-    assert profiles["minimal"].prompt_template is not None
+    # Should use default system_prompt_template, user_prompt_template and llm_settings
+    assert profiles["minimal"].system_prompt_template is not None
+    assert profiles["minimal"].user_prompt_template is not None
     assert profiles["minimal"].llm_settings is not None
 
 
@@ -156,7 +161,7 @@ def test_parse_raises_error_on_invalid_type() -> None:
     toml_content = """
 [profiles.invalid_type]
 type = "unknown"
-prompt_template = "Test: $command"
+system_prompt_template = "Test: $command"
 """
     parser = TOMLProfileParser()
 
