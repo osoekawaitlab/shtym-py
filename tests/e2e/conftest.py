@@ -1,8 +1,10 @@
 """E2E test configuration and fixtures."""
 
 import os
+from pathlib import Path
 
 import pytest
+from pytest_httpserver import HTTPServer
 
 # Skip entire module if ollama package is not installed (optional dependency)
 pytest.importorskip(
@@ -14,11 +16,14 @@ pytest.importorskip(
 )
 
 # Import after importorskip to avoid import errors
-import ollama
+from ollama import Client
 
-from tests.e2e.test_ollama_judge import JUDGE_MODEL, OllamaJudge
-
-Client = ollama.Client
+from tests.e2e.helpers import (
+    JUDGE_MODEL,
+    OllamaJudge,
+    OllamaRecorder,
+    is_valid_recorder_mode,
+)
 
 
 @pytest.fixture(scope="session")
@@ -79,3 +84,52 @@ def ollama_judge(ollama_environment: str) -> OllamaJudge:
         )
 
     return judge
+
+
+@pytest.fixture
+def ollama_recorder(
+    httpserver: HTTPServer, request: pytest.FixtureRequest
+) -> OllamaRecorder:
+    """Create OllamaRecorder for recording/replaying Ollama API interactions.
+
+    Usage in tests:
+        def test_something(ollama_recorder):
+            env = {"SHTYM_LLM_SETTINGS__BASE_URL": ollama_recorder.base_url}
+            subprocess.run(["stym", "run", "echo", "test"], env=env)
+
+    By default, uses replay mode with cassette at:
+        tests/fixtures/cassettes/<test_module>/<test_name>.json
+
+    To record new cassettes, set SHTYMTEST_RECORDER_MODE=record or auto.
+
+    Args:
+        httpserver: pytest-httpserver fixture
+        request: pytest request object for test metadata
+
+    Returns:
+        OllamaRecorder instance
+    """
+    # Determine cassette path from test name
+    test_module = Path(str(request.path)).stem  # e.g., "test_ollama_integration"
+    test_name = request.node.name  # e.g., "test_basic_functionality"
+    cassette_dir = Path(__file__).parent.parent / "fixtures" / "cassettes" / test_module
+    cassette_path = cassette_dir / f"{test_name}.json"
+
+    # Get recording mode from environment
+    mode = os.getenv("SHTYMTEST_RECORDER_MODE", "replay")
+    if not is_valid_recorder_mode(mode):
+        msg = (
+            "Invalid SHTYMTEST_RECORDER_MODE: "
+            f"{mode}. Must be 'record', 'replay', or 'auto'."
+        )
+        raise ValueError(msg)
+
+    # Get real Ollama URL
+    real_base_url = os.getenv("SHTYM_LLM_SETTINGS__BASE_URL", "http://localhost:11434")
+
+    return OllamaRecorder(
+        httpserver=httpserver,
+        cassette_path=cassette_path,
+        mode=mode,
+        real_base_url=real_base_url,
+    )

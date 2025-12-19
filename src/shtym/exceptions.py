@@ -17,7 +17,15 @@ class ShtymDomainError(ShtymError):
     """
 
 
-class LLMModuleNotFoundError(ModuleNotFoundError, ShtymError):
+class ShtymInfrastructureError(ShtymError):
+    """Base exception for infrastructure layer errors.
+
+    Infrastructure errors relate to external systems,
+    such as file I/O failures or network issues.
+    """
+
+
+class LLMModuleNotFoundError(ModuleNotFoundError, ShtymInfrastructureError):
     """Exception raised when LLM module is not found.
 
     This is an infrastructure-level error, not a domain error,

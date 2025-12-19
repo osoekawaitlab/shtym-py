@@ -11,6 +11,7 @@ Shtym uses environment variables for configuration.
 **Default**: `http://localhost:11434`
 
 **Example**:
+
 ```bash
 export SHTYM_LLM_SETTINGS__BASE_URL=http://ollama.example.com:11434
 ```
@@ -24,10 +25,12 @@ export SHTYM_LLM_SETTINGS__BASE_URL=http://ollama.example.com:11434
 **Default**: `gpt-oss:20b`
 
 **Example**:
+
 ```bash
 export SHTYM_LLM_SETTINGS__MODEL=llama2
 ```
 
 **Notes**:
+
 - Empty strings or whitespace-only values are treated as unset (falls back to default)
 - If the specified model is not available in Ollama, shtym silently falls back to PassThrough mode
