@@ -8,7 +8,9 @@ from shtym.domain.profile import DEFAULT_PROFILE_NAME, Profile, ProfileNotFoundE
 from shtym.infrastructure.fileio import FileReader, FileReadError
 from shtym.infrastructure.llm_profile import LLMProfile
 from shtym.infrastructure.profile_parsers import ProfileParserError, TOMLProfileParser
-from shtym.infrastructure.profile_repository import FileBasedProfileRepository
+from shtym.infrastructure.profile_repositories import (
+    FileBasedProfileRepository,
+)
 
 
 def test_get_nonexistent_profile_raises_error() -> None:

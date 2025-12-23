@@ -1,6 +1,10 @@
 """Profile repository implementation."""
 
-from shtym.domain.profile import DEFAULT_PROFILE_NAME, Profile, ProfileNotFoundError
+from shtym.domain.profile import (
+    DEFAULT_PROFILE_NAME,
+    Profile,
+    ProfileNotFoundError,
+)
 from shtym.infrastructure.fileio import FileReader, FileReadError
 from shtym.infrastructure.llm_profile import LLMProfile
 from shtym.infrastructure.profile_parsers import ProfileParserError, TOMLProfileParser
