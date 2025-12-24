@@ -1,7 +1,6 @@
 """Test suite for application layer."""
 
 import subprocess
-from pathlib import Path
 from unittest.mock import MagicMock
 
 from pytest_mock import MockerFixture
@@ -104,11 +103,9 @@ def test_application_create(mocker: MockerFixture) -> None:
     mock_create_processor_from_profile_name = mocker.patch(
         "shtym.application.create_processor_from_profile_name"
     )
-    mock_file_based_profile_repository = mocker.patch(
-        "shtym.application.FileBasedProfileRepository"
+    mock_profile_repository_factory = mocker.patch(
+        "shtym.application.ProfileRepositoryFactory"
     )
-    mock_file_reader = mocker.patch("shtym.application.FileReader")
-    mock_parser = mocker.patch("shtym.application.TOMLProfileParser")
     mock_processor_factory = mocker.patch("shtym.application.ConcreteProcessorFactory")
 
     actual = application.ShtymApplication.create(profile_name="test-profile")
@@ -116,13 +113,8 @@ def test_application_create(mocker: MockerFixture) -> None:
     assert actual.processor == mock_create_processor_from_profile_name.return_value
     mock_create_processor_from_profile_name.assert_called_once_with(
         profile_name="test-profile",
-        profile_repository=mock_file_based_profile_repository.return_value,
+        profile_repository=mock_profile_repository_factory.return_value.create.return_value,
         processor_factory=mock_processor_factory.return_value,
     )
-    mock_file_based_profile_repository.assert_called_once_with(
-        file_reader=mock_file_reader.return_value, parser=mock_parser.return_value
-    )
-    mock_file_reader.assert_called_once_with(
-        Path.home() / ".config" / "shtym" / "profiles.toml"
-    )
-    mock_parser.assert_called_once_with()
+    mock_profile_repository_factory.assert_called_once_with()
+    mock_profile_repository_factory.return_value.create.assert_called_once_with()
