@@ -1,12 +1,10 @@
 """Profile repository implementation."""
 
 from shtym.domain.profile import (
-    DEFAULT_PROFILE_NAME,
     Profile,
     ProfileNotFoundError,
 )
 from shtym.infrastructure.fileio import FileReader, FileReadError
-from shtym.infrastructure.llm_profile import LLMProfile
 from shtym.infrastructure.profile_parsers import ProfileParserError, TOMLProfileParser
 
 
@@ -38,13 +36,9 @@ class FileBasedProfileRepository:
         if self._profiles is None:
             try:
                 content = self.file_reader.read_str(encoding="utf-8")
-                parsed_profiles = self.parser.parse(content)
-                # Include default profile along with parsed profiles
-                self._profiles = {DEFAULT_PROFILE_NAME: LLMProfile(), **parsed_profiles}
+                self._profiles = self.parser.parse(content)
             except (FileReadError, ProfileParserError):
-                # Silent fallback to default profile (ADR-0011)
-                # Handles: file read errors, TOML parse errors, validation errors
-                self._profiles = {DEFAULT_PROFILE_NAME: LLMProfile()}
+                self._profiles = {}
         return self._profiles
 
     def get(self, name: str) -> Profile:
