@@ -6,6 +6,7 @@ from shtym.domain.profile import ProfileRepository
 from shtym.infrastructure.fileio import FileReader
 from shtym.infrastructure.profile_parsers import TOMLProfileParser
 from shtym.infrastructure.profile_repositories import (
+    BuiltinDefaultProfileRepository,
     FileBasedProfileRepository,
     MultiSourceProfileRepository,
 )
@@ -35,5 +36,6 @@ class ProfileRepositoryFactory:
                     ),
                     parser=toml_parser,
                 ),
+                BuiltinDefaultProfileRepository(),
             ]
         )
