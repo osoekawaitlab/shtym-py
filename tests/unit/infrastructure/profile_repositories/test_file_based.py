@@ -6,7 +6,6 @@ import pytest
 
 from shtym.domain.profile import DEFAULT_PROFILE_NAME, Profile, ProfileNotFoundError
 from shtym.infrastructure.fileio import FileReader, FileReadError
-from shtym.infrastructure.llm_profile import LLMProfile
 from shtym.infrastructure.profile_parsers import ProfileParserError, TOMLProfileParser
 from shtym.infrastructure.profile_repositories import (
     FileBasedProfileRepository,
@@ -103,13 +102,11 @@ def test_get_profile_when_file_read_fails() -> None:
         file_reader=mock_file_reader, parser=mock_parser
     )
 
-    # Default profile should still work
-    default = repository.get(DEFAULT_PROFILE_NAME)
-    assert isinstance(default, LLMProfile)
-
     # Non-default profile should raise error
     with pytest.raises(ProfileNotFoundError):
         repository.get("summary")
+    with pytest.raises(ProfileNotFoundError):
+        repository.get(DEFAULT_PROFILE_NAME)
 
 
 def test_profiles_are_cached() -> None:
@@ -146,13 +143,11 @@ def test_get_profile_when_file_read_error_occurs() -> None:
         file_reader=mock_file_reader, parser=mock_parser
     )
 
-    # Default profile should still work (silent fallback per ADR-0011)
-    default = repository.get(DEFAULT_PROFILE_NAME)
-    assert isinstance(default, LLMProfile)
-
     # Non-default profile should raise ProfileNotFoundError
     with pytest.raises(ProfileNotFoundError):
         repository.get("summary")
+    with pytest.raises(ProfileNotFoundError):
+        repository.get(DEFAULT_PROFILE_NAME)
 
 
 def test_get_profile_when_parser_raises_error() -> None:
@@ -166,10 +161,8 @@ def test_get_profile_when_parser_raises_error() -> None:
         file_reader=mock_file_reader, parser=mock_parser
     )
 
-    # Parser error should be caught and fall back to default profile (ADR-0011)
-    profile = repository.get(DEFAULT_PROFILE_NAME)
-    assert isinstance(profile, LLMProfile)
-
     # Non-default profile should raise ProfileNotFoundError (not ProfileParserError)
     with pytest.raises(ProfileNotFoundError):
         repository.get("summary")
+    with pytest.raises(ProfileNotFoundError):
+        repository.get(DEFAULT_PROFILE_NAME)
